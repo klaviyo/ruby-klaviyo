@@ -27,7 +27,7 @@ To record customer actions directly from your backend, in your <code>application
   class ApplicationController < ActionController::Base
     before_filter :initialize_klaviyo
 
-    def klaviyo_mixpanel
+    def initialize_klaviyo
       @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN", request.env)
     end
   end
