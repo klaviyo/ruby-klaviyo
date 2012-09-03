@@ -7,9 +7,8 @@ module Klaviyo
   class KlaviyoError < StandardError; end
   
   class Client
-    def initialize(api_key, env, url = 'http://a.klaviyo.com/')
+    def initialize(api_key, url = 'http://a.klaviyo.com/')
       @api_key = api_key
-      @env = env
       @url = url
     end
     
