@@ -29,7 +29,7 @@ module Klaviyo
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
-        :time => time,
+        :time => time.to_i,
         :ip => ''
       })
       request('crm/api/track', params)
