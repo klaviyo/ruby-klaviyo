@@ -29,9 +29,9 @@ module Klaviyo
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
-        :time => time.to_i,
         :ip => ''
       })
+      params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
       request('crm/api/track', params)
     end
     
