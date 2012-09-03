@@ -28,7 +28,7 @@ To record customer actions directly from your backend, in your <code>application
     before_filter :initialize_klaviyo
 
     def initialize_klaviyo
-      @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN", request.env)
+      @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN")
     end
   end
 
