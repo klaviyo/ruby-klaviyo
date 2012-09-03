@@ -14,7 +14,7 @@ module Klaviyo
     end
     
     def track(event, kwargs = {})
-      defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}}
+      defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
       kwargs = defaults.merge(kwargs)
       
       if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
@@ -30,6 +30,7 @@ module Klaviyo
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
+        :time => time,
         :ip => ''
       })
       request('crm/api/track', params)
