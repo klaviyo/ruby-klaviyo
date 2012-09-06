@@ -35,9 +35,9 @@ module Klaviyo
       request('crm/api/track', params)
     end
     
-    def track_once(event, customer_properties = {}, properties = {})
-      properties.update('__track_once__' => true)
-      track(event, email, id, properties, customer_properties)
+    def track_once(event, opts = {})
+      opts.update('__track_once__' => true)
+      track(event, opts)
     end
     
     def identify(kwargs = {})
