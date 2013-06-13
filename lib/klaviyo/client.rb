@@ -23,15 +23,17 @@ module Klaviyo
       customer_properties = kwargs[:customer_properties]
       customer_properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
-      
-      params = build_params({
+
+      params = {
         :token => @api_key,
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
         :ip => ''
-      })
+      }
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
+     
+      params = build_params(params)
       request('crm/api/track', params)
     end
     
