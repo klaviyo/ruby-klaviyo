@@ -1,6 +1,4 @@
 *.gem
-<<<<<<< HEAD
-=======
 *.rbc
 .bundle
 .config
@@ -18,4 +16,3 @@ tmp
 .yardoc
 _yardoc
 doc/
->>>>>>> eb4fa04a2a81e6ba5add2c853710af2df57bcf8e
