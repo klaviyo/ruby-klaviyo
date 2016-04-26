@@ -63,12 +63,12 @@ module Klaviyo
     private
     
     def build_params(params)
-      'data=' + Base64.encode64(JSON.generate(params)).gsub(/\n/,'')
+      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
     
     def request(path, params)
-        url = @url + path + '?' + params
-        open(url).read == '1' ? true : false
+      url = "#{@url}#{path}?#{params}"
+      open(url).read == '1'
     end
   end
 end
