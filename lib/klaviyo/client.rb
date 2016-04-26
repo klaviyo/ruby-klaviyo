@@ -63,7 +63,7 @@ module Klaviyo
     private
     
     def build_params(params)
-      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+      "data=#{CGI.escape Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
     
     def request(path, params)
