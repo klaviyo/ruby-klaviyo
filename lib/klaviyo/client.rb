@@ -33,7 +33,7 @@ module Klaviyo
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
      
       params = build_params(params)
-      request('crm/api/track', params)
+      request('api/track', params)
     end
     
     def track_once(event, opts = {})
@@ -57,7 +57,7 @@ module Klaviyo
         :token => @api_key,
         :properties => properties
       })
-      request('crm/api/identify', params)
+      request('api/identify', params)
     end
 
     private
