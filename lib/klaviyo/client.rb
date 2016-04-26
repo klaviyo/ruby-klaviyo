@@ -33,7 +33,7 @@ module Klaviyo
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
      
       params = build_params(params)
-      request('crm/api/track', params)
+      request('api/track', params)
     end
     
     def track_once(event, opts = {})
@@ -57,18 +57,18 @@ module Klaviyo
         :token => @api_key,
         :properties => properties
       })
-      request('crm/api/identify', params)
+      request('api/identify', params)
     end
 
     private
     
     def build_params(params)
-      'data=' + Base64.encode64(JSON.generate(params)).gsub(/\n/,'')
+      "data=#{CGI.escape Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
     
     def request(path, params)
-        url = @url + path + '?' + params
-        open(url).read == '1' ? true : false
+      url = "#{@url}#{path}?#{params}"
+      open(url).read == '1'
     end
   end
 end
