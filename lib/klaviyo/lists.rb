@@ -39,12 +39,12 @@ module Klaviyo
 
       params = {
         api_key: @api_key,
-        batch: [ { email: kwargs[:email] } ],
+        batch: ([ { email: kwargs[:email] } ]).to_json
       }
       rest_client_request('DELETE', "#{_RESOURCE}", params)
     end
 
-    private
+  private
 
     def rest_client_request(method, resource, params = {})
       defined? method or raise(ArgumentError, 'Request method has not been specified')
@@ -55,9 +55,9 @@ module Klaviyo
         url: "#{@url}#{resource}",
         payload: params,
         headers: { accept: :json, content_type: :json }
-        }).execute do |response, request, result|
+      }).execute do |response, request, result|
           JSON.parse(response.to_str)
-        end
       end
     end
+  end
 end
