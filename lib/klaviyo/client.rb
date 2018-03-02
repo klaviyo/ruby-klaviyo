@@ -1,12 +1,15 @@
 require 'open-uri'
 require 'base64'
 require 'json'
+require_relative '../klaviyo/lists'
 
 module Klaviyo
   class KlaviyoError < StandardError; end
   
   class Client
-    def initialize(api_key, url = 'http://a.klaviyo.com/')
+    include Klaviyo::Lists
+    
+    def initialize(api_key, url = 'https://a.klaviyo.com/')
       @api_key = api_key
       @url = url
     end
