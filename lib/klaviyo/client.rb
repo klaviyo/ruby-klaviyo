@@ -6,8 +6,8 @@ module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
-    def initialize(api_key, url = 'http://a.klaviyo.com/api/')
-      @api_key = api_key
+    def initialize(public_api_key, url = 'http://a.klaviyo.com/api/')
+      @public_api_key = public_api_key
       @url = url
     end
 
@@ -24,7 +24,7 @@ module Klaviyo
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
-        :token => @api_key,
+        :token => @public_api_key,
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
@@ -54,7 +54,7 @@ module Klaviyo
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = build_params({
-        :token => @api_key,
+        :token => @public_api_key,
         :properties => properties
       })
       request('identify', params)
