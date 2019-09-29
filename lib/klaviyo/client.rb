@@ -6,8 +6,11 @@ module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
-    def initialize(public_api_key, url = 'http://a.klaviyo.com/api/')
+    attr_reader :public_api_key, :private_api_key, :url
+
+    def initialize(public_api_key, private_api_key, url = 'https://a.klaviyo.com/api/')
       @public_api_key = public_api_key
+      @private_api_key = private_api_key
       @url = url
     end
 
@@ -24,7 +27,7 @@ module Klaviyo
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
-        :token => @public_api_key,
+        :token => public_api_key,
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties,
@@ -54,7 +57,7 @@ module Klaviyo
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = build_params({
-        :token => @public_api_key,
+        :token => public_api_key,
         :properties => properties
       })
       request('identify', params)
@@ -67,8 +70,8 @@ module Klaviyo
     end
 
     def request(path, params)
-      url = "#{@url}#{path}?#{params}"
-      open(url).read == '1'
+      full_url = "#{url}#{path}?#{params}"
+      open(full_url).read == '1'
     end
   end
 end
