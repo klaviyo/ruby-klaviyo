@@ -52,15 +52,17 @@ module Rack
 
     def render_script
       <<-EOT
-      <script text="text/javascript">
+      <script
+        async type="text/javascript"
+        src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id=#{@api_key}"
+      ></script>
+      <script>
         var _learnq = _learnq || [];
-        _learnq.push(['account', '#{@api_key}']);
 
-        (function () {
-          var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
-          b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
-          var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
-        })();
+        _learnq.push(['identify', {
+          // Change the line below to dynamically print the user's email.
+          '$email' : '{{ email }}'
+        }]);
       </script>
       EOT
     end
