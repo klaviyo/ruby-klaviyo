@@ -8,10 +8,10 @@ module Klaviyo
   class Client
     attr_reader :public_api_key, :private_api_key, :url
 
-    def initialize(public_api_key, private_api_key, url = 'https://a.klaviyo.com/api/')
+    def initialize(public_api_key, private_api_key)
       @public_api_key = public_api_key
       @private_api_key = private_api_key
-      @url = url
+      @url = 'https://a.klaviyo.com/api/'
     end
 
     def track(event, kwargs = {})
