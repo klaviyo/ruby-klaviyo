@@ -1,11 +1,15 @@
-require 'open-uri'
 require 'base64'
+require 'cgi'
+require 'httparty'
 require 'json'
+require 'open-uri'
 
 module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
+    include HTTParty
+
     attr_reader :public_api_key, :private_api_key, :url
 
     def initialize(public_api_key, private_api_key)
