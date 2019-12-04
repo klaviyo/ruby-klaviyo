@@ -83,6 +83,10 @@ module Klaviyo
       open(url + "v2/lists?api_key=#{private_api_key}").read
     end
 
+    def get_profile(person_id)
+      open(url + "v1/person/#{person_id}?api_key=#{private_api_key}").read
+    end
+
     private
 
     def build_params(params)
