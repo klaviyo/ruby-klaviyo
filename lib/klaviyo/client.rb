@@ -71,6 +71,10 @@ module Klaviyo
       request('identify', params)
     end
 
+    def get_metrics
+      open(url + "v1/metrics?api_key=#{private_api_key}").read
+    end
+
     private
 
     def build_params(params)
