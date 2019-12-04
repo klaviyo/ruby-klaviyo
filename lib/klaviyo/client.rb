@@ -75,6 +75,10 @@ module Klaviyo
       open(url + "v1/metrics?api_key=#{private_api_key}").read
     end
 
+    def get_timeline
+      open(url + "v1/metrics/timeline?api_key=#{private_api_key}").read
+    end
+
     private
 
     def build_params(params)
