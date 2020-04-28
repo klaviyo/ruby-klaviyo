@@ -23,6 +23,16 @@ module Klaviyo
       puts "response is #{res}"
     end
 
+# get metrics timeline
+    def get_metrics_timeline(private_api_key)
+      metrics_path = 'v1/metrics/timeline'
+      param = 'api_key=' + private_api_key
+
+      res = request(metrics_path, param)
+
+      puts "response is #{res}"
+    end
+
 # get lists from lists api
     def get_lists(private_api_key)
       lists_path = 'v2/lists'
