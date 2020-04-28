@@ -23,6 +23,16 @@ module Klaviyo
       puts "response is #{res}"
     end
 
+# get lists from lists api
+    def get_lists(private_api_key)
+      lists_path = 'v2/lists'
+      param = 'api_key=' + private_api_key
+
+      res = request(lists_path, param)
+
+      puts "response is #{res}"
+    end
+
     def track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
       kwargs = defaults.merge(kwargs)
@@ -74,8 +84,9 @@ module Klaviyo
 
     private
 
+# removed CGI.escape from right after opening curly -- for testing environment
     def build_params(params)
-      "data=#{CGI.escape Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
 
 # prints the url, doesnt return true/false from response anymore
