@@ -8,18 +8,27 @@ module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
-    def initialize(api_key, url = 'https://a.klaviyo.com/api/')
+    def initialize(api_key = nil, private_api_key = nil, url = 'https://a.klaviyo.com/api/')
+      if !api_key
+        raise 'Please provide your Public API key'
+      end
+
       @api_key = api_key
+      @private_api_key = private_api_key
       @url = url
+
+      if @private_api_key
+        @private_api_key_param = "api_key=#{@private_api_key}"
+      end
+
       @metrics_path = 'v1/metrics'
     end
 
 # get metrics from metrics api
-    def get_metrics(private_api_key, kwargs = {})
+    def get_metrics(kwargs = {})
       defaults = {:page => nil, :count => nil}
-      key_param = "api_key=#{private_api_key}"
 
-      url_params = key_param
+      url_params = @private_api_key_param
 
       if kwargs[:page]
         page_param = 'page=' + kwargs[:page].to_s
