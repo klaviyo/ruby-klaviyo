@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'base64'
 require 'json'
+#require pry for testing
 require 'pry'
 
 module Klaviyo
@@ -12,6 +13,7 @@ module Klaviyo
       @url = url
     end
 
+# get metrics from metrics api
     def get_metrics(private_api_key)
       metrics_path = 'v1/metrics'
       param = 'api_key=' + private_api_key
@@ -76,6 +78,7 @@ module Klaviyo
       "data=#{CGI.escape Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
 
+# prints the url, doesnt return true/false from response anymore
     def request(path, params)
       url = "#{@url}#{path}?#{params}"
       puts "url is #{url}"
@@ -84,4 +87,5 @@ module Klaviyo
   end
 end
 
+#add binding.pry for ruby repl testing
 binding.pry
