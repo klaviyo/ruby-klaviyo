@@ -11,14 +11,27 @@ module Klaviyo
     def initialize(api_key, url = 'https://a.klaviyo.com/api/')
       @api_key = api_key
       @url = url
+      @metrics_path = 'v1/metrics'
     end
 
 # get metrics from metrics api
-    def get_metrics(private_api_key)
-      metrics_path = 'v1/metrics'
-      param = 'api_key=' + private_api_key
+    def get_metrics(private_api_key, page = nil)
+      params = []
+      url_params = "api_key=#{private_api_key}"
 
-      res = request(metrics_path, param)
+      if page
+        page_param = 'page=' + page.to_s
+        params.push(page_param)
+      end
+
+      if (params.length() > 0)
+        for p in params
+          url_params = url_params + '&' + p
+        end
+      end
+
+      puts "url_params is #{url_params}"
+      res = request(@metrics_path, url_params)
 
       puts "response is #{res}"
     end
