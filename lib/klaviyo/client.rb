@@ -1,14 +1,24 @@
 require 'open-uri'
 require 'base64'
 require 'json'
+require 'pry'
 
 module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
-    def initialize(api_key, url = 'http://a.klaviyo.com/api/')
+    def initialize(api_key, url = 'https://a.klaviyo.com/api/')
       @api_key = api_key
       @url = url
+    end
+
+    def get_metrics(private_api_key)
+      metrics_path = 'v1/metrics'
+      param = 'api_key=' + private_api_key
+
+      res = request(metrics_path, param)
+
+      puts "response is #{res}"
     end
 
     def track(event, kwargs = {})
@@ -31,7 +41,7 @@ module Klaviyo
         :ip => ''
       }
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
-      
+
       params = build_params(params)
       request('track', params)
     end
@@ -68,7 +78,10 @@ module Klaviyo
 
     def request(path, params)
       url = "#{@url}#{path}?#{params}"
-      open(url).read == '1'
+      puts "url is #{url}"
+      open(url).read
     end
   end
 end
+
+binding.pry
