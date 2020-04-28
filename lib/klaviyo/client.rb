@@ -15,13 +15,18 @@ module Klaviyo
     end
 
 # get metrics from metrics api
-    def get_metrics(private_api_key, page = nil)
+    def get_metrics(private_api_key, page = nil, count = nil)
       params = []
       url_params = "api_key=#{private_api_key}"
 
       if page
         page_param = 'page=' + page.to_s
         params.push(page_param)
+      end
+
+      if count
+        count_param = 'count=' + count.to_s
+        params.push(count_param)
       end
 
       if (params.length() > 0)
