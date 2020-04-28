@@ -49,3 +49,11 @@ Then in your controllers where you'd like to record an event:
   properties: { key: 'value' }
 )
 ```
+
+To query the Metrics API, call the get_metrics method.  Supply your private API key as the first argument.  Accepts optional page or count keyword arguments.
+
+Example - Requesting the 2nd page of metrics, to return a count of 100:
+
+```ruby
+@klaviyo.get_metrics('YOUR_PRIVATE_API_KEY', {:page => 1, :count => 100})
+```
