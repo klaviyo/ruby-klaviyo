@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   before_filter :initialize_klaviyo
 
   def initialize_klaviyo
-    @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN")
+    @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN", "YOUR_KLAVIYO_PRIVATE_API_TOKEN")
   end
 end
 ```
@@ -50,10 +50,10 @@ Then in your controllers where you'd like to record an event:
 )
 ```
 
-To query the Metrics API, call the get_metrics method.  Supply your private API key as the first argument.  Accepts optional page or count keyword arguments.
+To query the Metrics API, call the get_metrics method. Accepts optional page or count keyword arguments.
 
 Example - Requesting the 2nd page of metrics, to return a count of 100:
 
 ```ruby
-@klaviyo.get_metrics('YOUR_PRIVATE_API_KEY', {:page => 1, :count => 100})
+@klaviyo.get_metrics({:page => 1, :count => 100})
 ```
