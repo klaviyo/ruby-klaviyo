@@ -28,13 +28,17 @@ module Klaviyo
 # Param helpers
       @page_param = 'page='
       @count_param = 'count='
+      @since_param = 'since='
+      @sort_param = 'sort='
 
 # Error messages
       @NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
 
     end
 
-# get metrics from metrics api
+# METRICS API
+
+# Listing metrics
     def get_metrics(kwargs = {})
       private_api_key_exists()
       defaults = {:page => nil, :count => nil}
@@ -57,15 +61,40 @@ module Klaviyo
       puts "response is #{res}"
     end
 
-# get metrics timeline
-    def get_metrics_timeline(private_api_key)
-      metrics_path = @metrics_timeline_path
-      param = 'api_key=' + private_api_key
+# Listing the complete event timeline
+    def get_metrics_timeline(kwargs = {})
+      private_api_key_exists()
+      defaults = {:since => nil, :count => nil, :sort => nil}
 
-      res = request(metrics_path, param)
+      url_params = @private_api_key_param
+
+      if kwargs[:since]
+        since_param = "#{@since_param}#{kwargs[:since].to_s}"
+        url_params = "#{url_params}&#{since_param}"
+      end
+
+      if kwargs[:count]
+        count_param = "#{@count_param}#{kwargs[:count].to_s}"
+        url_params = "#{url_params}&#{count_param}"
+      end
+
+# DOES THIS WORK??????????????????????????????????????
+      if kwargs[:sort]
+        sort_param = "#{@sort_param}#{kwargs[:sort]}"
+        url_params = "#{url_params}&#{sort_param}"
+      end
+
+      puts "url_params is #{url_params}"
+      res = request(@metrics_path, url_params)
 
       puts "response is #{res}"
     end
+
+    
+
+# END METRICS API
+
+# START LISTS API
 
 # get lists from lists api
     def get_lists(private_api_key)
