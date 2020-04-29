@@ -21,23 +21,34 @@ module Klaviyo
         @private_api_key_param = "api_key=#{@private_api_key}"
       end
 
+# API endpoints
       @metrics_path = 'v1/metrics'
+      @metrics_timeline_path = "#{@metrics_path}/timeline"
+
+# Param helpers
+      @page_param = 'page='
+      @count_param = 'count='
+
+# Error messages
+      @NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
+
     end
 
 # get metrics from metrics api
     def get_metrics(kwargs = {})
+      private_api_key_exists()
       defaults = {:page => nil, :count => nil}
 
       url_params = @private_api_key_param
 
       if kwargs[:page]
-        page_param = 'page=' + kwargs[:page].to_s
-        url_params = url_params + '&' + page_param
+        page_param = "#{@page_param}#{kwargs[:page].to_s}"
+        url_params = "#{url_params}&#{page_param}"
       end
 
       if kwargs[:count]
-        count_param = 'count=' + kwargs[:count].to_s
-        url_params = url_params + '&' + count_param
+        count_param = "#{@count_param}#{kwargs[:count].to_s}"
+        url_params = "#{url_params}&#{count_param}"
       end
 
       puts "url_params is #{url_params}"
@@ -48,7 +59,7 @@ module Klaviyo
 
 # get metrics timeline
     def get_metrics_timeline(private_api_key)
-      metrics_path = 'v1/metrics/timeline'
+      metrics_path = @metrics_timeline_path
       param = 'api_key=' + private_api_key
 
       res = request(metrics_path, param)
@@ -127,6 +138,13 @@ module Klaviyo
       url = "#{@url}#{path}?#{params}"
       puts "url is #{url}"
       open(url).read
+    end
+
+# check if private api key exists, if not, throw error
+    def private_api_key_exists()
+      if !@private_api_key
+        raise @NO_PRIVATE_API_KEY_ERROR
+      end
     end
   end
 end
