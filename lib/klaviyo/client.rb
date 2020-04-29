@@ -23,7 +23,9 @@ module Klaviyo
 
 # API endpoints
       @metrics_path = 'v1/metrics'
-      @metrics_timeline_path = "#{@metrics_path}/timeline"
+      @timeline_path = 'timeline'
+      @metrics_timeline_path = "#{@metrics_path}#{@timeline_path}"
+      @metric_timeline_path = 'v1/metric'
 
 # Param helpers
       @page_param = 'page='
@@ -90,7 +92,36 @@ module Klaviyo
       puts "response is #{res}"
     end
 
-    
+# Listing the event timeline for a particular metric
+  def get_specific_metric_timeline(metric_id, kwargs = {})
+    private_api_key_exists()
+    defaults = {:since => nil, :count => nil, :sort => nil}
+
+    url_params = @private_api_key_param
+
+    if kwargs[:since]
+      since_param = "#{@since_param}#{kwargs[:since].to_s}"
+      url_params = "#{url_params}&#{since_param}"
+    end
+
+    if kwargs[:count]
+      count_param = "#{@count_param}#{kwargs[:count].to_s}"
+      url_params = "#{url_params}&#{count_param}"
+    end
+
+# DOES THIS WORK??????????????????????????????????????
+    if kwargs[:sort]
+      sort_param = "#{@sort_param}#{kwargs[:sort]}"
+      url_params = "#{url_params}&#{sort_param}"
+    end
+
+    url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
+
+    puts "url is #{url}"
+    res = request(url, url_params)
+
+    puts "response is #{res}"
+  end
 
 # END METRICS API
 
