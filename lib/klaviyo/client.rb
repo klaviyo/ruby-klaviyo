@@ -21,13 +21,13 @@ module Klaviyo
         @private_api_key_param = "api_key=#{@private_api_key}"
       end
 # API versions
-      @metrics_version = 'v1/'
+      @metrics_version = 'v1'
 
 # API endpoints
-      @metrics_path = "#{@metrics_version}metrics"
+      @metrics_path = "#{@metrics_version}/metrics"
       @timeline_path = 'timeline'
       @metrics_timeline_path = "#{@metrics_path}/#{@timeline_path}"
-      @metric_timeline_path = 'v1/metric'
+      @metric_timeline_path = "#{@metrics_version}/metric"
 
 # Error messages
       @NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
@@ -75,34 +75,25 @@ module Klaviyo
     end
 
 # Listing the event timeline for a particular metric
-  def get_specific_metric_timeline(metric_id, kwargs = {})
-    private_api_key_exists()
-    defaults = {:since => nil, :count => nil, :sort => nil}
+    def get_specific_metric_timeline(metric_id, kwargs = {})
+      private_api_key_exists()
 
-    url_params = @private_api_key_param
+      api_key_param = @private_api_key_param
 
-    if kwargs[:since]
-      since_param = "#{@since_param}#{kwargs[:since].to_s}"
-      url_params = "#{url_params}&#{since_param}"
+      defaults = {:since => nil, :count => nil, :sort => nil}
+
+      kwargs = defaults.merge(kwargs)
+
+      query_params = encode_params(kwargs)
+
+      url_params = "#{api_key_param}#{query_params}"
+
+      url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
+
+      res = request(url, url_params)
+
+      puts "response is #{res}"
     end
-
-    if kwargs[:count]
-      count_param = "#{@count_param}#{kwargs[:count].to_s}"
-      url_params = "#{url_params}&#{count_param}"
-    end
-
-# DOES THIS WORK??????????????????????????????????????
-    if kwargs[:sort]
-      sort_param = "#{@sort_param}#{kwargs[:sort]}"
-      url_params = "#{url_params}&#{sort_param}"
-    end
-
-    url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
-
-    res = request(url, url_params)
-
-    puts "response is #{res}"
-  end
 
 # END METRICS API
 
@@ -188,7 +179,8 @@ module Klaviyo
       end
     end
 
-# URL encode params from kwargs
+# return URL encoded params from kwargs
+# if there are no params, return nothing
     def encode_params(kwargs)
       # remove k/v pairs that are nil (v is tru)
       kwargs.select!{|k, v| v}
