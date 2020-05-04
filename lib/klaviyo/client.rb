@@ -27,7 +27,7 @@ module Klaviyo
       @metrics_timeline_path = "#{@metrics_path}#{@timeline_path}"
       @metric_timeline_path = 'v1/metric'
 
-# Param helpers
+# Param helpers ----- Find how to URL encode in Ruby
       @page_param = 'page='
       @count_param = 'count='
       @since_param = 'since='
@@ -43,21 +43,14 @@ module Klaviyo
 # Listing metrics
     def get_metrics(kwargs = {})
       private_api_key_exists()
-      defaults = {:page => nil, :count => nil}
-
       url_params = @private_api_key_param
 
-      if kwargs[:page]
-        page_param = "#{@page_param}#{kwargs[:page].to_s}"
-        url_params = "#{url_params}&#{page_param}"
-      end
+      defaults = {:page => nil, :count => nil}
 
-      if kwargs[:count]
-        count_param = "#{@count_param}#{kwargs[:count].to_s}"
-        url_params = "#{url_params}&#{count_param}"
-      end
+      kwargs = defaults.merge(kwargs)
 
-      puts "url_params is #{url_params}"
+      url_params = "#{url_params}#{kwargs_to_params(kwargs)}"
+
       res = request(@metrics_path, url_params)
 
       puts "response is #{res}"
@@ -86,7 +79,6 @@ module Klaviyo
         url_params = "#{url_params}&#{sort_param}"
       end
 
-      puts "url_params is #{url_params}"
       res = request(@metrics_path, url_params)
 
       puts "response is #{res}"
@@ -117,7 +109,6 @@ module Klaviyo
 
     url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
 
-    puts "url is #{url}"
     res = request(url, url_params)
 
     puts "response is #{res}"
@@ -196,7 +187,7 @@ module Klaviyo
 # prints the url, doesnt return true/false from response anymore
     def request(path, params)
       url = "#{@url}#{path}?#{params}"
-      puts "url is #{url}"
+      puts "request() url is #{url}"
       open(url).read
     end
 
@@ -205,6 +196,23 @@ module Klaviyo
       if !@private_api_key
         raise @NO_PRIVATE_API_KEY_ERROR
       end
+    end
+
+# kwarg helper ----- URL encode will cover this as well
+    def kwargs_to_params(kwargs)
+      params = ""
+
+      if kwargs[:page]
+        page_param = "#{@page_param}#{kwargs[:page].to_s}"
+        params = "&#{page_param}"
+      end
+
+      if kwargs[:count]
+        count_param = "#{@count_param}#{kwargs[:count].to_s}"
+        params = "#{params}&#{count_param}"
+      end
+
+      return params
     end
   end
 end
