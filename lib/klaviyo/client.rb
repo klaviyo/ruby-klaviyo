@@ -50,9 +50,7 @@ module Klaviyo
 
       url_params = "#{api_key_param}#{query_params}"
 
-      res = request(@metrics_path, url_params)
-
-      puts "response is #{res}"
+      request(@metrics_path, url_params)
     end
 
 # Listing the complete event timeline
@@ -69,9 +67,7 @@ module Klaviyo
 
       url_params = "#{api_key_param}#{query_params}"
 
-      res = request(@metrics_path, url_params)
-
-      puts "response is #{res}"
+      request(@metrics_path, url_params)
     end
 
 # Listing the event timeline for a particular metric
@@ -90,9 +86,7 @@ module Klaviyo
 
       url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
 
-      res = request(url, url_params)
-
-      puts "response is #{res}"
+      request(url, url_params)
     end
 
 # END METRICS API
@@ -169,13 +163,15 @@ module Klaviyo
     def request(path, params)
       url = "#{@url}#{path}?#{params}"
       puts "request() url is #{url}"
-      open(url).read
+      res = open(url).read
+
+      puts "response is #{res}"
     end
 
 # check if private api key exists, if not, throw error
     def private_api_key_exists()
       if !@private_api_key
-        raise @NO_PRIVATE_API_KEY_ERROR
+        raise KlaviyoError.new(@NO_PRIVATE_API_KEY_ERROR)
       end
     end
 
