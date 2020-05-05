@@ -10,7 +10,7 @@ module Klaviyo
   class Client
     def initialize(api_key = nil, private_api_key = nil, url = 'https://a.klaviyo.com/api/')
       if !api_key
-        raise 'Please provide your Public API key'
+        KlaviyoError.new('Please provide your Public API key')
       end
 
       @api_key = api_key
