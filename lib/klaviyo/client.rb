@@ -38,7 +38,7 @@ module Klaviyo
 
 # Listing metrics
     def get_metrics(kwargs = {})
-      private_api_key_exists()
+      check_private_api_key_exists()
 
       api_key_param = @private_api_key_param
 
@@ -55,7 +55,7 @@ module Klaviyo
 
 # Listing the complete event timeline
     def get_metrics_timeline(kwargs = {})
-      private_api_key_exists()
+      check_private_api_key_exists()
 
       api_key_param = @private_api_key_param
 
@@ -72,7 +72,7 @@ module Klaviyo
 
 # Listing the event timeline for a particular metric
     def get_specific_metric_timeline(metric_id, kwargs = {})
-      private_api_key_exists()
+      check_private_api_key_exists()
 
       api_key_param = @private_api_key_param
 
@@ -94,14 +94,10 @@ module Klaviyo
 # START LISTS API
 
 # get lists from lists api
-    def get_lists(private_api_key)
-      lists_path = 'v2/lists'
-      param = 'api_key=' + private_api_key
-
-      res = request(lists_path, param)
-
-      puts "response is #{res}"
+    def get_lists()
     end
+
+# END LISTS API
 
     def track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
@@ -169,7 +165,7 @@ module Klaviyo
     end
 
 # check if private api key exists, if not, throw error
-    def private_api_key_exists()
+    def check_private_api_key_exists()
       if !@private_api_key
         raise KlaviyoError.new(@NO_PRIVATE_API_KEY_ERROR)
       end
