@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   before_filter :initialize_klaviyo
 
   def initialize_klaviyo
-    @klaviyo = Klaviyo::Client.new("YOUR_KLAVIYO_API_TOKEN", "YOUR_KLAVIYO_PRIVATE_API_TOKEN")
+    @klaviyo = Klaviyo::Client.new('YOUR_KLAVIYO_API_TOKEN', 'YOUR_KLAVIYO_PRIVATE_API_TOKEN')
   end
 end
 ```
