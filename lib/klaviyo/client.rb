@@ -7,6 +7,9 @@ require 'pry'
 module Klaviyo
   class KlaviyoError < StandardError; end
 
+  # Error messages
+  NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
+
   class Client
     def initialize(api_key = nil, private_api_key = nil, url = 'https://a.klaviyo.com/api/')
       if !api_key
@@ -29,64 +32,34 @@ module Klaviyo
       @metrics_timeline_path = "#{@metrics_path}/#{@timeline_path}"
       @metric_timeline_path = "#{@metrics_version}/metric"
 
-# Error messages
-      @NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
-
     end
 
 # METRICS API
 
 # Listing metrics
     def get_metrics(kwargs = {})
+
       check_private_api_key_exists()
 
-      api_key_param = @private_api_key_param
-
-      defaults = {:page => nil, :count => nil}
-
-      kwargs = defaults.merge(kwargs)
-
-      query_params = encode_params(kwargs)
-
-      url_params = "#{api_key_param}#{query_params}"
-
-      request(@metrics_path, url_params)
+      request_(@metrics_path, kwargs)
     end
 
 # Listing the complete event timeline
     def get_metrics_timeline(kwargs = {})
+
       check_private_api_key_exists()
 
-      api_key_param = @private_api_key_param
-
-      defaults = {:since => nil, :count => nil, :sort => nil}
-
-      kwargs = defaults.merge(kwargs)
-
-      query_params = encode_params(kwargs)
-
-      url_params = "#{api_key_param}#{query_params}"
-
-      request(@metrics_path, url_params)
+      request_(@metrics_timeline_path, kwargs)
     end
 
 # Listing the event timeline for a particular metric
     def get_specific_metric_timeline(metric_id, kwargs = {})
+
       check_private_api_key_exists()
-
-      api_key_param = @private_api_key_param
-
-      defaults = {:since => nil, :count => nil, :sort => nil}
-
-      kwargs = defaults.merge(kwargs)
-
-      query_params = encode_params(kwargs)
-
-      url_params = "#{api_key_param}#{query_params}"
 
       url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
 
-      request(url, url_params)
+      request_(url, kwargs)
     end
 
 # END METRICS API
@@ -164,10 +137,30 @@ module Klaviyo
       puts "response is #{res}"
     end
 
+# prints the url, doesnt return true/false from response anymore
+    def request_(path, kwargs)
+
+      api_key_param = @private_api_key_param
+
+      defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
+
+      kwargs = defaults.merge(kwargs)
+
+      query_params = encode_params(kwargs)
+
+      url_params = "#{api_key_param}#{query_params}"
+
+      url = "#{@url}#{path}?#{url_params}"
+      puts "request() url is #{url}"
+      res = open(url).read
+
+      puts "response is #{res}"
+    end
+
 # check if private api key exists, if not, throw error
     def check_private_api_key_exists()
       if !@private_api_key
-        raise KlaviyoError.new(@NO_PRIVATE_API_KEY_ERROR)
+        raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
       end
     end
 
