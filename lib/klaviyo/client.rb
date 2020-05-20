@@ -19,14 +19,12 @@ module Klaviyo
       @api_key = api_key
       @private_api_key = private_api_key
       @url = url
+      @metrics_version = 'v1'
 
       if @private_api_key
         @private_api_key_param = "api_key=#{@private_api_key}"
       end
-# API versions
-      @metrics_version = 'v1'
 
-# API endpoints
       @metrics_path = "#{@metrics_version}/metrics"
       @timeline_path = 'timeline'
       @metrics_timeline_path = "#{@metrics_path}/#{@timeline_path}"
@@ -39,23 +37,17 @@ module Klaviyo
 # Listing metrics
     def get_metrics(kwargs = {})
 
-      check_private_api_key_exists()
-
       request(@metrics_path, kwargs)
     end
 
 # Listing the complete event timeline
     def get_metrics_timeline(kwargs = {})
 
-      check_private_api_key_exists()
-
       request(@metrics_timeline_path, kwargs)
     end
 
 # Listing the event timeline for a particular metric
     def get_specific_metric_timeline(metric_id, kwargs = {})
-
-      check_private_api_key_exists()
 
       url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
 
@@ -136,13 +128,13 @@ module Klaviyo
         puts "request() url is #{url}"
       else
 
-        api_key_param = @private_api_key_param
-
+        check_private_api_key_exists()
+        
         defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
         kwargs = defaults.merge(params)
         query_params = encode_params(kwargs)
 
-        url_params = "#{api_key_param}#{query_params}"
+        url_params = "#{@private_api_key_param}#{query_params}"
         url = "#{@url}#{path}?#{url_params}"
 
         puts "request() url is #{url}"
