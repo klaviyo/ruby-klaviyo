@@ -11,24 +11,24 @@ module Klaviyo
   NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
 
   class Client
-    def initialize(api_key = nil, private_api_key = nil, url = 'https://a.klaviyo.com/api/')
+    def initialize(api_key = nil, private_api_key = nil, domain = 'https://a.klaviyo.com/api')
       if !api_key
         KlaviyoError.new('Please provide your Public API key')
       end
 
       @api_key = api_key
       @private_api_key = private_api_key
-      @url = url
-      @metrics_version = 'v1'
+      @domain = domain
 
       if @private_api_key
         @private_api_key_param = "api_key=#{@private_api_key}"
       end
 
-      @metrics_path = "#{@metrics_version}/metrics"
-      @timeline_path = 'timeline'
-      @metrics_timeline_path = "#{@metrics_path}/#{@timeline_path}"
-      @metric_timeline_path = "#{@metrics_version}/metric"
+      @v1 = 'v1'
+      @v2 = 'v2'
+      @metric = 'metric'
+      @metrics = 'metrics'
+      @timeline = 'timeline'
 
     end
 
@@ -37,21 +37,23 @@ module Klaviyo
 # Listing metrics
     def get_metrics(kwargs = {})
 
-      request(@metrics_path, kwargs)
+      request(@metrics, @v1, kwargs)
     end
 
 # Listing the complete event timeline
     def get_metrics_timeline(kwargs = {})
 
-      request(@metrics_timeline_path, kwargs)
+      path = "#{@metrics}/#{@timeline}"
+
+      request(path, @v1, kwargs)
     end
 
 # Listing the event timeline for a particular metric
     def get_specific_metric_timeline(metric_id, kwargs = {})
 
-      url = "#{@metric_timeline_path}/#{metric_id}/#{@timeline_path}"
+      path = "#{@metric}/#{metric_id}/#{@timeline}"
 
-      request(url, kwargs)
+      request(path, @v1, kwargs)
     end
 
 # END METRICS API
@@ -121,29 +123,29 @@ module Klaviyo
     end
 
 # prints the url, doesnt return true/false from response anymore
-    def request(path, params)
+    def request(path, version, params)
 
       if path == 'track' || path == 'identify'
-        url = "#{@url}#{path}?#{params}"
+        url = "#{@domain}/#{path}?#{params}"
         puts "request() url is #{url}"
       else
 
         check_private_api_key_exists()
-        
+
         defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
         kwargs = defaults.merge(params)
         query_params = encode_params(kwargs)
 
         url_params = "#{@private_api_key_param}#{query_params}"
-        url = "#{@url}#{path}?#{url_params}"
+        url = "#{@domain}/#{version}/#{path}?#{url_params}"
 
         puts "request() url is #{url}"
 
       end
 
-      res = open(url).read
+      # res = open(url).read
 
-      puts "response is #{res}"
+      # puts "response is #{res}"
 
     end
 
