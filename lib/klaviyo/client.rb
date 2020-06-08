@@ -29,6 +29,7 @@ module Klaviyo
       @metric = 'metric'
       @metrics = 'metrics'
       @timeline = 'timeline'
+      @lists = 'lists'
 
     end
 
@@ -37,7 +38,7 @@ module Klaviyo
 # Listing metrics
     def get_metrics(kwargs = {})
 
-      request(@metrics, @v1, kwargs)
+      v1_request(@metrics, kwargs)
     end
 
 # Listing the complete event timeline
@@ -45,7 +46,7 @@ module Klaviyo
 
       path = "#{@metrics}/#{@timeline}"
 
-      request(path, @v1, kwargs)
+      v1_request(path, kwargs)
     end
 
 # Listing the event timeline for a particular metric
@@ -53,15 +54,18 @@ module Klaviyo
 
       path = "#{@metric}/#{metric_id}/#{@timeline}"
 
-      request(path, @v1, kwargs)
+      v1_request(path, kwargs)
     end
 
 # END METRICS API
 
-# START LISTS API
+# START LISTS v1 API
 
 # get lists from lists api
-    def get_lists()
+    def get_lists(kwargs = {})
+      path = "#{@lists}"
+
+      v1_request(path, kwargs)
     end
 
 # END LISTS API
@@ -147,6 +151,10 @@ module Klaviyo
 
       # puts "response is #{res}"
 
+    end
+
+    def v1_request(path, params)
+      request(path, @v1, params)
     end
 
 # check if private api key exists, if not, throw error
