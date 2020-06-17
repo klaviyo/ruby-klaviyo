@@ -3,6 +3,7 @@ require 'base64'
 require 'json'
 #require pry for testing
 require 'pry'
+require 'Faraday'
 
 module Klaviyo
   class KlaviyoError < StandardError; end
@@ -34,11 +35,28 @@ module Klaviyo
     end
 
 # METRICS API
+#    def get_metrics_fara(params = {})
+#      check_private_api_key_exists()
+#
+#      defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
+#      kwargs = defaults.merge(params)
+#      query_params = encode_params(kwargs)
+#
+#      url_params = "#{@private_api_key_param}#{query_params}"
+#      url = "#{@domain}/#{@v1}/#{@metrics}?#{url_params}"
+#
+#      puts "request() url is #{url}"
+#
+#      res = Faraday.get(url)
+#
+#      puts "response is #{res.body}"
+#    end
 
 # Listing metrics
     def get_metrics(kwargs = {})
+      path = @metrics
 
-      v1_request(@metrics, kwargs)
+      v1_request('GET', path, kwargs)
     end
 
 # Listing the complete event timeline
@@ -46,7 +64,7 @@ module Klaviyo
 
       path = "#{@metrics}/#{@timeline}"
 
-      v1_request(path, kwargs)
+      v1_request('GET', path, kwargs)
     end
 
 # Listing the event timeline for a particular metric
@@ -54,7 +72,7 @@ module Klaviyo
 
       path = "#{@metric}/#{metric_id}/#{@timeline}"
 
-      v1_request(path, kwargs)
+      v1_request('GET', path, kwargs)
     end
 
 # END METRICS API
@@ -127,34 +145,38 @@ module Klaviyo
     end
 
 # prints the url, doesnt return true/false from response anymore
-    def request(path, version, params)
+    def request(method = "GET", path, kwargs)
 
       if path == 'track' || path == 'identify'
+        params = build_params(kwargs)
         url = "#{@domain}/#{path}?#{params}"
-        puts "request() url is #{url}"
+        puts "track/id url is #{url}"
       else
 
         check_private_api_key_exists()
 
         defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
-        kwargs = defaults.merge(params)
-        query_params = encode_params(kwargs)
+        params = defaults.merge(kwargs)
+        query_params = encode_params(params)
 
         url_params = "#{@private_api_key_param}#{query_params}"
-        url = "#{@domain}/#{version}/#{path}?#{url_params}"
+        url = "#{@domain}/#{path}?#{url_params}"
 
         puts "request() url is #{url}"
 
       end
 
-      # res = open(url).read
+      puts "request() url is #{url}"
 
-      # puts "response is #{res}"
+      res = Faraday.get(url)
+
+      puts "response is #{res.body}"
 
     end
 
-    def v1_request(path, params)
-      request(path, @v1, params)
+    def v1_request(method, path, kwargs)
+      path = "#{@v1}/#{path}"
+      request(method, path, kwargs)
     end
 
 # check if private api key exists, if not, throw error
