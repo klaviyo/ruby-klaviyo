@@ -31,26 +31,11 @@ module Klaviyo
       @metrics = 'metrics'
       @timeline = 'timeline'
       @lists = 'lists'
+      @person = 'person'
 
     end
 
 # METRICS API
-#    def get_metrics_fara(params = {})
-#      check_private_api_key_exists()
-#
-#      defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
-#      kwargs = defaults.merge(params)
-#      query_params = encode_params(kwargs)
-#
-#      url_params = "#{@private_api_key_param}#{query_params}"
-#      url = "#{@domain}/#{@v1}/#{@metrics}?#{url_params}"
-#
-#      puts "request() url is #{url}"
-#
-#      res = Faraday.get(url)
-#
-#      puts "response is #{res.body}"
-#    end
 
 # Listing metrics
     def get_metrics(kwargs = {})
@@ -77,7 +62,19 @@ module Klaviyo
 
 # END METRICS API
 
-# START LISTS v1 API
+# START PROFILES API
+
+# Retrieve a person's attributes
+    def get_person_attributes(person_id)
+
+      path = "#{@person}/#{person_id}"
+
+      v1_request('GET', path)
+    end
+
+# END PROFILES API
+
+# START LISTS v2 API
 
 # get lists from lists api
     def get_lists(kwargs = {})
@@ -162,8 +159,6 @@ module Klaviyo
         url_params = "#{@private_api_key_param}#{query_params}"
         url = "#{@domain}/#{path}?#{url_params}"
 
-        puts "request() url is #{url}"
-
       end
 
       puts "request() url is #{url}"
@@ -174,7 +169,7 @@ module Klaviyo
 
     end
 
-    def v1_request(method, path, kwargs)
+    def v1_request(method, path, kwargs = {})
       path = "#{@v1}/#{path}"
       request(method, path, kwargs)
     end
