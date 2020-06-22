@@ -104,7 +104,11 @@ module Klaviyo
     def get_lists(kwargs = {})
       path = "#{@lists}"
 
-      v1_request(path, kwargs)
+      kwargs[:body] = {
+        "api_key": "#{@private_api_key}"
+      }
+
+      v2_request('GET', path, kwargs)
     end
 
 # END LISTS API
@@ -181,6 +185,18 @@ module Klaviyo
 
         puts "response is #{res.body}"
 
+      elsif kwargs[:body]
+
+        check_private_api_key_exists()
+
+        url = "#{@domain}/#{path}"
+
+        puts "request() url is #{url}"
+
+        res = Faraday.get(url, kwargs[:body])
+
+        puts "response is #{res.body}"
+
       elsif method == 'GET'
 
         check_private_api_key_exists()
@@ -217,6 +233,11 @@ module Klaviyo
 
     def v1_request(method, path, kwargs = {})
       path = "#{@v1}/#{path}"
+      request(method, path, kwargs)
+    end
+
+    def v2_request(method, path, kwargs = {})
+      path = "#{@v2}/#{path}"
       request(method, path, kwargs)
     end
 
