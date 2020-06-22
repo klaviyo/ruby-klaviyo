@@ -113,17 +113,17 @@ module Klaviyo
     end
 
 # get lists from lists api
-    def get_lists(kwargs = {})
+    def get_lists()
       path = "#{@lists}"
 
-      v2_request('GET', path, kwargs)
+      v2_request('GET', path)
     end
 
 # Get List Details
-    def get_list_details(list_id, kwargs = {})
+    def get_list_details(list_id)
       path = "#{@list}/#{list_id}"
 
-      v2_request('GET', path, kwargs)
+      v2_request('GET', path)
     end
 
 # Update List Details
@@ -135,6 +135,13 @@ module Klaviyo
       }
 
       v2_request('PUT', path, body)
+    end
+
+# Delete a list
+    def delete_list(list_id)
+      path = "#{@list}/#{list_id}"
+
+      v2_request('DELETE', path)
     end
 
 # END LISTS API
@@ -234,6 +241,12 @@ module Klaviyo
         elsif method == 'PUT'
 
           res = Faraday.put(url, kwargs[:body])
+
+          puts "response is #{res.body}"
+
+        elsif method == 'DELETE'
+
+          res = Faraday.delete(url, kwargs[:body])
 
           puts "response is #{res.body}"
         end
