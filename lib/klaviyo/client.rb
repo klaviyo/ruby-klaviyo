@@ -30,6 +30,7 @@ module Klaviyo
       @metric = 'metric'
       @metrics = 'metrics'
       @timeline = 'timeline'
+      @list = 'list'
       @lists = 'lists'
       @person = 'person'
 
@@ -118,6 +119,24 @@ module Klaviyo
       v2_request('GET', path, kwargs)
     end
 
+# Get List Details
+    def get_list_details(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}"
+
+      v2_request('GET', path, kwargs)
+    end
+
+# Update List Details
+    def update_list_details(list_id, list_name)
+      path = "#{@list}/#{list_id}"
+
+      body = {
+        "list_name": list_name
+      }
+
+      v2_request('PUT', path, body)
+    end
+
 # END LISTS API
 
 # In track/identify we are building params in the reuqest, should do that in
@@ -192,7 +211,7 @@ module Klaviyo
 
         puts "response is #{res.body}"
 
-      elsif kwargs[:body] && method == 'GET'
+      elsif kwargs[:body]
 
         check_private_api_key_exists()
 
@@ -200,21 +219,24 @@ module Klaviyo
 
         puts "request() url is #{url}"
 
-        res = Faraday.get(url, kwargs[:body])
+        if method == 'GET'
 
-        puts "response is #{res.body}"
+          res = Faraday.get(url, kwargs[:body])
 
-      elsif kwargs[:body] && method == 'POST'
+          puts "response is #{res.body}"
 
-        check_private_api_key_exists()
+        elsif method == 'POST'
 
-        url = "#{@domain}/#{path}"
+          res = Faraday.post(url, kwargs[:body])
 
-        puts "request() url is #{url}"
+          puts "response is #{res.body}"
 
-        res = Faraday.post(url, kwargs[:body])
+        elsif method == 'PUT'
 
-        puts "response is #{res.body}"
+          res = Faraday.put(url, kwargs[:body])
+
+          puts "response is #{res.body}"
+        end
 
       elsif method == 'GET'
 
