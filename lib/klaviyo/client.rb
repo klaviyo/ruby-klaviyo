@@ -72,6 +72,13 @@ module Klaviyo
       v1_request('GET', path)
     end
 
+    def update_person_attributes(person_id, kwargs)
+
+      path = "#{@person}/#{person_id}"
+
+      v1_request('PUT', path, kwargs)
+    end
+
 # END PROFILES API
 
 # START LISTS v2 API
@@ -145,13 +152,19 @@ module Klaviyo
     end
 
 # prints the url, doesnt return true/false from response anymore
-    def request(method = 'GET', path, kwargs = {})
+    def request(method = 'GET', path, kwargs)
 
       if path == 'track' || path == 'identify'
         params = build_params(kwargs)
         url = "#{@domain}/#{path}?#{params}"
-        puts "track/id url is #{url}"
-      else
+
+        puts "request() url is #{url}"
+
+        res = Faraday.get(url)
+
+        puts "response is #{res.body}"
+
+      elsif method == 'GET'
 
         check_private_api_key_exists()
 
@@ -162,14 +175,27 @@ module Klaviyo
         url_params = "#{@private_api_key_param}#{query_params}"
         url = "#{@domain}/#{path}?#{url_params}"
 
+        puts "request() url is #{url}"
+
+        res = Faraday.get(url)
+
+        puts "response is #{res.body}"
+
+      elsif method == 'PUT'
+
+        check_private_api_key_exists()
+
+        query_params = encode_params(kwargs)
+
+        url_params = "#{@private_api_key_param}#{query_params}"
+        url = "#{@domain}/#{path}?#{url_params}"
+
+        puts "request() url is #{url}"
+
+        res = Faraday.put(url)
+
+        puts "response is #{res.body}"
       end
-
-      puts "request() url is #{url}"
-
-      res = Faraday.get(url)
-
-      puts "response is #{res.body}"
-
     end
 
     def v1_request(method, path, kwargs = {})
