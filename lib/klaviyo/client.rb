@@ -100,13 +100,20 @@ module Klaviyo
 
 # START LISTS v2 API
 
+# Create a new list
+    def create_list(list_name)
+      path = "#{@lists}"
+
+      body = {
+        "list_name": list_name
+      }
+
+      v2_request('POST', path, body)
+    end
+
 # get lists from lists api
     def get_lists(kwargs = {})
       path = "#{@lists}"
-
-      kwargs[:body] = {
-        "api_key": "#{@private_api_key}"
-      }
 
       v2_request('GET', path, kwargs)
     end
@@ -185,7 +192,7 @@ module Klaviyo
 
         puts "response is #{res.body}"
 
-      elsif kwargs[:body]
+      elsif kwargs[:body] && method == 'GET'
 
         check_private_api_key_exists()
 
@@ -194,6 +201,18 @@ module Klaviyo
         puts "request() url is #{url}"
 
         res = Faraday.get(url, kwargs[:body])
+
+        puts "response is #{res.body}"
+
+      elsif kwargs[:body] && method == 'POST'
+
+        check_private_api_key_exists()
+
+        url = "#{@domain}/#{path}"
+
+        puts "request() url is #{url}"
+
+        res = Faraday.post(url, kwargs[:body])
 
         puts "response is #{res.body}"
 
@@ -238,6 +257,15 @@ module Klaviyo
 
     def v2_request(method, path, kwargs = {})
       path = "#{@v2}/#{path}"
+
+      key = {
+        "api_key": "#{@private_api_key}"
+      }
+
+      body = key.merge(kwargs)
+
+      kwargs[:body] = body
+
       request(method, path, kwargs)
     end
 
