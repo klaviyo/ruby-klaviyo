@@ -85,6 +85,8 @@ module Klaviyo
 
 # END LISTS API
 
+# In track/identify we are building params in the reuqest, should do that in
+# request method?
     def track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
       kwargs = defaults.merge(kwargs)
@@ -106,8 +108,8 @@ module Klaviyo
       }
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
-      params = build_params(params)
-      request('track', params)
+#      params = build_params(params)
+      request('GET', 'track', params)
     end
 
     def track_once(event, opts = {})
@@ -127,11 +129,12 @@ module Klaviyo
       properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
-      params = build_params({
+      params = {
         :token => @api_key,
         :properties => properties
-      })
-      request('identify', params)
+      }
+
+      request('GET', 'identify', params)
     end
 
     private
@@ -142,7 +145,7 @@ module Klaviyo
     end
 
 # prints the url, doesnt return true/false from response anymore
-    def request(method = "GET", path, kwargs)
+    def request(method = 'GET', path, kwargs = {})
 
       if path == 'track' || path == 'identify'
         params = build_params(kwargs)
