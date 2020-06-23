@@ -1,7 +1,6 @@
 require 'open-uri'
 require 'base64'
 require 'json'
-#require pry for testing
 require 'pry'
 require 'Faraday'
 
@@ -49,54 +48,44 @@ module Klaviyo
     end
 
     def get_metrics_timeline(kwargs = {})
-
       path = "#{@metrics}/#{@timeline}"
 
       v1_request('GET', path, kwargs)
     end
 
     def get_specific_metric_timeline(metric_id, kwargs = {})
-
       path = "#{@metric}/#{metric_id}/#{@timeline}"
 
       v1_request('GET', path, kwargs)
     end
 
-# END METRICS API
-
-# START PROFILES API
+# PROFILES API
 
     def get_person_attributes(person_id)
-
       path = "#{@person}/#{person_id}"
 
       v1_request('GET', path)
     end
 
-    def update_person_attributes(person_id, kwargs)
-
+    def update_person_attributes(person_id, kwargs = {})
       path = "#{@person}/#{person_id}"
 
       v1_request('PUT', path, kwargs)
     end
 
     def get_person_metrics_timeline(person_id, kwargs = {})
-
       path = "#{@person}/#{person_id}/#{@metrics}/#{@timeline}"
 
       v1_request('GET', path, kwargs)
     end
 
     def get_person_metric_timeline(person_id, metric_id, kwargs = {})
-
       path = "#{@person}/#{person_id}/#{@metric}/#{metric_id}/#{@timeline}"
 
       v1_request('GET', path, kwargs)
     end
 
-# END PROFILES API
-
-# START LISTS API
+# LISTS API
 
     def create_list(list_name)
       path = "#{@lists}"
@@ -150,7 +139,7 @@ module Klaviyo
       v2_request('DELETE', path, kwargs)
     end
 
-# List Memberships
+# LIST MEMBERSHIPS
 
     def add_to_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
@@ -182,10 +171,8 @@ module Klaviyo
       v2_request('GET', path)
     end
 
-# END LISTS API
+# TRACK/IDENTIFY
 
-# In track/identify we are building params in the reuqest, should do that in
-# request method?
     def track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
       kwargs = defaults.merge(kwargs)
@@ -238,14 +225,7 @@ module Klaviyo
 
     private
 
-# removed CGI.escape from right after opening curly -- for testing environment
-    def build_params(params)
-      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
-    end
-
-# prints the url, doesnt return true/false from response anymore
     def request(method, path, kwargs = {})
-
       if path == 'track' || path == 'identify'
         params = build_params(kwargs)
         url = "#{@domain}/#{path}?#{params}"
@@ -304,7 +284,6 @@ module Klaviyo
 
         res = Faraday.put(url)
 
-        #end
       end
     end
 
@@ -325,8 +304,6 @@ module Klaviyo
     def v2_request(method, path, kwargs = {})
       path = "#{@v2}/#{path}"
 
-      kwargs = clean_data(kwargs)
-
       key = {
         "api_key": "#{@private_api_key}"
       }
@@ -337,17 +314,18 @@ module Klaviyo
       request(method, path, data)
     end
 
-# check if private api key exists, if not, throw error
+# removed CGI.escape from right after opening curly -- for testing environment
+    def build_params(params)
+      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+    end
+
     def check_private_api_key_exists()
       if !@private_api_key
         raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
       end
     end
 
-# return URL encoded params from kwargs
-# if there are no params, return nothing
     def encode_params(kwargs)
-      # remove k/v pairs that are nil (v is tru)
       kwargs.select!{|k, v| v}
       params = URI.encode_www_form(kwargs)
 
@@ -356,11 +334,7 @@ module Klaviyo
       end
     end
 
-    def clean_data(data)
-      data.delete_if { |k, v| v.nil? }
-    end
   end
 end
 
-#add binding.pry for ruby repl testing
 binding.pry
