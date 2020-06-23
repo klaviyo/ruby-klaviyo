@@ -55,5 +55,5 @@ To query the Metrics API, call the get_metrics method. Accepts optional page or 
 Example - Requesting the 2nd page of metrics, to return a count of 100:
 
 ```ruby
-@klaviyo.get_metrics({:page => 1, :count => 100})
+@klaviyo.get_metrics(page: 2, count: 100)
 ```
