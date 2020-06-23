@@ -193,7 +193,6 @@ module Klaviyo
       }
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
-#      params = build_params(params)
       request('GET', 'track', params)
     end
 
