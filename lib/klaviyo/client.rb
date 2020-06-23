@@ -33,6 +33,7 @@ module Klaviyo
       @list = 'list'
       @lists = 'lists'
       @person = 'person'
+      @subscribe = 'subscribe'
 
     end
 
@@ -142,6 +143,15 @@ module Klaviyo
       path = "#{@list}/#{list_id}"
 
       v2_request('DELETE', path)
+    end
+
+# LIST SUBSCRIPTIONS
+
+# Check if profiles are on a list and not suppressed. Not Working
+    def check_list_subscriptions(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@subscribe}"
+
+      v2_request('GET', path, kwargs)
     end
 
 # END LISTS API
