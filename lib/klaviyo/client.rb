@@ -8,7 +8,6 @@ require 'Faraday'
 module Klaviyo
   class KlaviyoError < StandardError; end
 
-  # Error messages
   NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
 
   class Client
@@ -43,14 +42,12 @@ module Klaviyo
 
 # METRICS API
 
-# Listing metrics
     def get_metrics(kwargs = {})
       path = @metrics
 
       v1_request('GET', path, kwargs)
     end
 
-# Listing the complete event timeline
     def get_metrics_timeline(kwargs = {})
 
       path = "#{@metrics}/#{@timeline}"
@@ -58,7 +55,6 @@ module Klaviyo
       v1_request('GET', path, kwargs)
     end
 
-# Listing the event timeline for a particular metric
     def get_specific_metric_timeline(metric_id, kwargs = {})
 
       path = "#{@metric}/#{metric_id}/#{@timeline}"
@@ -70,7 +66,6 @@ module Klaviyo
 
 # START PROFILES API
 
-# Retrieve a person's attributes
     def get_person_attributes(person_id)
 
       path = "#{@person}/#{person_id}"
@@ -78,7 +73,6 @@ module Klaviyo
       v1_request('GET', path)
     end
 
-# Adding or Updating a Person's Attributes
     def update_person_attributes(person_id, kwargs)
 
       path = "#{@person}/#{person_id}"
@@ -86,7 +80,6 @@ module Klaviyo
       v1_request('PUT', path, kwargs)
     end
 
-# Listing a person's complete event timeline
     def get_person_metrics_timeline(person_id, kwargs = {})
 
       path = "#{@person}/#{person_id}/#{@metrics}/#{@timeline}"
@@ -94,7 +87,6 @@ module Klaviyo
       v1_request('GET', path, kwargs)
     end
 
-# Listing a person's event timeline for a particular metric
     def get_person_metric_timeline(person_id, metric_id, kwargs = {})
 
       path = "#{@person}/#{person_id}/#{@metric}/#{metric_id}/#{@timeline}"
@@ -104,9 +96,8 @@ module Klaviyo
 
 # END PROFILES API
 
-# START LISTS v2 API
+# START LISTS API
 
-# Create a new list
     def create_list(list_name)
       path = "#{@lists}"
 
@@ -117,21 +108,18 @@ module Klaviyo
       v2_request('POST', path, body)
     end
 
-# get lists from lists api
     def get_lists()
       path = "#{@lists}"
 
       v2_request('GET', path)
     end
 
-# Get List Details
     def get_list_details(list_id)
       path = "#{@list}/#{list_id}"
 
       v2_request('GET', path)
     end
 
-# Update List Details
     def update_list_details(list_id, list_name)
       path = "#{@list}/#{list_id}"
 
@@ -142,7 +130,6 @@ module Klaviyo
       v2_request('PUT', path, body)
     end
 
-# Delete a list
     def delete_list(list_id)
       path = "#{@list}/#{list_id}"
 
@@ -151,14 +138,12 @@ module Klaviyo
 
 # LIST SUBSCRIPTIONS
 
-# Check if profiles are on a list and not suppressed. Not Working
     def check_list_subscriptions(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@subscribe}"
 
       v2_request('GET', path, kwargs)
     end
 
-# Unsubscribe and remove profiles from a list.
     def unsubscribe_from_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@subscribe}"
 
@@ -167,35 +152,30 @@ module Klaviyo
 
 # List Memberships
 
-# Add to list
     def add_to_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
 
       v2_request('POST', path, kwargs)
     end
 
-# Check list membership
     def check_list_memberships(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
 
       v2_request('GET', path, kwargs)
     end
 
-# Remove from list
     def remove_from_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
 
       v2_request('DELETE', path, kwargs = {})
     end
 
-# List exclusions
     def get_list_exclusions(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@exclusions}/#{@all}"
 
       v2_request('GET', path, kwargs = {})
     end
 
-# Group Memberships
     def get_group_members(list_id)
       path = "#{@group}/#{list_id}/#{@members}/#{@all}"
 
