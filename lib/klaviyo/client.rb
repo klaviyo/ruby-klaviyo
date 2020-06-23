@@ -167,13 +167,13 @@ module Klaviyo
     def remove_from_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
 
-      v2_request('DELETE', path, kwargs = {})
+      v2_request('DELETE', path, kwargs)
     end
 
     def get_list_exclusions(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@exclusions}/#{@all}"
 
-      v2_request('GET', path, kwargs = {})
+      v2_request('GET', path, kwargs)
     end
 
     def get_group_members(list_id)
@@ -244,17 +244,13 @@ module Klaviyo
     end
 
 # prints the url, doesnt return true/false from response anymore
-    def request(method = 'GET', path, kwargs)
+    def request(method, path, kwargs = {})
 
       if path == 'track' || path == 'identify'
         params = build_params(kwargs)
         url = "#{@domain}/#{path}?#{params}"
 
-        puts "request() url is #{url}"
-
         res = Faraday.get(url)
-
-        puts "response is #{res.body}"
 
       elsif kwargs[:body]
 
@@ -262,84 +258,83 @@ module Klaviyo
 
         url = "#{@domain}/#{path}"
 
-        puts "request() url is #{url}"
-
         if method == 'GET'
 
-          res = Faraday.get(url, kwargs[:body])
+          data = kwargs[:body].to_json
 
-          puts "response is #{res.body}"
+          res = Faraday.get(url) do |req|
+            req.body = data
+            req.headers['Content-Type'] = 'application/json'
+          end
 
         elsif method == 'POST'
 
-          res = Faraday.post(url, kwargs[:body])
+          data = kwargs[:body].to_json
 
-          puts "response is #{res.body}"
+          res = Faraday.post(url) do |req|
+            req.body = data
+            req.headers['Content-Type'] = 'application/json'
+          end
 
         elsif method == 'PUT'
 
-          res = Faraday.put(url, kwargs[:body])
-
-          puts "response is #{res.body}"
+          res = Faraday.put(url) do |req|
+            req.body = data
+            req.headers['Content-Type'] = 'application/json'
+          end
 
         elsif method == 'DELETE'
 
-          res = Faraday.delete(url, kwargs[:body])
+          res = Faraday.delete(url) do |req|
+            req.body = data
+            req.headers['Content-Type'] = 'application/json'
+          end
 
-          puts "response is #{res.body}"
         end
 
       elsif method == 'GET'
 
-        check_private_api_key_exists()
-
-        defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
-        params = defaults.merge(kwargs)
-        query_params = encode_params(params)
-
-        url_params = "#{@private_api_key_param}#{query_params}"
-        url = "#{@domain}/#{path}?#{url_params}"
-
-        puts "request() url is #{url}"
+        url = "#{@domain}/#{path}"
 
         res = Faraday.get(url)
 
-        puts "response is #{res.body}"
-
       elsif method == 'PUT'
 
-        check_private_api_key_exists()
-
-        query_params = encode_params(kwargs)
-
-        url_params = "#{@private_api_key_param}#{query_params}"
-        url = "#{@domain}/#{path}?#{url_params}"
-
-        puts "request() url is #{url}"
+        url = "#{@domain}/#{path}"
 
         res = Faraday.put(url)
 
-        puts "response is #{res.body}"
+        #end
       end
     end
 
     def v1_request(method, path, kwargs = {})
-      path = "#{@v1}/#{path}"
-      request(method, path, kwargs)
+
+      check_private_api_key_exists()
+
+      defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
+      params = defaults.merge(kwargs)
+      query_params = encode_params(params)
+
+      url_params = "#{@private_api_key_param}#{query_params}"
+      full_path = "#{@v1}/#{path}?#{url_params}"
+
+      request(method, full_path)
     end
 
     def v2_request(method, path, kwargs = {})
       path = "#{@v2}/#{path}"
 
+      kwargs = clean_data(kwargs)
+
       key = {
         "api_key": "#{@private_api_key}"
       }
 
-      body = key.merge(kwargs)
+      data = {}
+      data[:body] = key.merge(kwargs)
 
-      kwargs[:body] = body
-
-      request(method, path, kwargs)
+      request(method, path, data)
     end
 
 # check if private api key exists, if not, throw error
@@ -359,6 +354,10 @@ module Klaviyo
       if !params.empty?
         return "&#{params}"
       end
+    end
+
+    def clean_data(data)
+      data.delete_if { |k, v| v.nil? }
     end
   end
 end
