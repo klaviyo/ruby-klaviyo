@@ -154,6 +154,13 @@ module Klaviyo
       v2_request('GET', path, kwargs)
     end
 
+# Unsubscribe and remove profiles from a list.
+    def unsubscribe_from_list(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@subscribe}"
+
+      v2_request('DELETE', path, kwargs)
+    end
+
 # END LISTS API
 
 # In track/identify we are building params in the reuqest, should do that in
