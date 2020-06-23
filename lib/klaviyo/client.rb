@@ -34,6 +34,10 @@ module Klaviyo
       @lists = 'lists'
       @person = 'person'
       @subscribe = 'subscribe'
+      @members = 'members'
+      @exclusions = 'exclusions'
+      @all = 'all'
+      @group = 'group'
 
     end
 
@@ -159,6 +163,43 @@ module Klaviyo
       path = "#{@list}/#{list_id}/#{@subscribe}"
 
       v2_request('DELETE', path, kwargs)
+    end
+
+# List Memberships
+
+# Add to list
+    def add_to_list(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@members}"
+
+      v2_request('POST', path, kwargs)
+    end
+
+# Check list membership
+    def check_list_memberships(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@members}"
+
+      v2_request('GET', path, kwargs)
+    end
+
+# Remove from list
+    def remove_from_list(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@members}"
+
+      v2_request('DELETE', path, kwargs = {})
+    end
+
+# List exclusions
+    def get_list_exclusions(list_id, kwargs = {})
+      path = "#{@list}/#{list_id}/#{@exclusions}/#{@all}"
+
+      v2_request('GET', path, kwargs = {})
+    end
+
+# Group Memberships
+    def get_group_members(list_id)
+      path = "#{@group}/#{list_id}/#{@members}/#{@all}"
+
+      v2_request('GET', path)
     end
 
 # END LISTS API
