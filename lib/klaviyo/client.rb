@@ -312,7 +312,6 @@ module Klaviyo
       request(method, path, data)
     end
 
-# removed CGI.escape from right after opening curly -- for testing environment
     def build_params(params)
       "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
