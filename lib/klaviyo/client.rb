@@ -1,7 +1,6 @@
 require 'open-uri'
 require 'base64'
 require 'json'
-require 'pry'
 require 'Faraday'
 
 module Klaviyo
@@ -336,5 +335,3 @@ module Klaviyo
 
   end
 end
-
-binding.pry
