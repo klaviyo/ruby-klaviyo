@@ -17,11 +17,6 @@ module Klaviyo
       @api_key = api_key
       @private_api_key = private_api_key
       @domain = 'https://a.klaviyo.com/api'
-
-      if @private_api_key
-        @private_api_key_param = "api_key=#{@private_api_key}"
-      end
-
       @v1 = 'v1'
       @v2 = 'v2'
       @metric = 'metric'
@@ -293,7 +288,7 @@ module Klaviyo
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
 
-      url_params = "#{@private_api_key_param}#{query_params}"
+      url_params = "api_key=#{@private_api_key_param}#{query_params}"
       full_path = "#{@v1}/#{path}?#{url_params}"
 
       request(method, full_path)
