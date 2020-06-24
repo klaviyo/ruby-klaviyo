@@ -9,14 +9,14 @@ module Klaviyo
   NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
 
   class Client
-    def initialize(api_key = nil, private_api_key = nil, domain = 'https://a.klaviyo.com/api')
+    def initialize(api_key = nil, private_api_key = nil)
       if !api_key
         KlaviyoError.new('Please provide your Public API key')
       end
 
       @api_key = api_key
       @private_api_key = private_api_key
-      @domain = domain
+      @domain = 'https://a.klaviyo.com/api'
 
       if @private_api_key
         @private_api_key_param = "api_key=#{@private_api_key}"
