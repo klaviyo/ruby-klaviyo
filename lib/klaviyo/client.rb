@@ -2,6 +2,7 @@ require 'open-uri'
 require 'base64'
 require 'json'
 require 'Faraday'
+require 'pry'
 
 module Klaviyo
   class KlaviyoError < StandardError; end
@@ -24,6 +25,7 @@ module Klaviyo
       @timeline = 'timeline'
       @list = 'list'
       @lists = 'lists'
+      @list_name = 'list_name'
       @person = 'person'
       @subscribe = 'subscribe'
       @members = 'members'
@@ -33,7 +35,7 @@ module Klaviyo
 
     end
 
-# METRICS API
+    # METRICS API
     def get_metrics(kwargs = {})
       path = @metrics
       v1_request('GET', path, kwargs)
@@ -49,7 +51,7 @@ module Klaviyo
       v1_request('GET', path, kwargs)
     end
 
-# PROFILES API
+    # PROFILES API
     def get_person_attributes(person_id)
       path = "#{@person}/#{person_id}"
       v1_request('GET', path)
@@ -70,11 +72,11 @@ module Klaviyo
       v1_request('GET', path, kwargs)
     end
 
-# LISTS API
+    # LISTS API
     def create_list(list_name)
       path = "#{@lists}"
       body = {
-        "list_name": list_name
+        @list_name => list_name
       }
       v2_request('POST', path, body)
     end
@@ -92,7 +94,7 @@ module Klaviyo
     def update_list_details(list_id, list_name)
       path = "#{@list}/#{list_id}"
       body = {
-        "list_name": list_name
+        @list_name => list_name
       }
       v2_request('PUT', path, body)
     end
@@ -102,7 +104,7 @@ module Klaviyo
       v2_request('DELETE', path)
     end
 
-# LIST SUBSCRIPTIONS
+    # LIST SUBSCRIPTIONS
     def check_list_subscriptions(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@subscribe}"
       v2_request('GET', path, kwargs)
@@ -113,7 +115,7 @@ module Klaviyo
       v2_request('DELETE', path, kwargs)
     end
 
-# LIST MEMBERSHIPS
+    # LIST MEMBERSHIPS
     def add_to_list(list_id, kwargs = {})
       path = "#{@list}/#{list_id}/#{@members}"
       v2_request('POST', path, kwargs)
@@ -139,7 +141,7 @@ module Klaviyo
       v2_request('GET', path)
     end
 
-# TRACK/IDENTIFY
+    # TRACK/IDENTIFY
 
     def track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
@@ -245,8 +247,10 @@ module Klaviyo
       defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
-      url_params = "api_key=#{@private_api_key_param}#{query_params}"
+      url_params = "api_key=#{@private_api_key}#{query_params}"
+      puts "url_params is #{url_params}"
       full_path = "#{@v1}/#{path}?#{url_params}"
+      puts "full path is #{full_path}"
       request(method, full_path)
     end
 
@@ -281,3 +285,5 @@ module Klaviyo
 
   end
 end
+
+binding.pry
