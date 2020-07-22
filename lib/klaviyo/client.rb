@@ -25,7 +25,6 @@ module Klaviyo
       @timeline = 'timeline'
       @list = 'list'
       @lists = 'lists'
-      @list_name = 'list_name'
       @person = 'person'
       @subscribe = 'subscribe'
       @members = 'members'
@@ -35,11 +34,11 @@ module Klaviyo
 
     end
 
-    # METRICS API
-    def get_metrics(kwargs = {})
-      path = @metrics
-      v1_request('GET', path, kwargs)
-    end
+    #METRICS API
+    #def get_metrics(kwargs = {})
+    #  path = @metrics
+    #  v1_request('GET', path, kwargs)
+    #end
 
     def get_metrics_timeline(kwargs = {})
       path = "#{@metrics}/#{@timeline}"
@@ -76,7 +75,7 @@ module Klaviyo
     def create_list(list_name)
       path = "#{@lists}"
       body = {
-        @list_name => list_name
+        :list_name => list_name
       }
       v2_request('POST', path, body)
     end
@@ -94,7 +93,7 @@ module Klaviyo
     def update_list_details(list_id, list_name)
       path = "#{@list}/#{list_id}"
       body = {
-        @list_name => list_name
+        :list_name => list_name
       }
       v2_request('PUT', path, body)
     end
@@ -200,50 +199,22 @@ module Klaviyo
         url = "#{@domain}/#{path}?#{params}"
         res = Faraday.get(url)
 
-      elsif kwargs[:body]
+      else
         check_private_api_key_exists()
         url = "#{@domain}/#{path}"
-
-        if method == 'GET'
-          data = kwargs[:body].to_json
-          res = Faraday.get(url) do |req|
-            req.body = data
-            req.headers['Content-Type'] = 'application/json'
-          end
-
-        elsif method == 'POST'
-          data = kwargs[:body].to_json
-          res = Faraday.post(url) do |req|
-            req.body = data
-            req.headers['Content-Type'] = 'application/json'
-          end
-
-        elsif method == 'PUT'
-          res = Faraday.put(url) do |req|
-            req.body = data
-            req.headers['Content-Type'] = 'application/json'
-          end
-
-        elsif method == 'DELETE'
-          res = Faraday.delete(url) do |req|
-            req.body = data
-            req.headers['Content-Type'] = 'application/json'
-          end
+        con = Faraday.new(
+            url: url,
+            headers: {
+              'Content-type' => 'application/json'
+        })
+        response = con.send(method.downcase) do |req|
+          req.body = kwargs[:body].to_json || nil
         end
-
-      elsif method == 'GET'
-        url = "#{@domain}/#{path}"
-        res = Faraday.get(url)
-
-      elsif method == 'PUT'
-        url = "#{@domain}/#{path}"
-        res = Faraday.put(url)
-
+        puts response.body
       end
     end
 
     def v1_request(method, path, kwargs = {})
-      check_private_api_key_exists()
       defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
@@ -259,7 +230,9 @@ module Klaviyo
       key = {
         "api_key": "#{@private_api_key}"
       }
+
       data = {}
+
       data[:body] = key.merge(kwargs)
       request(method, path, data)
     end
@@ -282,7 +255,6 @@ module Klaviyo
         return "&#{params}"
       end
     end
-
   end
 end
 
