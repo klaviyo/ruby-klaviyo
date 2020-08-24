@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'base64'
 require 'json'
-require 'Faraday'
+require 'faraday'
 
 require_relative './client'
 require_relative 'apis/identify'
