@@ -1,6 +1,6 @@
 require 'pry'
 
-module Klaivyo
+module Klaviyo
   class Client
     @@domain = 'https://a.klaviyo.com/api'
     @@v1 = 'v1'
