@@ -1,5 +1,3 @@
-require 'pry'
-
 module Klaviyo
   class Client
     @@domain = 'https://a.klaviyo.com/api'
@@ -16,12 +14,12 @@ module Klaviyo
       else
         check_private_api_key_exists()
         url = "#{@@domain}/#{path}"
-        con = Faraday.new(
+        connection = Faraday.new(
           url: url,
           headers: {
             'Content-type' => 'application/json'
         })
-        response = con.send(method.downcase) do |req|
+        response = connection.send(method.downcase) do |req|
           req.body = kwargs[:body].to_json || nil
         end
         puts response.body
