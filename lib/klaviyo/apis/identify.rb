@@ -1,5 +1,10 @@
 module Klaviyo
   class Identify < Client
+    # Used for identifying customers and managing profile properties
+    #
+    # @kwarg :id [String] the customer or profile id
+    # @kwarg :email [String] the customer or profile email
+    # @kwarg :properties [Hash] properties of the profile to add or update
     def self.identify(kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}}
       kwargs = defaults.merge(kwargs)
