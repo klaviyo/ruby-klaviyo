@@ -31,9 +31,7 @@ module Klaviyo
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
       url_params = "api_key=#{Klaviyo.private_api_key}#{query_params}"
-      puts "url_params is #{url_params}"
       full_path = "#{@@v1}/#{path}?#{url_params}"
-      puts "full path is #{full_path}"
       request(method, full_path)
     end
 
