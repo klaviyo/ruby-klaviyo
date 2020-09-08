@@ -1,5 +1,13 @@
 module Klaviyo
   class Track < Client
+    # Used for tracking events and customer behaviors
+    #
+    # @param event [String] the event to track
+    # @kwarg :id [String] the customer or profile id
+    # @kwarg :email [String] the customer or profile email
+    # @kwarg :properties [Hash] properties of the event
+    # @kwargs :customer_properties [Hash] properties of the customer or profile
+    # @kwargs :time [Integer] timestamp of the event
     def self.track(event, kwargs = {})
       defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
       kwargs = defaults.merge(kwargs)
