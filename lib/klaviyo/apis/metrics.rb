@@ -8,7 +8,7 @@ module Klaviyo
       Klaviyo::Client.v1_request('GET', @@metrics, kwargs)
     end
 
-    def self.get_metrics_timeline(kwargs = {})
+    def self.get_metric_timeline(kwargs = {})
       path = "#{@@metrics}/#{@@timeline}"
       Client.v1_request('GET', path, kwargs)
     end
