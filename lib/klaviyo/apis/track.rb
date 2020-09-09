@@ -24,8 +24,7 @@ module Klaviyo
         :token => @api_key,
         :event => event,
         :properties => kwargs[:properties],
-        :customer_properties => customer_properties,
-        :ip => ''
+        :customer_properties => customer_properties
       }
       params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
