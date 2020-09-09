@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.summary     = 'You heard us, a Ruby wrapper for the Klaviyo API'
   s.description = 'Ruby wrapper for the Klaviyo API'
   s.authors     = ['Klaviyo Team']
-  s.email       = 'hello@klaviyo.com'
+  s.email       = 'libraries@klaviyo.com'
   s.files       = files
   s.homepage = 'https://www.klaviyo.com/'
   s.require_path = 'lib'
