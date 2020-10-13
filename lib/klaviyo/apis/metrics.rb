@@ -2,15 +2,6 @@ require 'date'
 
 module Klaviyo
   class Metrics < Client
-    METRIC = 'metric'
-    METRICS = 'metrics'
-    TIMELINE = 'timeline'
-    EXPORT = 'export'
-
-    DEFAULT_PAGE = 0
-    DEFAULT_COUNT = 100
-    DEFAULT_SORT = 'desc'
-
     # Returns a list of all metrics in Klaviyo
     # @param page [Integer] which page to return, default 0
     # @param count [Integer] number of results to return, default 100
@@ -20,7 +11,7 @@ module Klaviyo
         :page => page,
         :count => count
       }
-      Klaviyo::Client.v1_request('GET', metrics, params)
+      Klaviyo::Client.v1_request(HTTP_GET, metrics, params)
     end
 
     # Returns a batched timeline of all events in your Klaviyo account.
@@ -35,7 +26,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      Client.v1_request('GET', path, params)
+      Client.v1_request(HTTP_GET, path, params)
     end
 
     # Returns a batched timeline for one specific type of metric.
@@ -50,7 +41,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      Client.v1_request('GET', path, params)
+      Client.v1_request(HTTP_GET, path, params)
     end
 
     # Export event data, optionally filtering and segmented on available event properties
@@ -80,7 +71,7 @@ module Klaviyo
         :by => by,
         :count => count
       }
-      Client.v1_request('GET', path, params)
+      Client.v1_request(HTTP_GET, path, params)
     end
   end
 end
