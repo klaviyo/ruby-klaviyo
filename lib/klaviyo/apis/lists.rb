@@ -1,30 +1,22 @@
 
 module Klaviyo
   class Lists < Client
-    ALL = 'all'
-    EXCLUSIONS = 'exclusions'
-    GROUP = 'group'
-    LIST = 'list'
-    LISTS = 'lists'
-    MEMBERS = 'members'
-    SUBSCRIBE = 'subscribe'
-
     # Creates a new list
     # @param list_name [String] the list name
     # @return will return with HTTP OK on success
     def self.create_list(list_name)
-      path = "#{LISTS}"
+      path = LISTS
       body = {
         :list_name => list_name
       }
-      v2_request('POST', path, body)
+      v2_request(HTTP_POST, path, body)
     end
 
     # Retrieves all the lists in the Klaviyo account
     # @return [List] a list of JSON objects of the name and id for each list
     def self.get_lists()
-      path = "#{LISTS}"
-      v2_request('GET', path)
+      path = LISTS
+      v2_request(HTTP_GET, path)
     end
 
     # Retrieves the details of the list
@@ -32,7 +24,7 @@ module Klaviyo
     # @return [JSON] a JSON object containing information about the list
     def self.get_list_details(list_id)
       path = "#{LIST}/#{list_id}"
-      v2_request('GET', path)
+      v2_request(HTTP_GET, path)
     end
 
     # Updates the properties of a list
@@ -44,7 +36,7 @@ module Klaviyo
       body = {
         :list_name => list_name
       }
-      v2_request('PUT', path, body)
+      v2_request(HTTP_PUT, path, body)
     end
 
     # Deletes a list
@@ -52,7 +44,7 @@ module Klaviyo
     # @return will return with HTTP OK on success
     def self.delete_list(list_id)
       path = "#{LIST}/#{list_id}"
-      v2_request('DELETE', path)
+      v2_request(HTTP_DELETE, path)
     end
 
     # Check if profiles are in a list and not supressed
@@ -64,7 +56,7 @@ module Klaviyo
     #   supressed or not found are not included.
     def self.check_list_subscriptions(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
-      v2_request('GET', path, kwargs)
+      v2_request(HTTP_GET, path, kwargs)
     end
 
     # Unsubscribe and remove profiles from a list
@@ -73,7 +65,7 @@ module Klaviyo
     # @return will return with HTTP OK on success
     def self.unsubscribe_from_list(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
-      v2_request('DELETE', path, kwargs)
+      v2_request(HTTP_DELETE, path, kwargs)
     end
 
     # Add profiles to a list
@@ -84,7 +76,7 @@ module Klaviyo
     #   corresponding profile id
     def self.add_to_list(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request('POST', path, kwargs)
+      v2_request(HTTP_POST, path, kwargs)
     end
 
     # Check if profiles are on a list
@@ -96,7 +88,7 @@ module Klaviyo
     #   supressed or not found are not included.
     def self.check_list_memberships(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request('GET', path, kwargs)
+      v2_request(HTTP_GET, path, kwargs)
     end
 
     # Remove profiles from a list
@@ -107,7 +99,7 @@ module Klaviyo
     # @return will return with HTTP OK on success
     def self.remove_from_list(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request('DELETE', path, kwargs)
+      v2_request(HTTP_DELETE, path, kwargs)
     end
 
     # Get all emails, phone numbers, along with reasons for list exclusion
@@ -116,7 +108,7 @@ module Klaviyo
     # @return [List] A list of JSON object for each profile with the reason for exclusion
     def self.get_list_exclusions(list_id, kwargs = {})
       path = "#{LIST}/#{list_id}/#{EXCLUSIONS}/#{ALL}"
-      v2_request('GET', path, kwargs)
+      v2_request(HTTP_GET, path, kwargs)
     end
 
     # Get all of the emails, phone numbers, and push tokens for profiles in a given list or segment
@@ -125,7 +117,7 @@ module Klaviyo
     # @return [List] A list of JSON objects for each profile with the id, email, phone number, and push token
     def self.get_group_members(list_id)
       path = "#{GROUP}/#{list_id}/#{MEMBERS}/#{ALL}"
-      v2_request('GET', path)
+      v2_request(HTTP_GET, path)
     end
   end
 end
