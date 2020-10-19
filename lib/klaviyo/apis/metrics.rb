@@ -30,6 +30,7 @@ module Klaviyo
     end
 
     # Returns a batched timeline for one specific type of metric.
+    # @param metric_id [String] the id of the metric
     # @param since [Integer or String] either a Unix timestamp or the UUID from a previous request.  Default is the current time.
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
@@ -45,6 +46,7 @@ module Klaviyo
     end
 
     # Export event data, optionally filtering and segmented on available event properties
+    # @param metric_id [String] the id of the metric
     # @param start_date [String] Beginning of the timeframe to pull event data for.  Default is 1 month ago
     # @param end_date [String] End of the timeframe to pull event data for.  Default is the current day
     # @param unit [String] Granularity to bucket data points into - one of ‘day’, ‘week’, or ‘month’. Defaults to ‘day’.
@@ -52,6 +54,7 @@ module Klaviyo
     # @param where [JSON-encoded list] Conditions to use to filter the set of events. A max of 1 condition can be given.
     # @param by [String] The name of a property to segment the event data on. Where and by parameters cannot be specified at the same time.
     # @param count [Integer] Maximum number of segments to return. The default value is 25.
+    # @return A dictionary relecting the input request parameters as well as a results property
     def self.get_metric_export(metric_id,
                                start_date = Date.today.prev_month.to_s,
                                end_date = Time.now.to_s.split(' ')[0],
