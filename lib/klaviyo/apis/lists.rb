@@ -54,18 +54,26 @@ module Klaviyo
     # @param :push_tokens [List] push tokens of the profiles to check
     # @return A list of JSON objects of the profiles. Profiles that are
     #   supressed or not found are not included.
-    def self.check_list_subscriptions(list_id, kwargs = {})
+    def self.check_list_subscriptions(list_id, emails = [], phone_numbers = [], push_tokens = [])
       path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
-      v2_request(HTTP_GET, path, kwargs)
+      params = {
+        "emails": emails,
+        "phone_numbers": phone_numbers,
+        "push_tokens": push_tokens
+      }
+      v2_request(HTTP_GET, path, params)
     end
 
     # Unsubscribe and remove profiles from a list
     # @param list_id [String] the id of the list
     # @param :emails [List] the emails of the profiles to check
     # @return will return with HTTP OK on success
-    def self.unsubscribe_from_list(list_id, kwargs = {})
+    def self.unsubscribe_from_list(list_id, emails = [])
       path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
-      v2_request(HTTP_DELETE, path, kwargs)
+      params = {
+        "emails": emails
+      }
+      v2_request(HTTP_DELETE, path, params)
     end
 
     # Add profiles to a list
@@ -74,9 +82,12 @@ module Klaviyo
     #   that will be added to the list
     # @return will return with HTTP OK on success and a list of records of the
     #   corresponding profile id
-    def self.add_to_list(list_id, kwargs = {})
+    def self.add_to_list(list_id, profiles = [])
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request(HTTP_POST, path, kwargs)
+      params = {
+        "profiles": profiles
+      }
+      v2_request(HTTP_POST, path, params)
     end
 
     # Check if profiles are on a list
@@ -86,9 +97,14 @@ module Klaviyo
     # @param :push_tokens [List] push tokens of the profiles to check
     # @return A list of JSON objects of the profiles. Profiles that are
     #   supressed or not found are not included.
-    def self.check_list_memberships(list_id, kwargs = {})
+    def self.check_list_memberships(list_id, emails = [], phone_numbers = [], push_tokens = [])
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request(HTTP_GET, path, kwargs)
+      params = {
+        "emails": emails,
+        "phone_numbers": phone_numbers,
+        "push_tokens": push_tokens
+      }
+      v2_request(HTTP_GET, path, params)
     end
 
     # Remove profiles from a list
@@ -97,18 +113,26 @@ module Klaviyo
     # @param :phone_numbers [List] the phone numbers of the profiles to check
     # @param :push_tokens [List] push tokens of the profiles to check
     # @return will return with HTTP OK on success
-    def self.remove_from_list(list_id, kwargs = {})
+    def self.remove_from_list(list_id, emails = [], phone_numbers = [], push_tokens = [])
       path = "#{LIST}/#{list_id}/#{MEMBERS}"
-      v2_request(HTTP_DELETE, path, kwargs)
+      params = {
+        "emails": emails,
+        "phone_numbers": phone_numbers,
+        "push_tokens": push_tokens
+      }
+      v2_request(HTTP_DELETE, path, params)
     end
 
     # Get all emails, phone numbers, along with reasons for list exclusion
     # @param list_id [String] the id of the list
     # @param marker [Integer] a marker from a previous call to get the next batch
     # @return [List] A list of JSON object for each profile with the reason for exclusion
-    def self.get_list_exclusions(list_id, kwargs = {})
+    def self.get_list_exclusions(list_id, marker = nil)
       path = "#{LIST}/#{list_id}/#{EXCLUSIONS}/#{ALL}"
-      v2_request(HTTP_GET, path, kwargs)
+      params = {
+        "marker": marker
+      }
+      v2_request(HTTP_GET, path, params)
     end
 
     # Get all of the emails, phone numbers, and push tokens for profiles in a given list or segment
