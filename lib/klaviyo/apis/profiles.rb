@@ -5,7 +5,7 @@ module Klaviyo
     # @return returns a person object
     def self.get_person_attributes(person_id)
       path = "#{PERSON}/#{person_id}"
-      v1_request('GET', path)
+      v1_request(HTTP_GET, path)
     end
 
     # Add or update one more more attributes for a Person
