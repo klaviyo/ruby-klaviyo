@@ -21,6 +21,6 @@ class Identify < Client
       :properties => properties
     }
 
-    request('GET', 'identify', params)
+    Client.request('GET', 'identify', params)
   end
 end

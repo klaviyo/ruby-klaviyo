@@ -27,7 +27,7 @@ class Track < Client
     }
     params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
-    request('GET', 'track', params)
+    Client.request('GET', 'track', params)
   end
 
   def self.track_once(event, opts = {})

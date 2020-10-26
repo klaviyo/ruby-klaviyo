@@ -7,14 +7,14 @@ class Lists < Client
     body = {
       :list_name => list_name
     }
-    v2_request(HTTP_POST, path, body)
+    Client.v2_request(HTTP_POST, path, body)
   end
 
   # Retrieves all the lists in the Klaviyo account
   # @return [List] a list of JSON objects of the name and id for each list
   def self.get_lists()
     path = LISTS
-    v2_request(HTTP_GET, path)
+    Client.v2_request(HTTP_GET, path)
   end
 
   # Retrieves the details of the list
@@ -22,7 +22,7 @@ class Lists < Client
   # @return [JSON] a JSON object containing information about the list
   def self.get_list_details(list_id)
     path = "#{LIST}/#{list_id}"
-    v2_request(HTTP_GET, path)
+    Client.v2_request(HTTP_GET, path)
   end
 
   # Updates the properties of a list
@@ -34,7 +34,7 @@ class Lists < Client
     body = {
       :list_name => list_name
     }
-    v2_request(HTTP_PUT, path, body)
+    Client.v2_request(HTTP_PUT, path, body)
   end
 
   # Deletes a list
@@ -42,7 +42,7 @@ class Lists < Client
   # @return will return with HTTP OK on success
   def self.delete_list(list_id)
     path = "#{LIST}/#{list_id}"
-    v2_request(HTTP_DELETE, path)
+    Client.v2_request(HTTP_DELETE, path)
   end
 
   # Check if profiles are in a list and not supressed
@@ -59,7 +59,7 @@ class Lists < Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    v2_request(HTTP_GET, path, params)
+    Client.v2_request(HTTP_GET, path, params)
   end
 
   # Unsubscribe and remove profiles from a list
@@ -71,7 +71,7 @@ class Lists < Client
     params = {
       "emails": emails
     }
-    v2_request(HTTP_DELETE, path, params)
+    Client.v2_request(HTTP_DELETE, path, params)
   end
 
   # Add profiles to a list
@@ -85,7 +85,7 @@ class Lists < Client
     params = {
       "profiles": profiles
     }
-    v2_request(HTTP_POST, path, params)
+    Client.v2_request(HTTP_POST, path, params)
   end
 
   # Check if profiles are on a list
@@ -102,7 +102,7 @@ class Lists < Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    v2_request(HTTP_GET, path, params)
+    Client.v2_request(HTTP_GET, path, params)
   end
 
   # Remove profiles from a list
@@ -118,7 +118,7 @@ class Lists < Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    v2_request(HTTP_DELETE, path, params)
+    Client.v2_request(HTTP_DELETE, path, params)
   end
 
   # Get all emails, phone numbers, along with reasons for list exclusion
@@ -130,7 +130,7 @@ class Lists < Client
     params = {
       "marker": marker
     }
-    v2_request(HTTP_GET, path, params)
+    Client.v2_request(HTTP_GET, path, params)
   end
 
   # Get all of the emails, phone numbers, and push tokens for profiles in a given list or segment
@@ -139,6 +139,6 @@ class Lists < Client
   # @return [List] A list of JSON objects for each profile with the id, email, phone number, and push token
   def self.get_group_members(list_id)
     path = "#{GROUP}/#{list_id}/#{MEMBERS}/#{ALL}"
-    v2_request(HTTP_GET, path)
+    Client.v2_request(HTTP_GET, path)
   end
 end

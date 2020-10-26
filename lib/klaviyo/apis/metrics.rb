@@ -10,7 +10,7 @@ class Metrics < Client
       :page => page,
       :count => count
     }
-    Klaviyo::Client.v1_request(HTTP_GET, metrics, params)
+    Client.v1_request(HTTP_GET, metrics, params)
   end
 
   # Returns a batched timeline of all events in your Klaviyo account.
