@@ -43,6 +43,7 @@ module Klaviyo
     end
 
     def self.public_request(method, path, kwargs = {})
+      check_public_api_key_exists()
       params = build_params(kwargs)
       url = "#{DOMAIN}/#{path}?#{params}"
       res = Faraday.get(url)
@@ -74,6 +75,12 @@ module Klaviyo
     def self.check_private_api_key_exists()
       if !Klaviyo.private_api_key
         raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
+      end
+    end
+
+    def self.check_public_api_key_exists()
+      if !Klaviyo.api_key
+        raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
       end
     end
 
