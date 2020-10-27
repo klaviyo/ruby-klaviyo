@@ -27,7 +27,7 @@ class Track < Klaviyo::Client
     }
     params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
-    request('GET', 'track', params)
+    public_request(HTTP_GET, 'track', params)
   end
 
   def self.track_once(event, opts = {})
