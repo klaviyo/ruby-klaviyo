@@ -18,5 +18,6 @@ module Klaviyo
 
   class KlaviyoError < StandardError; end
 
-  NO_PRIVATE_API_KEY_ERROR = 'Please provide Private API key for this request'
+  NO_PRIVATE_API_KEY_ERROR = 'Please provide your Private API key for this request'
+  NO_PUBLIC_API_KEY_ERROR = 'Please provide your Public API key for this request'
 end
