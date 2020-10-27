@@ -21,7 +21,6 @@ module Klaviyo
     PERSON = 'person'
     SUBSCRIBE = 'subscribe'
     TIMELINE = 'timeline'
-    TIMELINE = 'timeline'
 
     DEFAULT_COUNT = 100
     DEFAULT_PAGE = 0
@@ -61,7 +60,7 @@ module Klaviyo
     def self.v2_request(method, path, kwargs = {})
       path = "#{V2}/#{path}"
       key = {
-        "api_key": "#{@@private_api_key}"
+        "api_key": "#{Klaviyo.private_api_key}"
       }
       data = {}
       data[:body] = key.merge(kwargs)
