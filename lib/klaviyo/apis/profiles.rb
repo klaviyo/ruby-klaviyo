@@ -1,10 +1,10 @@
-class Profiles < Client
+class Profiles < Klaviyo::Client
   # Retrieve all the data attributes for a Klaviyo Person ID.
   # @param person_id [String] the id of the profile
   # @return returns a person object
   def self.get_person_attributes(person_id)
     path = "#{PERSON}/#{person_id}"
-    Client.v1_request(HTTP_GET, path)
+    v1_request(HTTP_GET, path)
   end
 
   # Add or update one more more attributes for a Person
@@ -13,7 +13,7 @@ class Profiles < Client
   # @return returns the updated person object
   def self.update_person_attributes(person_id, kwargs = {})
     path = "#{PERSON}/#{person_id}"
-    Client.v1_request(HTTP_PUT, path, kwargs)
+    v1_request(HTTP_PUT, path, kwargs)
   end
 
   # Listing a person's event timeline
@@ -22,14 +22,15 @@ class Profiles < Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return returns a dictionary containing a list of metric event objects
-  def self.get_person_metrics_timeline(person_id, since = Time.now.to_i, count = DEFAULT_COUNT, sort = 'desc')
-    path = "#{PERSON}/#{person_id}/#{METRICS}/#{timeline}"
+  def self.get_person_metrics_timeline(person_id, since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT)
+    path = "#{PERSON}/#{person_id}/#{METRICS}/#{TIMELINE}"
     params = {
       :since => since,
       :count => count,
       :sort => sort
     }
-    Client.v1_request(HTTP_GET, path, params)
+    puts params
+    v1_request(HTTP_GET, path, params)
   end
 
   # Listing a person's event timeline for a particular metric
@@ -46,6 +47,6 @@ class Profiles < Client
       :count => count,
       :sort => sort
     }
-    Client.v1_request(HTTP_GET, path, params)
+    v1_request(HTTP_GET, path, params)
   end
 end
