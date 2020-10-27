@@ -21,6 +21,6 @@ class Identify < Klaviyo::Client
       :properties => properties
     }
 
-    Client.request('GET', 'identify', params)
+    public_request(HTTP_GET, 'identify', params)
   end
 end
