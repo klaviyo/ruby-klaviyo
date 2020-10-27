@@ -1,4 +1,4 @@
-class Track < Client
+class Track < Klaviyo::Client
   # Used for tracking events and customer behaviors
   #
   # @param event [String] the event to track
@@ -20,14 +20,14 @@ class Track < Client
     customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
     params = {
-      :token => @api_key,
+      :token => "#{Klaviyo.api_key}",
       :event => event,
       :properties => kwargs[:properties],
       :customer_properties => customer_properties
     }
     params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
 
-    Client.request('GET', 'track', params)
+    request('GET', 'track', params)
   end
 
   def self.track_once(event, opts = {})
