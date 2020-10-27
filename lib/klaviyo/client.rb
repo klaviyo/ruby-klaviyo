@@ -29,23 +29,23 @@ module Klaviyo
     private
 
     def self.request(method, path, kwargs = {})
-      if path == 'track' || path == 'identify'
-        params = build_params(kwargs)
-        url = "#{DOMAIN}/#{path}?#{params}"
-        res = Faraday.get(url)
-      else
-        check_private_api_key_exists()
-        url = "#{DOMAIN}/#{path}"
-        connection = Faraday.new(
-          url: url,
-          headers: {
-            'Content-type' => 'application/json'
-        })
-        response = connection.send(method.downcase) do |req|
-          req.body = kwargs[:body].to_json || nil
-        end
-        puts response.body
+      check_private_api_key_exists()
+      url = "#{DOMAIN}/#{path}"
+      connection = Faraday.new(
+        url: url,
+        headers: {
+          'Content-type' => 'application/json'
+      })
+      response = connection.send(method.downcase) do |req|
+        req.body = kwargs[:body].to_json || nil
       end
+      puts response.body
+    end
+
+    def self.public_request(method, path, kwargs = {})
+      params = build_params(kwargs)
+      url = "#{DOMAIN}/#{path}?#{params}"
+      res = Faraday.get(url)
     end
 
     def self.v1_request(method, path, kwargs = {})
