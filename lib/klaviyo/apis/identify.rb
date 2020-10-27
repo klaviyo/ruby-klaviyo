@@ -1,4 +1,4 @@
-class Identify < Client
+class Identify < Klaviyo::Client
   # Used for identifying customers and managing profile properties
   #
   # @kwarg :id [String] the customer or profile id
@@ -17,7 +17,7 @@ class Identify < Client
     properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
     params = {
-      :token => @api_key,
+      :token => Klaviyo.api_key,
       :properties => properties
     }
 
