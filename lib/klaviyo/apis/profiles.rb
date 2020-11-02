@@ -29,7 +29,6 @@ class Profiles < Klaviyo::Client
       :count => count,
       :sort => sort
     }
-    puts params
     v1_request(HTTP_GET, path, params)
   end
 
