@@ -12,7 +12,7 @@ require_relative 'apis/track'
 
 module Klaviyo
   class << self
-    attr_accessor :api_key
+    attr_accessor :public_api_key
     attr_accessor :private_api_key
   end
 
