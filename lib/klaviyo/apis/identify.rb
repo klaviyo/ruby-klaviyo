@@ -9,7 +9,7 @@ class Identify < Klaviyo::Client
     kwargs = defaults.merge(kwargs)
 
     if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-      raise KlaviyoError.new('You must identify a user by email or ID')
+      raise Klaviyo::KlaviyoError.new('You must identify a user by email or ID')
     end
 
     properties = kwargs[:properties]
@@ -17,7 +17,7 @@ class Identify < Klaviyo::Client
     properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
     params = {
-      :token => Klaviyo.api_key,
+      :token => Klaviyo.public_api_key,
       :properties => properties
     }
 

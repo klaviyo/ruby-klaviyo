@@ -20,7 +20,7 @@ class Track < Klaviyo::Client
     customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
     params = {
-      :token => Klaviyo.api_key,
+      :token => Klaviyo.public_api_key,
       :event => event,
       :properties => kwargs[:properties],
       :customer_properties => customer_properties
