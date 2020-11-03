@@ -10,7 +10,7 @@ class Metrics < Klaviyo::Client
       :page => page,
       :count => count
     }
-    V1_API_request(HTTP_GET, METRICS, params)
+    v1_request(HTTP_GET, METRICS, params)
   end
 
   # Returns a batched timeline of all events in your Klaviyo account.
@@ -25,7 +25,7 @@ class Metrics < Klaviyo::Client
       :count => count,
       :sort => sort
     }
-    V1_API_request(HTTP_GET, path, params)
+    v1_request(HTTP_GET, path, params)
   end
 
   # Returns a batched timeline for one specific type of metric.
@@ -41,7 +41,7 @@ class Metrics < Klaviyo::Client
       :count => count,
       :sort => sort
     }
-    V1_API_request(HTTP_GET, path, params)
+    v1_request(HTTP_GET, path, params)
   end
 
   # Export event data, optionally filtering and segmented on available event properties
@@ -73,6 +73,6 @@ class Metrics < Klaviyo::Client
       :by => by,
       :count => count
     }
-    V1_API_request(HTTP_GET, path, params)
+    v1_request(HTTP_GET, path, params)
   end
 end

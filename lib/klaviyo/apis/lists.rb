@@ -6,13 +6,13 @@ class Lists < Klaviyo::Client
     body = {
       :list_name => list_name
     }
-    V2_API_request(HTTP_POST, LISTS, body)
+    v2_request(HTTP_POST, LISTS, body)
   end
 
   # Retrieves all the lists in the Klaviyo account
   # @return [List] a list of JSON objects of the name and id for each list
   def self.get_lists()
-    V2_API_request(HTTP_GET, LISTS)
+    v2_request(HTTP_GET, LISTS)
   end
 
   # Retrieves the details of the list
@@ -20,7 +20,7 @@ class Lists < Klaviyo::Client
   # @return [JSON] a JSON object containing information about the list
   def self.get_list_details(list_id)
     path = "#{LIST}/#{list_id}"
-    V2_API_request(HTTP_GET, path)
+    v2_request(HTTP_GET, path)
   end
 
   # Updates the properties of a list
@@ -32,7 +32,7 @@ class Lists < Klaviyo::Client
     body = {
       :list_name => list_name
     }
-    V2_API_request(HTTP_PUT, path, body)
+    v2_request(HTTP_PUT, path, body)
   end
 
   # Deletes a list
@@ -40,7 +40,7 @@ class Lists < Klaviyo::Client
   # @return will return with HTTP OK on success
   def self.delete_list(list_id)
     path = "#{LIST}/#{list_id}"
-    V2_API_request(HTTP_DELETE, path)
+    v2_request(HTTP_DELETE, path)
   end
 
   # Check if profiles are in a list and not supressed
@@ -57,7 +57,7 @@ class Lists < Klaviyo::Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    V2_API_request(HTTP_GET, path, params)
+    v2_request(HTTP_GET, path, params)
   end
 
   # Unsubscribe and remove profiles from a list
@@ -69,7 +69,7 @@ class Lists < Klaviyo::Client
     params = {
       "emails": emails
     }
-    V2_API_request(HTTP_DELETE, path, params)
+    v2_request(HTTP_DELETE, path, params)
   end
 
   # Add profiles to a list
@@ -83,7 +83,7 @@ class Lists < Klaviyo::Client
     params = {
       "profiles": profiles
     }
-    V2_API_request(HTTP_POST, path, params)
+    v2_request(HTTP_POST, path, params)
   end
 
   # Check if profiles are on a list
@@ -100,7 +100,7 @@ class Lists < Klaviyo::Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    V2_API_request(HTTP_GET, path, params)
+    v2_request(HTTP_GET, path, params)
   end
 
   # Remove profiles from a list
@@ -116,7 +116,7 @@ class Lists < Klaviyo::Client
       "phone_numbers": phone_numbers,
       "push_tokens": push_tokens
     }
-    V2_API_request(HTTP_DELETE, path, params)
+    v2_request(HTTP_DELETE, path, params)
   end
 
   # Get all emails, phone numbers, along with reasons for list exclusion
@@ -128,7 +128,7 @@ class Lists < Klaviyo::Client
     params = {
       "marker": marker
     }
-    V2_API_request(HTTP_GET, path, params)
+    v2_request(HTTP_GET, path, params)
   end
 
   # Get all of the emails, phone numbers, and push tokens for profiles in a given list or segment
@@ -137,6 +137,6 @@ class Lists < Klaviyo::Client
   # @return [List] A list of JSON objects for each profile with the id, email, phone number, and push token
   def self.get_group_members(list_id)
     path = "#{GROUP}/#{list_id}/#{MEMBERS}/#{ALL}"
-    V2_API_request(HTTP_GET, path)
+    v2_request(HTTP_GET, path)
   end
 end

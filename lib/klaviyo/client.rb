@@ -49,7 +49,7 @@ module Klaviyo
       res = Faraday.get(url).body
     end
 
-    def self.V1_API_request(method, path, kwargs = {})
+    def self.v1_request(method, path, kwargs = {})
       defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
@@ -58,7 +58,7 @@ module Klaviyo
       request(method, full_path)
     end
 
-    def self.V2_API_request(method, path, kwargs = {})
+    def self.v2_request(method, path, kwargs = {})
       path = "#{V2_API}/#{path}"
       key = {
         "api_key": "#{Klaviyo.private_api_key}"
