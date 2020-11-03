@@ -8,7 +8,12 @@ class Track < Klaviyo::Client
   # @kwargs :customer_properties [Hash] properties of the customer or profile
   # @kwargs :time [Integer] timestamp of the event
   def self.track(event, kwargs = {})
-    defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
+    defaults = {:id => nil,
+                :email => nil,
+                :properties => {},
+                :customer_properties => {},
+                :time => nil
+               }
     kwargs = defaults.merge(kwargs)
 
     if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
