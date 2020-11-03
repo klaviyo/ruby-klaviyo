@@ -1,8 +1,8 @@
 module Klaviyo
   class Client
-    DOMAIN = 'https://a.klaviyo.com/api'
-    V1 = 'v1'
-    V2 = 'v2'
+    BASE_API_URL = 'https://a.klaviyo.com/api'
+    V1_API = 'V1_API'
+    V2_API = 'V2_API'
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
@@ -30,7 +30,7 @@ module Klaviyo
 
     def self.request(method, path, kwargs = {})
       check_private_api_key_exists()
-      url = "#{DOMAIN}/#{path}"
+      url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
         url: url,
         headers: {
@@ -45,21 +45,21 @@ module Klaviyo
     def self.public_request(method, path, kwargs = {})
       check_public_api_key_exists()
       params = build_params(kwargs)
-      url = "#{DOMAIN}/#{path}?#{params}"
+      url = "#{BASE_API_URL}/#{path}?#{params}"
       res = Faraday.get(url).body
     end
 
-    def self.v1_request(method, path, kwargs = {})
+    def self.V1_API_request(method, path, kwargs = {})
       defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
       url_params = "api_key=#{Klaviyo.private_api_key}#{query_params}"
-      full_path = "#{V1}/#{path}?#{url_params}"
+      full_path = "#{V1_API}/#{path}?#{url_params}"
       request(method, full_path)
     end
 
-    def self.v2_request(method, path, kwargs = {})
-      path = "#{V2}/#{path}"
+    def self.V2_API_request(method, path, kwargs = {})
+      path = "#{V2_API}/#{path}"
       key = {
         "api_key": "#{Klaviyo.private_api_key}"
       }

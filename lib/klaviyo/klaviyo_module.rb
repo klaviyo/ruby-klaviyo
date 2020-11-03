@@ -2,6 +2,7 @@ require 'open-uri'
 require 'base64'
 require 'json'
 require 'faraday'
+require 'pry'
 
 require_relative './client'
 require_relative 'apis/identify'
@@ -21,3 +22,5 @@ module Klaviyo
   NO_PRIVATE_API_KEY_ERROR = 'Please provide your Private API key for this request'
   NO_PUBLIC_API_KEY_ERROR = 'Please provide your Public API key for this request'
 end
+
+binding.pry

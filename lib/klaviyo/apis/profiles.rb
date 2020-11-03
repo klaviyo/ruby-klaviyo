@@ -4,7 +4,7 @@ class Profiles < Klaviyo::Client
   # @return returns a person object
   def self.get_person_attributes(person_id)
     path = "#{PERSON}/#{person_id}"
-    v1_request(HTTP_GET, path)
+    V1_API_request(HTTP_GET, path)
   end
 
   # Add or update one more more attributes for a Person
@@ -13,7 +13,7 @@ class Profiles < Klaviyo::Client
   # @return returns the updated person object
   def self.update_person_attributes(person_id, kwargs = {})
     path = "#{PERSON}/#{person_id}"
-    v1_request(HTTP_PUT, path, kwargs)
+    V1_API_request(HTTP_PUT, path, kwargs)
   end
 
   # Listing a person's event timeline
@@ -29,7 +29,7 @@ class Profiles < Klaviyo::Client
       :count => count,
       :sort => sort
     }
-    v1_request(HTTP_GET, path, params)
+    V1_API_request(HTTP_GET, path, params)
   end
 
   # Listing a person's event timeline for a particular metric
@@ -46,6 +46,6 @@ class Profiles < Klaviyo::Client
       :count => count,
       :sort => sort
     }
-    v1_request(HTTP_GET, path, params)
+    V1_API_request(HTTP_GET, path, params)
   end
 end
