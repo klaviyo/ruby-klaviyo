@@ -34,7 +34,7 @@ module Klaviyo
       connection = Faraday.new(
         url: url,
         headers: {
-          'Content-type' => 'application/json'
+          'Content-Type' => 'application/json'
       })
       response = connection.send(method.downcase) do |req|
         req.body = kwargs[:body].to_json || nil
