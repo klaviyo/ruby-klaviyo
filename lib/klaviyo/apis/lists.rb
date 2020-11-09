@@ -60,6 +60,21 @@ class Lists < Klaviyo::Client
     v2_request(HTTP_GET, path, params)
   end
 
+  # Subscribe profiles to a list.
+  # @param list_id [String] the id of the list
+  # @param profiles [List] a list of JSON objects.  Each object requires either
+  #   an email or phone number key.
+  # @return will retun HTTP OK on success. If the list is single opt-in then a
+  #   list of records containing the email address, phone number, push token,
+  #   and the corresponding profile ID will also be included.
+  def self.add_subscribers_to_list(list_id, profiles = [])
+    path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
+    params = {
+      "profiles": profiles
+    }
+    v2_request(HTTP_POST, path, params)
+  end
+
   # Unsubscribe and remove profiles from a list
   # @param list_id [String] the id of the list
   # @param :emails [List] the emails of the profiles to check
