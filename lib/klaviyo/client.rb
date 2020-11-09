@@ -24,7 +24,7 @@ module Klaviyo
 
     DEFAULT_COUNT = 100
     DEFAULT_PAGE = 0
-    DEFAULT_SORT = 'desc'
+    DEFAULT_SORT_DESC = 'desc'
 
     private
 

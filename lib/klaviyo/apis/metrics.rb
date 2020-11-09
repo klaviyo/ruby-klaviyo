@@ -18,7 +18,7 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return a dictionary with a data property that contains an array of the metrics
-  def self.get_metrics_timeline(since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT)
+  def self.get_metrics_timeline(since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT_DESC)
     path = "#{METRICS}/#{TIMELINE}"
     params = {
       :since => since,
@@ -34,7 +34,7 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return a dictionary with a data property that contains information about what metric the event tracks
-  def self.get_metric_timeline(metric_id, since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT)
+  def self.get_metric_timeline(metric_id, since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT_DESC)
     path = "#{METRIC}/#{metric_id}/#{TIMELINE}"
     params = {
       :since => since,
