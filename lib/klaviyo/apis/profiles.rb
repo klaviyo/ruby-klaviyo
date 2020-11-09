@@ -39,7 +39,7 @@ class Profiles < Klaviyo::Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return returns a dictionary containing a list of metric event objects
-  def self.get_person_metric_timeline(person_id, metric_id, since = nil, count = DEFAULT_COUNT, sort = 'desc')
+  def self.get_person_metric_timeline(person_id, metric_id, since = nil, count = DEFAULT_COUNT, sort = DEFAULT_SORT_DESC)
     path = "#{PERSON}/#{person_id}/#{METRIC}/#{metric_id}/#{TIMELINE}"
     params = {
       :since => since,
