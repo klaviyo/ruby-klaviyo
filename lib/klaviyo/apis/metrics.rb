@@ -55,13 +55,13 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] Maximum number of segments to return. The default value is 25.
   # @return A dictionary relecting the input request parameters as well as a results property
   def self.get_metric_export(metric_id,
-                             start_date = Date.today.prev_month.to_s,
-                             end_date = Time.now.to_s.split(' ')[0],
-                             unit = 'day',
-                             measurement = 'count',
+                             start_date = nil,
+                             end_date = nil,
+                             unit = nil,
+                             measurement = nil,
                              where = nil,
                              by = nil,
-                             count = 25
+                             count = nil
                              )
     path = "#{METRIC}/#{metric_id}/#{EXPORT}"
     params = {
