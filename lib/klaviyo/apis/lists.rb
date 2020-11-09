@@ -53,9 +53,9 @@ class Lists < Klaviyo::Client
   def self.check_list_subscriptions(list_id, emails = [], phone_numbers = [], push_tokens = [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
-      "emails": emails,
-      "phone_numbers": phone_numbers,
-      "push_tokens": push_tokens
+      :emails => emails,
+      :phone_numbers => phone_numbers,
+      :push_tokens => push_tokens
     }
     v2_request(HTTP_GET, path, params)
   end
@@ -70,7 +70,7 @@ class Lists < Klaviyo::Client
   def self.add_subscribers_to_list(list_id, profiles = [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
-      "profiles": profiles
+      :profiles => profiles
     }
     v2_request(HTTP_POST, path, params)
   end
@@ -82,7 +82,7 @@ class Lists < Klaviyo::Client
   def self.unsubscribe_from_list(list_id, emails = [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
-      "emails": emails
+      :emails => emails
     }
     v2_request(HTTP_DELETE, path, params)
   end
@@ -96,7 +96,7 @@ class Lists < Klaviyo::Client
   def self.add_to_list(list_id, profiles = [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
-      "profiles": profiles
+      :profiles => profiles
     }
     v2_request(HTTP_POST, path, params)
   end
@@ -111,9 +111,9 @@ class Lists < Klaviyo::Client
   def self.check_list_memberships(list_id, emails = [], phone_numbers = [], push_tokens = [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
-      "emails": emails,
-      "phone_numbers": phone_numbers,
-      "push_tokens": push_tokens
+      :emails => emails,
+      :phone_numbers => phone_numbers,
+      :push_tokens => push_tokens
     }
     v2_request(HTTP_GET, path, params)
   end
@@ -127,9 +127,9 @@ class Lists < Klaviyo::Client
   def self.remove_from_list(list_id, emails = [], phone_numbers = [], push_tokens = [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
-      "emails": emails,
-      "phone_numbers": phone_numbers,
-      "push_tokens": push_tokens
+      :emails => emails,
+      :phone_numbers => phone_numbers,
+      :push_tokens => push_tokens
     }
     v2_request(HTTP_DELETE, path, params)
   end
@@ -141,7 +141,7 @@ class Lists < Klaviyo::Client
   def self.get_list_exclusions(list_id, marker = nil)
     path = "#{LIST}/#{list_id}/#{EXCLUSIONS}/#{ALL}"
     params = {
-      "marker": marker
+      :marker => marker
     }
     v2_request(HTTP_GET, path, params)
   end
