@@ -1,8 +1,8 @@
 module Klaviyo
   class Client
     BASE_API_URL = 'https://a.klaviyo.com/api'
-    V1_API = 'V1_API'
-    V2_API = 'V2_API'
+    V1_API = 'v1'
+    V2_API = 'v2'
 
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
