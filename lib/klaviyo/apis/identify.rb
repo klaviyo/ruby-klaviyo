@@ -8,8 +8,8 @@ class Identify < Klaviyo::Client
     defaults = {:id => nil, :email => nil, :properties => {}}
     kwargs = defaults.merge(kwargs)
 
-    if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-      raise Klaviyo::KlaviyoError.new('You must identify a user by email or ID')
+    if !check_email_or_id_exists(kwargs)
+      return
     end
 
     properties = kwargs[:properties]
