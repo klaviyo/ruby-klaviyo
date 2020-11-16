@@ -35,8 +35,8 @@ class Track < Klaviyo::Client
     public_request(HTTP_GET, 'track', params)
   end
 
-  def self.track_once(event, opts = {})
-    opts.update('__track_once__' => true)
-    track(event, opts)
+  def self.track_once(event, kwargs = {})
+    kwargs.update('__track_once__' => true)
+    track(event, kwargs)
   end
 end
