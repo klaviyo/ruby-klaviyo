@@ -40,7 +40,10 @@ module Klaviyo
     end
 
     def self.v1_request(method, path, kwargs = {})
-      defaults = {:page => nil, :count => nil, :since => nil, :sort => nil}
+      defaults = {:page => nil,
+                  :count => nil,
+                  :since => nil,
+                  :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
       url_params = "api_key=#{Klaviyo.private_api_key}#{query_params}"

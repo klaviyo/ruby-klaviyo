@@ -5,7 +5,10 @@ class Identify < Klaviyo::Client
   # @kwarg :email [String] the customer or profile email
   # @kwarg :properties [Hash] properties of the profile to add or update
   def self.identify(kwargs = {})
-    defaults = {:id => nil, :email => nil, :properties => {}}
+    defaults = {:id => nil,
+                :email => nil,
+                :properties => {}
+               }
     kwargs = defaults.merge(kwargs)
 
     if !check_email_or_id_exists(kwargs)
