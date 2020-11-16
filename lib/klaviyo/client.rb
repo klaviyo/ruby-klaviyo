@@ -63,7 +63,6 @@ module Klaviyo
     end
 
     def self.check_email_or_id_exists(kwargs)
-      puts kwargs
       if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
         raise Klaviyo::KlaviyoError.new(NO_ID_OR_EMAIL_ERROR)
       else
