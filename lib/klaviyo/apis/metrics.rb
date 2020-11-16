@@ -1,6 +1,10 @@
 require 'date'
 
 class Metrics < Klaviyo::Client
+  EXPORT = 'export'
+  METRIC = 'metric'
+  METRICS = 'metrics'
+
   # Returns a list of all metrics in Klaviyo
   # @param page [Integer] which page to return, default 0
   # @param count [Integer] number of results to return, default 100

@@ -1,4 +1,11 @@
 class Lists < Klaviyo::Client
+  EXCLUSIONS = 'exclusions'
+  GROUP = 'group'
+  LIST = 'list'
+  LISTS = 'lists'
+  MEMBERS = 'members'
+  SUBSCRIBE = 'subscribe'
+
   # Creates a new list
   # @param list_name [String] the list name
   # @return will return with HTTP OK on success

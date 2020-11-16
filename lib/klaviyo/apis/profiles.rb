@@ -1,4 +1,6 @@
 class Profiles < Klaviyo::Client
+  PERSON = 'person'
+  
   # Retrieve all the data attributes for a Klaviyo Person ID.
   # @param person_id [String] the id of the profile
   # @return returns a person object
