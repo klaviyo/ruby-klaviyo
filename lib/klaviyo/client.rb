@@ -26,6 +26,8 @@ module Klaviyo
     DEFAULT_PAGE = 0
     DEFAULT_SORT_DESC = 'desc'
 
+    NO_ID_OR_EMAIL_ERROR = 'You must identify a user by email or ID'
+
     private
 
     def self.request(method, path, kwargs = {})
@@ -70,6 +72,15 @@ module Klaviyo
 
     def self.build_params(params)
       "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+    end
+
+    def self.check_email_or_id_exists(kwargs)
+      puts kwargs
+      if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
+        raise Klaviyo::KlaviyoError.new(NO_ID_OR_EMAIL_ERROR)
+      else
+        return true
+      end
     end
 
     def self.check_private_api_key_exists()
