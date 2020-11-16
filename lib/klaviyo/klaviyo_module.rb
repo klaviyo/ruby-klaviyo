@@ -21,6 +21,7 @@ module Klaviyo
 
   NO_PRIVATE_API_KEY_ERROR = 'Please provide your Private API key for this request'
   NO_PUBLIC_API_KEY_ERROR = 'Please provide your Public API key for this request'
+  NO_ID_OR_EMAIL_ERROR = 'You must identify a user by email or ID'
 end
 
 binding.pry
