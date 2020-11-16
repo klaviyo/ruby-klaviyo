@@ -57,7 +57,7 @@ class Lists < Klaviyo::Client
   # @param :push_tokens [List] push tokens of the profiles to check
   # @return A list of JSON objects of the profiles. Profiles that are
   #   supressed or not found are not included.
-  def self.check_list_subscriptions(list_id, emails = [], phone_numbers = [], push_tokens = [])
+  def self.check_list_subscriptions(list_id, emails: [], phone_numbers: [], push_tokens: [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
       :emails => emails,
@@ -74,7 +74,7 @@ class Lists < Klaviyo::Client
   # @return will retun HTTP OK on success. If the list is single opt-in then a
   #   list of records containing the email address, phone number, push token,
   #   and the corresponding profile ID will also be included.
-  def self.add_subscribers_to_list(list_id, profiles = [])
+  def self.add_subscribers_to_list(list_id, profiles: [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
       :profiles => profiles
@@ -86,7 +86,7 @@ class Lists < Klaviyo::Client
   # @param list_id [String] the id of the list
   # @param :emails [List] the emails of the profiles to check
   # @return will return with HTTP OK on success
-  def self.unsubscribe_from_list(list_id, emails = [])
+  def self.unsubscribe_from_list(list_id, emails: [])
     path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
     params = {
       :emails => emails
@@ -100,7 +100,7 @@ class Lists < Klaviyo::Client
   #   that will be added to the list
   # @return will return with HTTP OK on success and a list of records of the
   #   corresponding profile id
-  def self.add_to_list(list_id, profiles = [])
+  def self.add_to_list(list_id, profiles: [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
       :profiles => profiles
@@ -115,7 +115,7 @@ class Lists < Klaviyo::Client
   # @param :push_tokens [List] push tokens of the profiles to check
   # @return A list of JSON objects of the profiles. Profiles that are
   #   supressed or not found are not included.
-  def self.check_list_memberships(list_id, emails = [], phone_numbers = [], push_tokens = [])
+  def self.check_list_memberships(list_id, emails: [], phone_numbers: [], push_tokens: [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
       :emails => emails,
@@ -131,7 +131,7 @@ class Lists < Klaviyo::Client
   # @param :phone_numbers [List] the phone numbers of the profiles to check
   # @param :push_tokens [List] push tokens of the profiles to check
   # @return will return with HTTP OK on success
-  def self.remove_from_list(list_id, emails = [], phone_numbers = [], push_tokens = [])
+  def self.remove_from_list(list_id, emails: [], phone_numbers: [], push_tokens: [])
     path = "#{LIST}/#{list_id}/#{MEMBERS}"
     params = {
       :emails => emails,
@@ -145,7 +145,7 @@ class Lists < Klaviyo::Client
   # @param list_id [String] the id of the list
   # @param marker [Integer] a marker from a previous call to get the next batch
   # @return [List] A list of JSON object for each profile with the reason for exclusion
-  def self.get_list_exclusions(list_id, marker = nil)
+  def self.get_list_exclusions(list_id, marker: nil)
     path = "#{LIST}/#{list_id}/#{EXCLUSIONS}/#{ALL}"
     params = {
       :marker => marker

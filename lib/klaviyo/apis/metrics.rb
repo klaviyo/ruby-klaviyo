@@ -9,7 +9,7 @@ class Metrics < Klaviyo::Client
   # @param page [Integer] which page to return, default 0
   # @param count [Integer] number of results to return, default 100
   # @return a dictionary with a data property that contains an array of all the metrics
-  def self.get_metrics(page = DEFAULT_PAGE, count = DEFAULT_COUNT)
+  def self.get_metrics(page: DEFAULT_PAGE, count: DEFAULT_COUNT)
     params = {
       :page => page,
       :count => count
@@ -22,7 +22,7 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return a dictionary with a data property that contains an array of the metrics
-  def self.get_metrics_timeline(since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT_DESC)
+  def self.get_metrics_timeline(since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
     path = "#{METRICS}/#{TIMELINE}"
     params = {
       :since => since,
@@ -38,7 +38,7 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] number of results to return, default 100
   # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
   # @return a dictionary with a data property that contains information about what metric the event tracks
-  def self.get_metric_timeline(metric_id, since = Time.now.to_i, count = DEFAULT_COUNT, sort = DEFAULT_SORT_DESC)
+  def self.get_metric_timeline(metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
     path = "#{METRIC}/#{metric_id}/#{TIMELINE}"
     params = {
       :since => since,
@@ -59,13 +59,13 @@ class Metrics < Klaviyo::Client
   # @param count [Integer] Maximum number of segments to return. The default value is 25.
   # @return A dictionary relecting the input request parameters as well as a results property
   def self.get_metric_export(metric_id,
-                             start_date = nil,
-                             end_date = nil,
-                             unit = nil,
-                             measurement = nil,
-                             where = nil,
-                             by = nil,
-                             count = nil
+                             start_date: nil,
+                             end_date: nil,
+                             unit: nil,
+                             measurement: nil,
+                             where: nil,
+                             by: nil,
+                             count: nil
                              )
     path = "#{METRIC}/#{metric_id}/#{EXPORT}"
     params = {
