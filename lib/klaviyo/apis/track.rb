@@ -16,8 +16,8 @@ class Track < Klaviyo::Client
                }
     kwargs = defaults.merge(kwargs)
 
-    if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-      raise KlaviyoError.new('You must identify a user by email or ID')
+    if !check_email_or_id_exists(kwargs)
+      return
     end
 
     customer_properties = kwargs[:customer_properties]
