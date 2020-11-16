@@ -2,7 +2,6 @@ require 'open-uri'
 require 'base64'
 require 'json'
 require 'faraday'
-require 'pry'
 
 require_relative './client'
 require_relative 'apis/identify'
@@ -23,5 +22,3 @@ module Klaviyo
   NO_PUBLIC_API_KEY_ERROR = 'Please provide your Public API key for this request'
   NO_ID_OR_EMAIL_ERROR = 'You must identify a user by email or ID'
 end
-
-binding.pry
