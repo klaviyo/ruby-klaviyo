@@ -4,29 +4,17 @@ module Klaviyo
     V1_API = 'v1'
     V2_API = 'v2'
 
+    HTTP_DELETE = 'DELETE'
     HTTP_GET = 'GET'
     HTTP_POST = 'POST'
     HTTP_PUT = 'PUT'
-    HTTP_DELETE = 'DELETE'
 
     ALL = 'all'
-    EXCLUSIONS = 'exclusions'
-    EXPORT = 'export'
-    GROUP = 'group'
-    LIST = 'list'
-    LISTS = 'lists'
-    MEMBERS = 'members'
-    METRIC = 'metric'
-    METRICS = 'metrics'
-    PERSON = 'person'
-    SUBSCRIBE = 'subscribe'
     TIMELINE = 'timeline'
 
     DEFAULT_COUNT = 100
     DEFAULT_PAGE = 0
     DEFAULT_SORT_DESC = 'desc'
-
-    NO_ID_OR_EMAIL_ERROR = 'You must identify a user by email or ID'
 
     private
 
