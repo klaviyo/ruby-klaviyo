@@ -4,10 +4,10 @@ module Klaviyo
     V1_API = 'v1'
     V2_API = 'v2'
 
-    HTTP_DELETE = 'DELETE'
-    HTTP_GET = 'GET'
-    HTTP_POST = 'POST'
-    HTTP_PUT = 'PUT'
+    HTTP_DELETE = 'delete'
+    HTTP_GET = 'get'
+    HTTP_POST = 'post'
+    HTTP_PUT = 'put'
 
     ALL = 'all'
     TIMELINE = 'timeline'
@@ -26,7 +26,7 @@ module Klaviyo
         headers: {
           'Content-Type' => 'application/json'
       })
-      response = connection.send(method.downcase) do |req|
+      response = connection.send(method) do |req|
         req.body = kwargs[:body].to_json || nil
       end
       puts response.body
