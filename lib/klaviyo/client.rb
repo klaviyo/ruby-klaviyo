@@ -29,7 +29,6 @@ module Klaviyo
       response = connection.send(method) do |req|
         req.body = kwargs[:body].to_json || nil
       end
-      puts response.body
     end
 
     def self.public_request(method, path, kwargs = {})
