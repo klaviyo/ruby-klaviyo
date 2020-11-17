@@ -46,9 +46,8 @@ module Klaviyo
                   :sort => nil}
       params = defaults.merge(kwargs)
       query_params = encode_params(params)
-      url_params = "api_key=#{Klaviyo.private_api_key}#{query_params}"
-      full_path = "#{V1_API}/#{path}?#{url_params}"
-      request(method, full_path)
+      full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+      request(method, full_url)
     end
 
     def self.v2_request(method, path, kwargs = {})
