@@ -1,1 +1,1 @@
-require 'klaviyo/client'
+require 'klaviyo/klaviyo_module'
