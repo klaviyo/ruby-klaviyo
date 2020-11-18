@@ -55,8 +55,6 @@ To add profiles to a list, call the Lists.add_to_list method and provide a list 
 Examples - Lists:
 
 ```ruby
-require 'klaviyo'
-
 Klaviyo::Lists.create_list('NEW_LIST_NAME')
 
 Klaviyo::Lists.get_lists()
