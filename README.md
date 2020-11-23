@@ -211,7 +211,7 @@ To automatically insert the Klaviyo script in your Rails app, add this to your e
 
 ```ruby
 require 'rack/klaviyo'
-config.middleware.use "Klaviyo::Client::Middleware", "YOUR_KLAVIYO_API_TOKEN"
+config.middleware.use "Klaviyo::Client::Middleware", "YOUR_PUBLIC_KLAVIYO_API_TOKEN"
 ```
 
 This will automatically insert the Klaviyo script at the bottom on your HTML page, right before the closing `body` tag.
@@ -230,7 +230,7 @@ end
 Then in your controllers where you'd like to record an event:
 
 ```ruby
-Klaviyo::Track.track('Did something important',
+Klaviyo::Public.track('Did something important',
   email: 'john.smith@example.com',
   properties:
   {
