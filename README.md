@@ -188,15 +188,16 @@ Klaviyo::Metrics.get_metric_timeline(
 )
 
 # export data for a single metric
-Klaviyo::Metrics.get_metric_export('METRIC_ID',
-                                   start_date: nil,
-                                   end_date: nil,
-                                   unit: nil,
-                                   measurement: nil,
-                                   where: nil,
-                                   by: nil,
-                                   count: nil
-                                   )
+Klaviyo::Metrics.get_metric_export(
+  'METRIC_ID',
+  start_date: nil,
+  end_date: nil,
+  unit: nil,
+  measurement: nil,
+  where: nil,
+  by: nil,
+  count: nil
+ )
 ```
 
 How to use it with a Rails application?
