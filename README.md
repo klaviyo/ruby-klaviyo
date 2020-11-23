@@ -77,22 +77,56 @@ Klaviyo::Lists.update_list_details('LIST_ID', 'LIST_NAME_UPDATED')
 Klaviyo::Lists.delete_list('LIST_ID')
 
 # to check email address subscription status to a list
-Klaviyo::Lists.check_list_subscriptions('LIST_ID', emails: ['test1@example.com'], phone_numbers: ['5555555555'], push_tokens: ['PUSH_TOKEN'])
+Klaviyo::Lists.check_list_subscriptions(
+  'LIST_ID',
+  emails: ['test1@example.com'],
+  phone_numbers: ['5555555555'],
+  push_tokens: ['PUSH_TOKEN']
+)
 
 # to add subscribers to a list, this will follow the lists double opt in settings
-Klaviyo::Lists.add_subscribers_to_list('LIST_ID', profiles: [{ email: 'test1@example.com'}, { phone_number: '5555555555'}])
+Klaviyo::Lists.add_subscribers_to_list(
+  'LIST_ID',
+  profiles: [
+    {
+      email: 'test1@example.com'
+    },
+    {
+      phone_number: '5555555555'
+    }
+  ]
+)
 
 # to unsubscribe and remove profile from a list and suppress a profile
-Klaviyo::Lists.unsubscribe_from_list('LIST_ID', emails: ['test1@example.com'])
+Klaviyo::Lists.unsubscribe_from_list(
+  'LIST_ID',
+  emails: ['test1@example.com']
+)
 
 # to add members to a list, this doesn't care about the list double opt in setting
-Klaviyo::Lists.add_to_list('LIST_ID', profiles: [{email: 'test1@example.com'}, {email: 'test2@example.com'}])
+Klaviyo::Lists.add_to_list(
+  'LIST_ID',
+  profiles: [
+    {email: 'test1@example.com'},
+    {email: 'test2@example.com'}
+  ]
+)
 
 # to check email profiles if they're in a list
-Klaviyo::Lists.check_list_memberships('LIST_ID', emails: ['test1@example.com'], phone_numbers: ['5555555555'], push_tokens: ['PUSH_TOKEN'])
+Klaviyo::Lists.check_list_memberships(
+  'LIST_ID',
+  emails: ['test1@example.com'],
+  phone_numbers: ['5555555555'],
+  push_tokens: ['PUSH_TOKEN']
+)
 
 # to remove profiles from a list
-Klaviyo::Lists.remove_from_list('LIST_ID', emails: ['test1@example.com'], phone_numbers: ['5555555555'], push_tokens: ['PUSH_TOKEN'])
+Klaviyo::Lists.remove_from_list(
+  'LIST_ID',
+  emails: ['test1@example.com'],
+  phone_numbers: ['5555555555'],
+  push_tokens: ['PUSH_TOKEN']
+)
 
 # to get exclusion emails from a list - marker is used for paginating
 Klaviyo::Lists.get_list_exclusions('LIST_ID', marker: 'EXAMPLE_MARKER')
@@ -108,13 +142,28 @@ Profiles:
 Klaviyo::Profiles.get_person_attributes('PROFILE_ID')
 
 # update a profile
-Klaviyo::Profiles.update_person_attributes('PROFILE_ID', PropertyName1: 'value', PropertyName2: 'value')
+Klaviyo::Profiles.update_person_attributes(
+  'PROFILE_ID',
+  PropertyName1: 'value',
+  PropertyName2: 'value'
+)
 
 # get all metrics for a profile with the default kwargs
-Klaviyo::Profiles.get_person_metrics_timeline('PROFILE_ID', since: nil, count: 100, sort: 'desc')
+Klaviyo::Profiles.get_person_metrics_timeline(
+  'PROFILE_ID',
+  since: nil,
+  count: 100,
+  sort: 'desc'
+)
 
 # get all events of a metric for a profile with the default kwargs
-Klaviyo::Profiles.get_person_metric_timeline('PROFILE_ID', 'METRIC_ID', since: nil, count: 100, sort: 'desc')
+Klaviyo::Profiles.get_person_metric_timeline(
+  'PROFILE_ID',
+  'METRIC_ID',
+  since: nil,
+  count: 100,
+  sort: 'desc'
+)
 ```
 
 Metrics:
@@ -124,10 +173,19 @@ Metrics:
 Klaviyo::Metrics.get_metrics(page: 0, count: 100)
 
 # get a batched timeline of all metrics with the default kwargs
-Klaviyo::Metrics.get_metrics_timeline(since: nil, count: 100, sort: 'desc')
+Klaviyo::Metrics.get_metrics_timeline(
+  since: nil,
+  count: 100,
+  sort: 'desc'
+)
 
 # get a batched timeline of a single metric with the default kwargs
-Klaviyo::Metrics.get_metric_timeline('METRIC_ID', since: nil, count: 100, sort: 'desc')
+Klaviyo::Metrics.get_metric_timeline(
+  'METRIC_ID',
+  since: nil,
+  count: 100,
+  sort: 'desc'
+)
 
 # export data for a single metric
 Klaviyo::Metrics.get_metric_export('METRIC_ID',
@@ -169,6 +227,8 @@ Then in your controllers where you'd like to record an event:
 ```ruby
 Klaviyo::Track.track('Did something important',
   email: 'john.smith@example.com',
-  properties: { key: 'value' }
+  properties: {
+    key: 'value'
+  }
 )
 ```
