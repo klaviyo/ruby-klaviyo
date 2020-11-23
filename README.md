@@ -107,8 +107,12 @@ Klaviyo::Lists.unsubscribe_from_list(
 Klaviyo::Lists.add_to_list(
   'LIST_ID',
   profiles: [
-    {email: 'test1@example.com'},
-    {email: 'test2@example.com'}
+    {
+      email: 'test1@example.com'
+    },
+    {
+      email: 'test2@example.com'
+    }
   ]
 )
 
@@ -197,7 +201,7 @@ Klaviyo::Metrics.get_metric_export(
   where: nil,
   by: nil,
   count: nil
- )
+)
 ```
 
 How to use it with a Rails application?
@@ -228,7 +232,8 @@ Then in your controllers where you'd like to record an event:
 ```ruby
 Klaviyo::Track.track('Did something important',
   email: 'john.smith@example.com',
-  properties: {
+  properties:
+  {
     key: 'value'
   }
 )
