@@ -4,11 +4,10 @@ require 'json'
 require 'faraday'
 
 require_relative './client'
-require_relative 'apis/identify'
+require_relative 'apis/public'
 require_relative 'apis/lists'
 require_relative 'apis/metrics'
 require_relative 'apis/profiles'
-require_relative 'apis/track'
 
 module Klaviyo
   class << self
