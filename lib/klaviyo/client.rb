@@ -1,74 +1,95 @@
-require 'open-uri'
-require 'base64'
-require 'json'
-
 module Klaviyo
-  class KlaviyoError < StandardError; end
-  
   class Client
-    def initialize(api_key, url = 'http://a.klaviyo.com/')
-      @api_key = api_key
-      @url = url
-    end
-    
-    def track(event, kwargs = {})
-      defaults = {:id => nil, :email => nil, :properties => {}, :customer_properties => {}, :time => nil}
-      kwargs = defaults.merge(kwargs)
-      
-      if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-        raise KlaviyoError.new('You must identify a user by email or ID')
-      end
-      
-      customer_properties = kwargs[:customer_properties]
-      customer_properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
-      customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
+    BASE_API_URL = 'https://a.klaviyo.com/api'
+    V1_API = 'v1'
+    V2_API = 'v2'
 
-      params = {
-        :token => @api_key,
-        :event => event,
-        :properties => kwargs[:properties],
-        :customer_properties => customer_properties,
-        :ip => ''
-      }
-      params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
-     
-      params = build_params(params)
-      request('api/track', params)
-    end
-    
-    def track_once(event, opts = {})
-      opts.update('__track_once__' => true)
-      track(event, opts)
-    end
-    
-    def identify(kwargs = {})
-      defaults = {:id => nil, :email => nil, :properties => {}}
-      kwargs = defaults.merge(kwargs)
-      
-      if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-        raise KlaviyoError.new('You must identify a user by email or ID')
-      end
-      
-      properties = kwargs[:properties]
-      properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
-      properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
+    HTTP_DELETE = 'delete'
+    HTTP_GET = 'get'
+    HTTP_POST = 'post'
+    HTTP_PUT = 'put'
 
-      params = build_params({
-        :token => @api_key,
-        :properties => properties
-      })
-      request('api/identify', params)
-    end
+    ALL = 'all'
+    TIMELINE = 'timeline'
+
+    DEFAULT_COUNT = 100
+    DEFAULT_PAGE = 0
+    DEFAULT_SORT_DESC = 'desc'
 
     private
-    
-    def build_params(params)
-      "data=#{CGI.escape Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+
+    def self.request(method, path, kwargs = {})
+      check_private_api_key_exists()
+      url = "#{BASE_API_URL}/#{path}"
+      connection = Faraday.new(
+        url: url,
+        headers: {
+          'Content-Type' => 'application/json'
+      })
+      response = connection.send(method) do |req|
+        req.body = kwargs[:body].to_json || nil
+      end
     end
-    
-    def request(path, params)
-      url = "#{@url}#{path}?#{params}"
-      open(url).read == '1'
+
+    def self.public_request(method, path, kwargs = {})
+      check_public_api_key_exists()
+      params = build_params(kwargs)
+      url = "#{BASE_API_URL}/#{path}?#{params}"
+      res = Faraday.get(url).body
+    end
+
+    def self.v1_request(method, path, kwargs = {})
+      defaults = {:page => nil,
+                  :count => nil,
+                  :since => nil,
+                  :sort => nil}
+      params = defaults.merge(kwargs)
+      query_params = encode_params(params)
+      full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+      request(method, full_url)
+    end
+
+    def self.v2_request(method, path, kwargs = {})
+      path = "#{V2_API}/#{path}"
+      key = {
+        "api_key": "#{Klaviyo.private_api_key}"
+      }
+      data = {}
+      data[:body] = key.merge(kwargs)
+      request(method, path, data)
+    end
+
+    def self.build_params(params)
+      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+    end
+
+    def self.check_email_or_id_exists(kwargs)
+      if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
+        raise Klaviyo::KlaviyoError.new(NO_ID_OR_EMAIL_ERROR)
+      else
+        return true
+      end
+    end
+
+    def self.check_private_api_key_exists()
+      if !Klaviyo.private_api_key
+        raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
+      end
+    end
+
+    def self.check_public_api_key_exists()
+      if !Klaviyo.public_api_key
+        raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
+      end
+    end
+
+    def self.encode_params(kwargs)
+      kwargs.select!{|k, v| v}
+      params = URI.encode_www_form(kwargs)
+
+      if !params.empty?
+        return "&#{params}"
+      end
     end
   end
 end
