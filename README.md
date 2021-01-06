@@ -2,7 +2,7 @@ What is Klaviyo?
 ----------------
 
 Klaviyo is a real-time service for understanding your customers by aggregating all your customer data, identifying important groups of customers and then taking action.
-http://www.klaviyo.com/
+https://www.klaviyo.com/
 
 What does this Gem do?
 ----------------------
