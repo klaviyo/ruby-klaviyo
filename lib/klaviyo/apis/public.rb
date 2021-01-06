@@ -8,16 +8,18 @@ module Klaviyo
     def self.identify(kwargs = {})
       defaults = {:id => nil,
                   :email => nil,
+                  :phone_number => nil,
                   :properties => {}
                  }
       kwargs = defaults.merge(kwargs)
 
-      if !check_email_or_id_exists(kwargs)
+      unless check_required_args(kwargs)
         return
       end
 
       properties = kwargs[:properties]
       properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
+      properties[:$phone_number] = kwargs[:phone_number] unless kwargs[:phone_number].to_s.empty?
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
@@ -33,6 +35,7 @@ module Klaviyo
     # @param event [String] the event to track
     # @kwarg :id [String] the customer or profile id
     # @kwarg :email [String] the customer or profile email
+    # @kwarg :phone_number [String] the customer or profile phone number
     # @kwarg :properties [Hash] properties of the event
     # @kwargs :customer_properties [Hash] properties of the customer or profile
     # @kwargs :time [Integer] timestamp of the event
@@ -40,6 +43,7 @@ module Klaviyo
       defaults = {
         :id => nil,
         :email => nil,
+        :phone_number => nil,
         :properties => {},
         :customer_properties => {},
         :time => nil
@@ -47,12 +51,13 @@ module Klaviyo
 
       kwargs = defaults.merge(kwargs)
 
-      if !check_email_or_id_exists(kwargs)
+      unless check_required_args(kwargs)
         return
       end
 
       customer_properties = kwargs[:customer_properties]
       customer_properties[:email] = kwargs[:email] unless kwargs[:email].to_s.empty?
+      customer_properties[:$phone_number] = kwargs[:phone_number] unless kwargs[:phone_number].to_s.empty?
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
