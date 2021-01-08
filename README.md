@@ -47,6 +47,15 @@ Klaviyo::Public.track(
   }
 )
 
+# using a phone number to track events
+Klaviyo::Public.track(
+  'TestedSMSContact',
+  phone_number: '+15555555555',
+  properties: {
+    'Added social accounts' : False,
+  }
+)
+
 # used for identifying customers and managing profile properties
 Klaviyo::Public.identify(
   email: 'thomas.jefferson@mailinator.com',

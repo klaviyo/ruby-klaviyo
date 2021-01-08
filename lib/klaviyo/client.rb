@@ -63,9 +63,9 @@ module Klaviyo
       "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
     end
 
-    def self.check_email_or_id_exists(kwargs)
-      if kwargs[:email].to_s.empty? and kwargs[:id].to_s.empty?
-        raise Klaviyo::KlaviyoError.new(NO_ID_OR_EMAIL_ERROR)
+    def self.check_required_args(kwargs)
+      if kwargs[:email].to_s.empty? and kwargs[:phone_number].to_s.empty? and kwargs[:id].to_s.empty?
+        raise Klaviyo::KlaviyoError.new(REQUIRED_ARG_ERROR)
       else
         return true
       end
