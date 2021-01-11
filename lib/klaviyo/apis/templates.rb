@@ -11,11 +11,11 @@ module Klaviyo
     #   email templates. Each entry is a separate email template object. If no email templates exist,
     #   the resulting array will be empty. This request should never return an error.
     def self.get_templates
-      v2_request(HTTP_GET, TEMPLATES)
+      v1_request(HTTP_GET, TEMPLATES)
     end
 
     # Creates a new email templates
-    # @param template_name [Sting] the template name
+    # @param template_name [String] the template name
     # @param template_html [String] the html used to create the body of the email
     # @return [JSON] The newly created Email Template object with summary information.
     def self.create_template(template_name, template_html)
@@ -24,7 +24,7 @@ module Klaviyo
         :html => template_html
       }
 
-      v2_request(HTTP_POST, TEMPLATES, body)
+      v1_request(HTTP_POST, TEMPLATES, body)
     end
 
     # Updates a specific email template
@@ -34,7 +34,7 @@ module Klaviyo
     # @return [JSON] The updated Email Template object with summary information.
     def self.update_template_details(template_id, kwargs = {})
       path = "#{TEMPLATES}/#{template_id}"
-      v2_request(HTTP_PUT, path, kwargs)
+      v1_request(HTTP_PUT, path, kwargs)
     end
 
     # Deletes a given template.
@@ -42,7 +42,7 @@ module Klaviyo
     # @params template_id [String] the id of the template
     def self.delete_template(template_id)
       path = "#{TEMPLATE}/#{template_id}"
-      v2_request(HTTP_DELETE, path)
+      v1_request(HTTP_DELETE, path)
     end
 
     # Creates a copy of a given template with a new name.
@@ -54,7 +54,7 @@ module Klaviyo
       body = {
         :name => new_template_name
       }
-      v2_request(HTTP_POST, path, body)
+      v1_request(HTTP_POST, path, body)
     end
 
     # Renders the specified template with the provided data and return HTML and text versions of
@@ -69,7 +69,7 @@ module Klaviyo
       body = {
         :context => kwargs
       }
-      v2_request(HTTP_POST, path, body)
+      v1_request(HTTP_POST, path, body)
     end
 
     # Renders the specified template with the provided data and then send the contents in an email
@@ -99,7 +99,7 @@ module Klaviyo
         :subject => subject,
         :context => kwargs
       }
-      v2_request(HTTP_POST, path, body)
+      v1_request(HTTP_POST, path, body)
     end
   end
 end
