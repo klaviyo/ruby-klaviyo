@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.3
+
+* Add basic support for Campaigns API
+
 ### 2.0.2
 
 * Add SMS profile support to Public API requests

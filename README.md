@@ -213,6 +213,22 @@ Klaviyo::Metrics.get_metric_export(
 )
 ```
 
+Campaigns:
+
+```ruby
+# get Campaigns
+Klaviyo::Campaigns.get_campaigns()
+
+# get specific Campaign details
+Klaviyo::Campaigns.get_campaign_details('CAMPAIGN_ID')
+
+# send Campaign
+Klaviyo::Campaigns.send_campaign('CAMPAIGN_ID')
+
+# cancel Campaign
+Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
+```
+
 How to use it with a Rails application?
 ---------------------------------------
 
