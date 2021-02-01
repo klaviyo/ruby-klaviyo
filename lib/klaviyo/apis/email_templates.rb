@@ -1,6 +1,7 @@
 module Klaviyo
   class EmailTemplates < Client
     EMAIL_TEMPLATES = 'email-templates'
+    EMAIL_TEMPLATE = 'email-template'
     CLONE = 'clone'
     RENDER = 'render'
     SEND = 'send'
@@ -21,7 +22,7 @@ module Klaviyo
         name: name,
         html: html
       }
-      v1_request(HTTP_POST, EMAIL_TEMPLATES, params)
+      v1_post_request(EMAIL_TEMPLATES, params)
     end
 
     # Updates the name and/or HTML content of a template. Only updates imported
@@ -31,7 +32,7 @@ module Klaviyo
     # @param :html [String] The HTML content for this template
     # @return [JSON] a JSON object containing information about the email template
     def self.update_template(template_id, name:, html:)
-      path = "#{EMAIL_TEMPLATES}/#{template_id}"
+      path = "#{EMAIL_TEMPLATE}/#{template_id}"
       params = {
         name: name,
         html: html
@@ -43,7 +44,7 @@ module Klaviyo
     # @param template_id [String] The id of the email template
     # @return [JSON] a JSON object containing information about the email template
     def self.delete_template(template_id)
-      path = "#{EMAIL_TEMPLATES}/#{template_id}"
+      path = "#{EMAIL_TEMPLATE}/#{template_id}"
       v1_request(HTTP_DELETE, path)
     end
 
@@ -52,12 +53,12 @@ module Klaviyo
     # @param :name [String] The name of the newly cloned email template
     # @return [JSON] a JSON object containing information about the email template
     def self.clone_template(template_id, name:)
-      path = "#{EMAIL_TEMPLATES}/#{template_id}/#{CLONE}"
+      path = "#{EMAIL_TEMPLATE}/#{template_id}/#{CLONE}"
       params = {
         name: name,
         html: html
       }
-      v1_request(HTTP_POST, path, params)
+      v1_post_request(path, params)
     end
 
     # Renders the specified template with the provided data and return HTML
@@ -66,11 +67,11 @@ module Klaviyo
     # @param :context [Hash] The context the email template will be rendered with
     # @return [JSON] a JSON object containing information about the email template
     def self.render_template(template_id, context: {})
-      path = "#{EMAIL_TEMPLATES}/#{template_id}/#{RENDER}"
+      path = "#{EMAIL_TEMPLATE}/#{template_id}/#{RENDER}"
       params = {
         context: context
       }
-      v1_request(HTTP_POST, path, params)
+      v1_post_request(path, params)
     end
 
     # Renders the specified template with the provided data and then send the
@@ -83,15 +84,15 @@ module Klaviyo
     # @param :context [Hash] The context the email template will be rendered with
     # @return [JSON] a JSON object containing information about the email template
     def self.send_template(template_id, from_email:, from_name:, subject:, to:, context: {})
-      path = "#{EMAIL_TEMPLATES}/#{template_id}/#{SEND}"
+      path = "#{EMAIL_TEMPLATE}/#{template_id}/#{SEND}"
       params = {
-        from_email: '',
-        from_name: '',
-        subject: '',
-        to: '',
+        from_email: from_email,
+        from_name: from_name,
+        subject: subject,
+        to: to,
         context: context
       }
-      v1_request(HTTP_POST, path, params)
+      v1_post_request(path, params)
     end
   end
 end
