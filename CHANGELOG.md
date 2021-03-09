@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.0.4
+
+* Add CGI escape to public requests
+* Add basic templates API support
+
 ### 2.0.3
 
 * Add basic support for Campaigns API
