@@ -60,7 +60,7 @@ module Klaviyo
     end
 
     def self.build_params(params)
-      "data=#{Base64.encode64(JSON.generate(params)).gsub(/\n/,'')}"
+      "data=#{CGI.escape(Base64.encode64(JSON.generate(params)).gsub(/\n/, ''))}"
     end
 
     def self.check_required_args(kwargs)
