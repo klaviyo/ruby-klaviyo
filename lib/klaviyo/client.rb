@@ -49,6 +49,15 @@ module Klaviyo
       request(method, full_url)
     end
 
+    # V1 Post requests use x-www-form-urlencoded content instead of JSON
+    def self.v1_post_request(path, params = {})
+      query_params = encode_params(params)
+      path = "/api/#{V1_API}/#{path}"
+      connection = Faraday.new(url: BASE_API_URL)
+      params.merge!(api_key: Klaviyo.private_api_key)
+      response = connection.post(path, params)
+    end
+
     def self.v2_request(method, path, kwargs = {})
       path = "#{V2_API}/#{path}"
       key = {
