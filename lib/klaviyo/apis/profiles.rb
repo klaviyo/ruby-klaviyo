@@ -16,7 +16,7 @@ module Klaviyo
     # @return returns the updated person object
     def self.update_person_attributes(person_id, kwargs = {})
       path = "#{PERSON}/#{person_id}"
-      v1_request(HTTP_PUT, path, kwargs)
+      v1_request(HTTP_PUT, path, CONTENT_JSON, kwargs)
     end
 
     # Listing a person's event timeline
@@ -32,7 +32,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, params)
+      v1_request(HTTP_GET, path, CONTENT_JSON, params)
     end
 
     # Listing a person's event timeline for a particular metric
@@ -49,7 +49,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, params)
+      v1_request(HTTP_GET, path, CONTENT_JSON, params)
     end
   end
 end
