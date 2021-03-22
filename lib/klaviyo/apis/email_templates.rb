@@ -79,7 +79,7 @@ module Klaviyo
     # @param :from_email [String] The from email address; used in the reply-to header
     # @param :from_name [String] The name the email is sent from
     # @param :subject [String] The subject of the email template
-    # @param :to [Mixed] The to the email template will be rendered with
+    # @param :to [Mixed] The email this template is being sent to
     # @param :context [Hash] The context the email template will be rendered with
     # @return [JSON] a JSON object containing information about the email template
     def self.send_template(template_id, from_email:, from_name:, subject:, to:, context: {})
