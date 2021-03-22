@@ -17,12 +17,12 @@ module Klaviyo
     # @param :name [String] The name of the email template
     # @param :html [String] The HTML content for this template
     # @return [JSON] a JSON object containing information about the email template
-    def self.create_template(name:, html:)
+    def self.create_template(name: nil, html: nil)
       params = {
         name: name,
         html: html
       }
-      v1_post_request(EMAIL_TEMPLATES, params)
+      v1_request(HTTP_POST, EMAIL_TEMPLATES, CONTENT_URL_FORM, params)
     end
 
     # Updates the name and/or HTML content of a template. Only updates imported
@@ -37,7 +37,7 @@ module Klaviyo
         name: name,
         html: html
       }
-      v1_request(HTTP_PUT, path, params)
+      v1_request(HTTP_PUT, path, CONTENT_JSON, params)
     end
 
     # Deletes a given template.
@@ -55,10 +55,9 @@ module Klaviyo
     def self.clone_template(template_id, name:)
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{CLONE}"
       params = {
-        name: name,
-        html: html
+        name: name
       }
-      v1_post_request(path, params)
+      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
     end
 
     # Renders the specified template with the provided data and return HTML
@@ -71,7 +70,7 @@ module Klaviyo
       params = {
         context: context
       }
-      v1_post_request(path, params)
+      v1_post_request(HTTP_POST, path, CONTENT_URL_FORM, params)
     end
 
     # Renders the specified template with the provided data and then send the
@@ -92,7 +91,7 @@ module Klaviyo
         to: to,
         context: context
       }
-      v1_post_request(path, params)
+      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
     end
   end
 end
