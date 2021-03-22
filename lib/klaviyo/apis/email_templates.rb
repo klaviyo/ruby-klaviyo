@@ -70,7 +70,7 @@ module Klaviyo
       params = {
         context: context
       }
-      v1_post_request(HTTP_POST, path, CONTENT_URL_FORM, params)
+      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
     end
 
     # Renders the specified template with the provided data and then send the
