@@ -16,18 +16,24 @@ module Klaviyo
     DEFAULT_PAGE = 0
     DEFAULT_SORT_DESC = 'desc'
 
+    CONTENT_JSON = 'application/json'
+    CONTENT_URL_FORM = 'application/x-www-form-urlencoded'
+
     private
 
-    def self.request(method, path, kwargs = {})
+    def self.request(method, path, content_type, kwargs = {})
       check_private_api_key_exists()
       url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
         url: url,
         headers: {
-          'Content-Type' => 'application/json'
+          'Content-Type' => content_type
       })
+      if content_type == CONTENT_JSON
+        kwargs[:body] = kwargs[:body].to_json
+      end
       response = connection.send(method) do |req|
-        req.body = kwargs[:body].to_json || nil
+        req.body = kwargs[:body] || nil
       end
     end
 
@@ -38,24 +44,26 @@ module Klaviyo
       res = Faraday.get(url).body
     end
 
-    def self.v1_request(method, path, kwargs = {})
-      defaults = {:page => nil,
-                  :count => nil,
-                  :since => nil,
-                  :sort => nil}
-      params = defaults.merge(kwargs)
-      query_params = encode_params(params)
-      full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
-      request(method, full_url)
-    end
-
-    # V1 Post requests use x-www-form-urlencoded content instead of JSON
-    def self.v1_post_request(path, params = {})
-      query_params = encode_params(params)
-      path = "/api/#{V1_API}/#{path}"
-      connection = Faraday.new(url: BASE_API_URL)
-      params.merge!(api_key: Klaviyo.private_api_key)
-      response = connection.post(path, params)
+    def self.v1_request(method, path, content_type=CONTENT_JSON, kwargs = {})
+      if content_type == CONTENT_URL_FORM
+        data = {
+          :body => {
+            :api_key => Klaviyo.private_api_key
+          }
+        }
+        data[:body] = data[:body].merge(kwargs)
+        full_url = "#{V1_API}/#{path}"
+        request(method, full_url, content_type, data)
+      else
+        defaults = {:page => nil,
+                    :count => nil,
+                    :since => nil,
+                    :sort => nil}
+        params = defaults.merge(kwargs)
+        query_params = encode_params(params)
+        full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+        request(method, full_url, content_type)
+      end
     end
 
     def self.v2_request(method, path, kwargs = {})
@@ -65,7 +73,7 @@ module Klaviyo
       }
       data = {}
       data[:body] = key.merge(kwargs)
-      request(method, path, data)
+      request(method, path, CONTENT_JSON, data)
     end
 
     def self.build_params(params)
