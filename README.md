@@ -229,6 +229,51 @@ Klaviyo::Campaigns.send_campaign('CAMPAIGN_ID')
 Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
 ```
 
+Email Templates:
+```ruby
+# get templates
+Klaviyo::EmailTemplates.get_templates()
+
+# create a new template
+Klaviyo::EmailTemplates.create_template(name: 'TEMPLATE_NAME', html: 'TEMPLATE_HTML')
+
+# update template
+# does not update drag & drop templates at this time
+Klaviyo::EmailTemplates.update_template(
+  'TEMPLATE_ID',
+  name: 'UPDATED_TEMPLATE_NAME',
+  html: 'UPDATED_TEMPLATE_HTML'
+)
+
+# delete template
+Klaviyo::EmailTemplates.delete_template('TEMPLATE_ID')
+
+# clone a template with a new name
+Klaviyo::EmailTemplates.clone_template('TEMPLATE_ID', 'NEW_TEMPLATE_NAME')
+
+# render template - returns html and text versions of template
+Klaviyo::EmailTemplates.render_template(
+  'TEMPLATE_ID',
+  context: {
+    name: 'RECIPIENT_NAME',
+    email: 'RECIPIENT_EMAIL_ADDRESS'
+  }
+)
+
+# send template
+Klaviyo::EmailTemplates.send_template(
+  'TEMPLATE_ID',
+  from_email: 'FROM_EMAIL_ADDRESS',
+  from_name: 'FROM_EMAIL_NAME',
+  subject: 'EMAIL_SUBJECT',
+  to: 'RECIPIENT_EMAIL_ADDRESS',
+  context: {
+    name: 'RECIPIENT_NAME',
+    email: 'RECIPIENT_EMAIL_ADDRESS'
+  }
+)
+```
+
 How to use it with a Rails application?
 ---------------------------------------
 
