@@ -9,6 +9,7 @@ require_relative 'apis/lists'
 require_relative 'apis/metrics'
 require_relative 'apis/profiles'
 require_relative 'apis/campaigns'
+require_relative 'apis/data_privacy'
 
 module Klaviyo
   class << self

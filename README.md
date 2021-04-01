@@ -229,6 +229,15 @@ Klaviyo::Campaigns.send_campaign('CAMPAIGN_ID')
 Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
 ```
 
+DataPrivacy:
+
+```ruby
+# submit deletion request
+Klaviyo::DataPrivacy.deletion_request(email: 'EMAIL')
+Klaviyo::DataPrivacy.deletion_request(person_id: 'PERSON_ID')
+Klaviyo::DataPrivacy.deletion_request(phone_number: 'PHONE')
+```
+
 How to use it with a Rails application?
 ---------------------------------------
 
