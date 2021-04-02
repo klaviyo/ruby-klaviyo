@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.4
+
+* Add basic support for Data Privacy API and people/search endpoint
+
 ### 2.0.3
 
 * Add basic support for Campaigns API
