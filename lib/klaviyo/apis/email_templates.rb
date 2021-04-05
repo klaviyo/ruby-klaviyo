@@ -22,7 +22,7 @@ module Klaviyo
         name: name,
         html: html
       }
-      v1_request(HTTP_POST, EMAIL_TEMPLATES, CONTENT_URL_FORM, params)
+      v1_request(HTTP_POST, EMAIL_TEMPLATES, content_type: CONTENT_URL_FORM, params: params)
     end
 
     # Updates the name and/or HTML content of a template. Only updates imported
@@ -37,7 +37,7 @@ module Klaviyo
         name: name,
         html: html
       }
-      v1_request(HTTP_PUT, path, CONTENT_JSON, params)
+      v1_request(HTTP_PUT, path, params)
     end
 
     # Deletes a given template.
@@ -57,7 +57,7 @@ module Klaviyo
       params = {
         name: name
       }
-      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
+      v1_request(HTTP_POST, path, content_type: CONTENT_URL_FORM, params: params)
     end
 
     # Renders the specified template with the provided data and return HTML
@@ -70,7 +70,7 @@ module Klaviyo
       params = {
         context: context
       }
-      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
+      v1_request(HTTP_POST, path, content_type: CONTENT_URL_FORM, params: params)
     end
 
     # Renders the specified template with the provided data and then send the
@@ -91,7 +91,7 @@ module Klaviyo
         to: to,
         context: context
       }
-      v1_request(HTTP_POST, path, CONTENT_URL_FORM, params)
+      v1_request(HTTP_POST, path, content_type: CONTENT_URL_FORM, params: params)
     end
   end
 end
