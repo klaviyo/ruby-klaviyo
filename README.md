@@ -151,6 +151,9 @@ Klaviyo::Lists.get_group_members('LIST_ID')
 Profiles:
 
 ```ruby
+# get profile id by email
+Klaviyo::Profiles.get_profile_id_by_email('EMAIL')
+
 # get profile by profile_id
 Klaviyo::Profiles.get_person_attributes('PROFILE_ID')
 
@@ -230,6 +233,7 @@ Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
 ```
 
 Email Templates:
+
 ```ruby
 # get templates
 Klaviyo::EmailTemplates.get_templates()
@@ -272,6 +276,19 @@ Klaviyo::EmailTemplates.send_template(
     email: 'RECIPIENT_EMAIL_ADDRESS'
   }
 )
+```
+
+Data Privacy:
+
+```ruby
+# delete profile by email
+Klaviyo::DataPrivacy.request_profile_deletion('email','EMAIL')
+
+# delete profile by phone number
+Klaviyo::DataPrivacy.request_profile_deletion('phone_number','PHONE_NUMBER')
+
+# delete profile by person id
+Klaviyo::DataPrivacy.request_profile_deletion('person_id','PERSON_ID')
 ```
 
 How to use it with a Rails application?
