@@ -22,7 +22,7 @@ module Klaviyo
 
     private
 
-    def self.request(method, path, content_type, kwargs = {})
+    def self.request(method, path, content_type, **kwargs)
       check_private_api_key_exists()
       url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
@@ -38,14 +38,14 @@ module Klaviyo
       end
     end
 
-    def self.public_request(method, path, kwargs = {})
+    def self.public_request(method, path, **kwargs)
       check_public_api_key_exists()
       params = build_params(kwargs)
       url = "#{BASE_API_URL}/#{path}?#{params}"
       res = Faraday.get(url).body
     end
 
-    def self.v1_request(method, path, content_type=CONTENT_JSON, kwargs = {})
+    def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
       if content_type == CONTENT_URL_FORM
         data = {
           :body => {
@@ -67,7 +67,7 @@ module Klaviyo
       end
     end
 
-    def self.v2_request(method, path, kwargs = {})
+    def self.v2_request(method, path, **kwargs)
       path = "#{V2_API}/#{path}"
       key = {
         "api_key": "#{Klaviyo.private_api_key}"
