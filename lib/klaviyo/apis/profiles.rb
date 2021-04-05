@@ -1,6 +1,20 @@
 module Klaviyo
   class Profiles < Client
     PERSON = 'person'
+    PEOPLE = 'people'
+    SEARCH = 'search'
+
+    # Retrieves the id of the profile given email
+    # @param email [String] the email of the profile
+    # @return [JSON] a JSON object containing id of the profile
+    def self.get_profile_id_by_email(email)
+      path = "#{PEOPLE}/#{SEARCH}"
+      params = {
+        :email => email
+      }
+      v2_request(HTTP_GET, path, params)
+    end    
+
 
     # Retrieve all the data attributes for a Klaviyo Person ID.
     # @param person_id [String] the id of the profile
