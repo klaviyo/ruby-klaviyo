@@ -1,7 +1,6 @@
 module Klaviyo
   class Metrics < Client
     EXPORT = 'export'
-    METRICS = 'metrics'
 
     # Returns a list of all metrics in Klaviyo
     # @param page [Integer] which page to return, default 0
