@@ -11,6 +11,7 @@ module Klaviyo
 
     ALL = 'all'
     METRIC = 'metric'
+    METRICS = 'metrics'
     TIMELINE = 'timeline'
 
     DEFAULT_COUNT = 100
@@ -52,7 +53,7 @@ module Klaviyo
             :api_key => Klaviyo.private_api_key
           }
         }
-        data[:body] = data[:body].merge(kwargs)
+        data[:body] = data[:body].merge(kwargs[:params])
         full_url = "#{V1_API}/#{path}"
         request(method, full_url, content_type, data)
       else
