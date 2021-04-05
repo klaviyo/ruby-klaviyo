@@ -12,7 +12,7 @@ module Klaviyo
         :page => page,
         :count => count
       }
-      v1_request(HTTP_GET, METRICS, CONTENT_JSON, params)
+      v1_request(HTTP_GET, METRICS, params)
     end
 
     # Returns a batched timeline of all events in your Klaviyo account.
@@ -27,7 +27,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, CONTENT_JSON, params)
+      v1_request(HTTP_GET, path, params)
     end
 
     # Returns a batched timeline for one specific type of metric.
@@ -43,7 +43,7 @@ module Klaviyo
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, CONTENT_JSON, params)
+      v1_request(HTTP_GET, path, params)
     end
 
     # Export event data, optionally filtering and segmented on available event properties
@@ -75,7 +75,7 @@ module Klaviyo
         :by => by,
         :count => count
       }
-      v1_request(HTTP_GET, path, CONTENT_JSON, params)
+      v1_request(HTTP_GET, path, params)
     end
   end
 end
