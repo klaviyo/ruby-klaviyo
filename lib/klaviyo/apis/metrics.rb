@@ -1,7 +1,6 @@
 module Klaviyo
   class Metrics < Client
     EXPORT = 'export'
-    METRIC = 'metric'
     METRICS = 'metrics'
 
     # Returns a list of all metrics in Klaviyo

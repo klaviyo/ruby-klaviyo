@@ -10,6 +10,7 @@ module Klaviyo
     HTTP_PUT = 'put'
 
     ALL = 'all'
+    METRIC = 'metric'
     TIMELINE = 'timeline'
 
     DEFAULT_COUNT = 100
