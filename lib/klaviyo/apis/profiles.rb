@@ -13,8 +13,7 @@ module Klaviyo
         :email => email
       }
       v2_request(HTTP_GET, path, params)
-    end    
-
+    end
 
     # Retrieve all the data attributes for a Klaviyo Person ID.
     # @param person_id [String] the id of the profile
