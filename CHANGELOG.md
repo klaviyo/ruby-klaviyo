@@ -1,10 +1,13 @@
 ## CHANGELOG
 
+### 2.0.5
+
+* Add basic templates API support
+* Add CGI escape to public requests
+
 ### 2.0.4
 
 * Add basic support for Data Privacy API and people/search endpoint
-* Add basic templates API support
-* Add CGI escape to public requests
 
 ### 2.0.3
 
