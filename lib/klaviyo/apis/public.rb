@@ -66,9 +66,9 @@ module Klaviyo
         :properties => kwargs[:properties],
         :customer_properties => customer_properties
       }
-      params[:time] = kwargs[:time].to_time.to_i if kwargs[:time]
+      params[:time] = kwargs[:time] if kwargs[:time]
 
-      public_request(HTTP_GET, 'track', params)
+      public_request(HTTP_GET, 'track', **params)
     end
 
     def self.track_once(event, kwargs = {})
