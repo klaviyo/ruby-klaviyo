@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.0.6
+
+* Update track request for compatibility w/ Ruby v3.0+
+* Update track request to accept time as integer
+
 ### 2.0.5
 
 * Add basic templates API support
