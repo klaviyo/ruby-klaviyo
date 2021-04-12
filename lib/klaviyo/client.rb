@@ -55,7 +55,7 @@ module Klaviyo
         }
         data[:body] = data[:body].merge(kwargs[:params])
         full_url = "#{V1_API}/#{path}"
-        request(method, full_url, content_type, data)
+        request(method, full_url, content_type, **data)
       else
         defaults = {:page => nil,
                     :count => nil,
@@ -75,7 +75,7 @@ module Klaviyo
       }
       data = {}
       data[:body] = key.merge(kwargs)
-      request(method, path, CONTENT_JSON, data)
+      request(method, path, CONTENT_JSON, **data)
     end
 
     def self.build_params(params)
