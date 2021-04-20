@@ -27,7 +27,7 @@ module Klaviyo
         :properties => properties
       }
 
-      public_request(HTTP_GET, 'identify', params)
+      public_request(HTTP_GET, 'identify', **params)
     end
 
     # Used for tracking events and customer behaviors
