@@ -37,7 +37,7 @@ module Klaviyo
         name: name,
         html: html
       }
-      v1_request(HTTP_PUT, path, params)
+      v1_request(HTTP_PUT, path, **params)
     end
 
     # Deletes a given template.

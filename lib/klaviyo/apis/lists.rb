@@ -14,7 +14,7 @@ module Klaviyo
       body = {
         :list_name => list_name
       }
-      v2_request(HTTP_POST, LISTS, body)
+      v2_request(HTTP_POST, LISTS, **body)
     end
 
     # Retrieves all the lists in the Klaviyo account
@@ -40,7 +40,7 @@ module Klaviyo
       body = {
         :list_name => list_name
       }
-      v2_request(HTTP_PUT, path, body)
+      v2_request(HTTP_PUT, path, **body)
     end
 
     # Deletes a list
@@ -65,7 +65,7 @@ module Klaviyo
         :phone_numbers => phone_numbers,
         :push_tokens => push_tokens
       }
-      v2_request(HTTP_GET, path, params)
+      v2_request(HTTP_GET, path, **params)
     end
 
     # Subscribe profiles to a list.
@@ -80,7 +80,7 @@ module Klaviyo
       params = {
         :profiles => profiles
       }
-      v2_request(HTTP_POST, path, params)
+      v2_request(HTTP_POST, path, **params)
     end
 
     # Unsubscribe and remove profiles from a list
@@ -92,7 +92,7 @@ module Klaviyo
       params = {
         :emails => emails
       }
-      v2_request(HTTP_DELETE, path, params)
+      v2_request(HTTP_DELETE, path, **params)
     end
 
     # Add profiles to a list
@@ -106,7 +106,7 @@ module Klaviyo
       params = {
         :profiles => profiles
       }
-      v2_request(HTTP_POST, path, params)
+      v2_request(HTTP_POST, path, **params)
     end
 
     # Check if profiles are on a list
@@ -123,7 +123,7 @@ module Klaviyo
         :phone_numbers => phone_numbers,
         :push_tokens => push_tokens
       }
-      v2_request(HTTP_GET, path, params)
+      v2_request(HTTP_GET, path, **params)
     end
 
     # Remove profiles from a list
@@ -139,7 +139,7 @@ module Klaviyo
         :phone_numbers => phone_numbers,
         :push_tokens => push_tokens
       }
-      v2_request(HTTP_DELETE, path, params)
+      v2_request(HTTP_DELETE, path, **params)
     end
 
     # Get all emails, phone numbers, along with reasons for list exclusion
@@ -151,7 +151,7 @@ module Klaviyo
       params = {
         :marker => marker
       }
-      v2_request(HTTP_GET, path, params)
+      v2_request(HTTP_GET, path, **params)
     end
 
     # Get all of the emails, phone numbers, and push tokens for profiles in a given list or segment
