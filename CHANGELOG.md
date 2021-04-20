@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.7
+
+* Update functions with kwargs to support Ruby 3+
+
 ### 2.0.6
 
 * Update track request for compatibility w/ Ruby v3.0+
