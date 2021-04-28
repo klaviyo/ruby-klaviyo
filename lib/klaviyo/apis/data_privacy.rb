@@ -12,7 +12,6 @@ module Klaviyo
         raise Klaviyo::KlaviyoError.new(INVALID_ID_TYPE_ERROR)
       end
       data = Hash[id_type.to_sym, identifier]
-      puts data
       path = "#{DATA_PRIVACY}/#{DELETION_REQUEST}"
       v2_request(HTTP_POST, path, **data)
     end
