@@ -11,9 +11,9 @@ module Klaviyo
       unless ['email', 'phone_number', 'person_id'].include? id_type
         raise Klaviyo::KlaviyoError.new(INVALID_ID_TYPE_ERROR)
       end
-      identifier = { id_type => identifier }
+      data = Hash[id_type.to_sym, identifier]
       path = "#{DATA_PRIVACY}/#{DELETION_REQUEST}"
-      v2_request(HTTP_POST, path, **identifier)
+      v2_request(HTTP_POST, path, **data)
     end
   end
 end

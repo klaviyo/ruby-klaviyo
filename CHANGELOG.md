@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.8
+
+* Update data privacy request for compatibility
+
 ### 2.0.7
 
 * Update functions with kwargs to support Ruby 3+
