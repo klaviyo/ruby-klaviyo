@@ -1,11 +1,11 @@
 module Klaviyo
-  class Public < Client
+  module Public
     # Used for identifying customers and managing profile properties
     #
     # @kwarg :id [String] the customer or profile id
     # @kwarg :email [String] the customer or profile email
     # @kwarg :properties [Hash] properties of the profile to add or update
-    def self.identify(kwargs = {})
+    def identify(kwargs = {})
       defaults = {:id => nil,
                   :email => nil,
                   :phone_number => nil,
@@ -39,7 +39,7 @@ module Klaviyo
     # @kwarg :properties [Hash] properties of the event
     # @kwargs :customer_properties [Hash] properties of the customer or profile
     # @kwargs :time [Integer] timestamp of the event
-    def self.track(event, kwargs = {})
+    def track(event, kwargs = {})
       defaults = {
         :id => nil,
         :email => nil,
@@ -71,7 +71,7 @@ module Klaviyo
       public_request(HTTP_GET, 'track', **params)
     end
 
-    def self.track_once(event, kwargs = {})
+    def track_once(event, kwargs = {})
       kwargs.update('__track_once__' => true)
       track(event, kwargs)
     end

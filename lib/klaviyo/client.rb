@@ -21,10 +21,20 @@ module Klaviyo
     CONTENT_JSON = 'application/json'
     CONTENT_URL_FORM = 'application/x-www-form-urlencoded'
 
-    private
+    include Klaviyo::Campaigns
+    include Klaviyo::DataPrivacy
+    include Klaviyo::EmailTemplates
+    include Klaviyo::Lists
+    include Klaviyo::Metrics
+    include Klaviyo::Profiles
+    include Klaviyo::Public
 
-    def self.request(method, path, content_type, **kwargs)
-      check_private_api_key_exists()
+    def initialize(public_api_key, private_api_key)
+      @public_api_key = public_api_key
+      @private_api_key = private_api_key
+    end
+
+    def request(method, path, content_type, **kwargs)
       url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
         url: url,
@@ -39,18 +49,17 @@ module Klaviyo
       end
     end
 
-    def self.public_request(method, path, **kwargs)
-      check_public_api_key_exists()
+    def public_request(method, path, **kwargs)
       params = build_params(kwargs)
       url = "#{BASE_API_URL}/#{path}?#{params}"
       res = Faraday.get(url).body
     end
 
-    def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
+    def v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
       if content_type == CONTENT_URL_FORM
         data = {
           :body => {
-            :api_key => Klaviyo.private_api_key
+            :api_key => @private_api_key
           }
         }
         data[:body] = data[:body].merge(kwargs[:params])
@@ -63,26 +72,26 @@ module Klaviyo
                     :sort => nil}
         params = defaults.merge(kwargs)
         query_params = encode_params(params)
-        full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+        full_url = "#{V1_API}/#{path}?api_key=#{@private_api_key}#{query_params}"
         request(method, full_url, content_type)
       end
     end
 
-    def self.v2_request(method, path, **kwargs)
+    def v2_request(method, path, **kwargs)
       path = "#{V2_API}/#{path}"
       key = {
-        "api_key": "#{Klaviyo.private_api_key}"
+        "api_key": "#{@private_api_key}"
       }
       data = {}
       data[:body] = key.merge(kwargs)
       request(method, path, CONTENT_JSON, **data)
     end
 
-    def self.build_params(params)
+    def build_params(params)
       "data=#{CGI.escape(Base64.encode64(JSON.generate(params)).gsub(/\n/, ''))}"
     end
 
-    def self.check_required_args(kwargs)
+    def check_required_args(kwargs)
       if kwargs[:email].to_s.empty? and kwargs[:phone_number].to_s.empty? and kwargs[:id].to_s.empty?
         raise Klaviyo::KlaviyoError.new(REQUIRED_ARG_ERROR)
       else
@@ -90,19 +99,7 @@ module Klaviyo
       end
     end
 
-    def self.check_private_api_key_exists()
-      if !Klaviyo.private_api_key
-        raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
-      end
-    end
-
-    def self.check_public_api_key_exists()
-      if !Klaviyo.public_api_key
-        raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
-      end
-    end
-
-    def self.encode_params(kwargs)
+    def encode_params(kwargs)
       kwargs.select!{|k, v| v}
       params = URI.encode_www_form(kwargs)
 

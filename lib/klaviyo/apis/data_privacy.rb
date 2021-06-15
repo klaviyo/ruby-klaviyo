@@ -1,5 +1,5 @@
 module Klaviyo
-  class DataPrivacy < Client
+  module DataPrivacy
     DATA_PRIVACY = 'data-privacy'
     DELETION_REQUEST = 'deletion-request'
 
@@ -7,7 +7,7 @@ module Klaviyo
     # @param id_type [String] 'email' or 'phone_number' or 'person_id
     # @param identifier [String] value for the identifier specified
     # @return a dictionary with a confirmation that deletion task submitted for the customer
-    def self.request_profile_deletion(id_type, identifier)
+    def request_profile_deletion(id_type, identifier)
       unless ['email', 'phone_number', 'person_id'].include? id_type
         raise Klaviyo::KlaviyoError.new(INVALID_ID_TYPE_ERROR)
       end
