@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.0.9
+
+* Update Public API requests to POST
+
 ### 2.0.8
 
 * Update data privacy request for compatibility
