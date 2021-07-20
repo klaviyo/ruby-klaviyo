@@ -27,7 +27,7 @@ module Klaviyo
         :properties => properties
       }
 
-      public_request(HTTP_GET, 'identify', **params)
+      public_request(HTTP_POST, 'identify', **params)
     end
 
     # Used for tracking events and customer behaviors
@@ -68,7 +68,7 @@ module Klaviyo
       }
       params[:time] = kwargs[:time] if kwargs[:time]
 
-      public_request(HTTP_GET, 'track', **params)
+      public_request(HTTP_POST, 'track', **params)
     end
 
     def self.track_once(event, kwargs = {})
