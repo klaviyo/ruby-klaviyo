@@ -18,6 +18,7 @@ module Klaviyo
     DEFAULT_PAGE = 0
     DEFAULT_SORT_DESC = 'desc'
 
+    CONTENT_TYPE = 'Content-Type'
     CONTENT_JSON = 'application/json'
     CONTENT_URL_FORM = 'application/x-www-form-urlencoded'
 
@@ -29,7 +30,7 @@ module Klaviyo
       connection = Faraday.new(
         url: url,
         headers: {
-          'Content-Type' => content_type
+          CONTENT_TYPE => content_type
       })
       if content_type == CONTENT_JSON
         kwargs[:body] = kwargs[:body].to_json
@@ -41,9 +42,8 @@ module Klaviyo
 
     def self.public_request(method, path, **kwargs)
       check_public_api_key_exists()
-      params = build_params(kwargs)
-      url = "#{BASE_API_URL}/#{path}?#{params}"
-      res = Faraday.get(url).body
+      url = "#{BASE_API_URL}/#{path}"
+      res = Faraday.post(url, kwargs.to_json, CONTENT_TYPE => CONTENT_JSON).body
     end
 
     def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
@@ -76,10 +76,6 @@ module Klaviyo
       data = {}
       data[:body] = key.merge(kwargs)
       request(method, path, CONTENT_JSON, **data)
-    end
-
-    def self.build_params(params)
-      "data=#{CGI.escape(Base64.encode64(JSON.generate(params)).gsub(/\n/, ''))}"
     end
 
     def self.check_required_args(kwargs)
