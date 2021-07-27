@@ -2,7 +2,7 @@
 
 ### 2.0.9
 
-* Update Public API requests to POST
+* Deprecation of GET requests on Public API in favor of POST requests.
 
 ### 2.0.8
 
