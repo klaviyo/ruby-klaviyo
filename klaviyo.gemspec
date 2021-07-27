@@ -3,7 +3,7 @@ files = ['klaviyo.gemspec', '{lib}/**/**/*'].map {|f| Dir[f]}.flatten
 Gem::Specification.new do |s|
   s.name        = 'klaviyo'
   s.version     = '2.0.9'
-  s.date        = '2021-05-21'
+  s.date        = '2021-07-27'
   s.summary     = 'You heard us, a Ruby wrapper for the Klaviyo API'
   s.description = 'Ruby wrapper for the Klaviyo API'
   s.authors     = ['Klaviyo Team']
@@ -13,6 +13,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.add_dependency 'json'
   s.add_dependency 'rack'
-  s.add_dependency 'escape'
   s.add_dependency 'faraday'
 end
