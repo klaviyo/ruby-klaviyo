@@ -24,4 +24,6 @@ module Klaviyo
   NO_PUBLIC_API_KEY_ERROR = 'Please provide your Public API key for this request'
   REQUIRED_ARG_ERROR = 'You must identify a user by email, ID or phone_number'
   INVALID_ID_TYPE_ERROR = 'Invalid id_type provided, must be one of: email, phone_number, person_id'
+  PRIVATE_KEY_AS_PUBLIC = 'Priave API key added in place of Public API key'
+  INCORRECT_PUBLIC_API_KEY_LENGTH = 'Public API Key must be 6 characters'
 end
