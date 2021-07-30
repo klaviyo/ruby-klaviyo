@@ -69,7 +69,7 @@ Klaviyo::Public.identify(
 # using a POST request to track events
 Klaviyo::Public.track(
   'Filled out profile',
-  http_method: 'post',
+  method: 'post',
   email: 'someone@mailinator.com',
   properties: {
     'Added social accounts': false
