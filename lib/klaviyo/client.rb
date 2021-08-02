@@ -46,8 +46,11 @@ module Klaviyo
         url = "#{BASE_API_URL}/#{path}?#{params}"
         res = Faraday.get(url).body
       elsif method == HTTP_POST
-        url = "#{BASE_API_URL}/#{path}"
-        res = Faraday.post(url, kwargs.to_json, 'Content-Type' => CONTENT_JSON).body
+        url = URI("#{BASE_API_URL}/#{path}")
+        response = Faraday.post(url) do |req|
+          req.headers['Content-Type'] = CONTENT_URL_FORM
+          req.headers['Accept'] = 'text/html'
+          req.body = {data: "#{kwargs.to_json}"}
       end
     end
 
