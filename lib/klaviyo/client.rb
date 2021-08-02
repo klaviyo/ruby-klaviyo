@@ -51,6 +51,7 @@ module Klaviyo
           req.headers['Content-Type'] = CONTENT_URL_FORM
           req.headers['Accept'] = 'text/html'
           req.body = {data: "#{kwargs.to_json}"}
+        end
       end
     end
 
