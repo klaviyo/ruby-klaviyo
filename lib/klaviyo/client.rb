@@ -109,12 +109,10 @@ module Klaviyo
       if !Klaviyo.public_api_key
         raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
       end
-      is_not_private_key = Klaviyo.public_api_key =~ /pk_\w{34}$/
-      valid_public_key = Klaviyo.public_api_key =~ /\w{6}$/
-      if is_not_private_key == 0
+      if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
         raise KlaviyoError.new(PRIVATE_KEY_AS_PUBLIC)
       end
-      if valid_public_key != 0
+      if ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
         raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
