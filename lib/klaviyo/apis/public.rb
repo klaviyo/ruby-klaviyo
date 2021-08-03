@@ -4,12 +4,15 @@ module Klaviyo
     #
     # @kwarg :id [String] the customer or profile id
     # @kwarg :email [String] the customer or profile email
+    # @kwarg :phone_number [String] the customer or profile phone number
     # @kwarg :properties [Hash] properties of the profile to add or update
+    # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
     def self.identify(kwargs = {})
       defaults = {:id => nil,
                   :email => nil,
                   :phone_number => nil,
-                  :properties => {}
+                  :properties => {},
+                  :method => HTTP_GET
                  }
       kwargs = defaults.merge(kwargs)
 
@@ -27,7 +30,7 @@ module Klaviyo
         :properties => properties
       }
 
-      public_request(HTTP_GET, 'identify', **params)
+      public_request(kwargs[:method], 'identify', **params)
     end
 
     # Used for tracking events and customer behaviors
@@ -39,6 +42,7 @@ module Klaviyo
     # @kwarg :properties [Hash] properties of the event
     # @kwargs :customer_properties [Hash] properties of the customer or profile
     # @kwargs :time [Integer] timestamp of the event
+    # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
     def self.track(event, kwargs = {})
       defaults = {
         :id => nil,
@@ -46,7 +50,8 @@ module Klaviyo
         :phone_number => nil,
         :properties => {},
         :customer_properties => {},
-        :time => nil
+        :time => nil,
+        :method => HTTP_GET
       }
 
       kwargs = defaults.merge(kwargs)
@@ -68,7 +73,7 @@ module Klaviyo
       }
       params[:time] = kwargs[:time] if kwargs[:time]
 
-      public_request(HTTP_GET, 'track', **params)
+      public_request(kwargs[:method], 'track', **params)
     end
 
     def self.track_once(event, kwargs = {})

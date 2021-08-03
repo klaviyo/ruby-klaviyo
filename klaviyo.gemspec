@@ -2,8 +2,8 @@ files = ['klaviyo.gemspec', '{lib}/**/**/*'].map {|f| Dir[f]}.flatten
 
 Gem::Specification.new do |s|
   s.name        = 'klaviyo'
-  s.version     = '2.0.8'
-  s.date        = '2021-04-28'
+  s.version     = '2.0.9'
+  s.date        = '2021-07-30'
   s.summary     = 'You heard us, a Ruby wrapper for the Klaviyo API'
   s.description = 'Ruby wrapper for the Klaviyo API'
   s.authors     = ['Klaviyo Team']

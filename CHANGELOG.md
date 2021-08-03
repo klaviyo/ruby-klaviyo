@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### 2.0.9
+
+* Added ability to make POST requests to public api
+* Added public API key validation
+
 ### 2.0.8
 
 * Update data privacy request for compatibility

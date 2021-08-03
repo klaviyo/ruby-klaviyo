@@ -43,7 +43,7 @@ Klaviyo::Public.track(
   'Filled out profile',
   email: 'someone@mailinator.com',
   properties: {
-    'Added social accounts' : False,
+    'Added social accounts' : false
   }
 )
 
@@ -52,7 +52,7 @@ Klaviyo::Public.track(
   'TestedSMSContact',
   phone_number: '+15555555555',
   properties: {
-    'Added social accounts' : False,
+    'Added social accounts' : false
   }
 )
 
@@ -63,6 +63,16 @@ Klaviyo::Public.identify(
     '$first_name': 'Thomas',
     '$last_name': 'Jefferson',
     'Plan': 'Premium'
+  }
+)
+
+# using a POST request to track events
+Klaviyo::Public.track(
+  'Filled out profile',
+  method: 'post',
+  email: 'someone@mailinator.com',
+  properties: {
+    'Added social accounts': false
   }
 )
 ```

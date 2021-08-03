@@ -40,10 +40,21 @@ module Klaviyo
     end
 
     def self.public_request(method, path, **kwargs)
-      check_public_api_key_exists()
-      params = build_params(kwargs)
-      url = "#{BASE_API_URL}/#{path}?#{params}"
-      res = Faraday.get(url).body
+      check_public_api_key_is_valid()
+      if method == HTTP_GET
+        params = build_params(kwargs)
+        url = "#{BASE_API_URL}/#{path}?#{params}"
+        res = Faraday.get(url).body
+      elsif method == HTTP_POST
+        url = URI("#{BASE_API_URL}/#{path}")
+        response = Faraday.post(url) do |req|
+          req.headers['Content-Type'] = CONTENT_URL_FORM
+          req.headers['Accept'] = 'text/html'
+          req.body = {data: "#{kwargs.to_json}"}
+        end
+      else
+        raise KlaviyoError.new(INVALID_HTTP_METHOD)
+      end
     end
 
     def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
@@ -96,9 +107,15 @@ module Klaviyo
       end
     end
 
-    def self.check_public_api_key_exists()
+    def self.check_public_api_key_is_valid()
       if !Klaviyo.public_api_key
         raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
+      end
+      if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
+        raise KlaviyoError.new(PRIVATE_KEY_AS_PUBLIC)
+      end
+      if ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
+        raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
 
