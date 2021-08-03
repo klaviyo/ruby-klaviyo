@@ -52,6 +52,8 @@ module Klaviyo
           req.headers['Accept'] = 'text/html'
           req.body = {data: "#{kwargs.to_json}"}
         end
+      else
+        raise KlaviyoError.new(INVALID_HTTP_METHOD)
       end
     end
 

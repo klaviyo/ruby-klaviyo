@@ -26,4 +26,5 @@ module Klaviyo
   INVALID_ID_TYPE_ERROR = 'Invalid id_type provided, must be one of: email, phone_number, person_id'
   PRIVATE_KEY_AS_PUBLIC = 'Private API key added in place of Public API key'
   INCORRECT_PUBLIC_API_KEY_LENGTH = 'Public API Key must be 6 characters'
+  INVALID_HTTP_METHOD = 'Invalid HTTP method present, please use "get" or "post"'
 end
