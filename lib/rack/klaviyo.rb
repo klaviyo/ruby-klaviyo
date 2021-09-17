@@ -26,7 +26,7 @@ module Rack
     def update_response!
       @response.each do |part|
         insert_at = part.index(@options[:insert_js_last] ? '</body' : '</head')
-        unless insert_at.nil?
+        unless insert_at.nil? || part.frozen?
           part.insert(insert_at, render_script.html_safe)
         end
       end
