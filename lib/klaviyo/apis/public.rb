@@ -1,5 +1,9 @@
 module Klaviyo
   class Public < Client
+    def initialize(public_api_key)
+      @public_api_key = public_api_key
+    end
+
     # Used for identifying customers and managing profile properties
     #
     # @kwarg :id [String] the customer or profile id

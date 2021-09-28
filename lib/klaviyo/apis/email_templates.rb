@@ -1,5 +1,9 @@
 module Klaviyo
   class EmailTemplates < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     EMAIL_TEMPLATES = 'email-templates'
     EMAIL_TEMPLATE = 'email-template'
     CLONE = 'clone'

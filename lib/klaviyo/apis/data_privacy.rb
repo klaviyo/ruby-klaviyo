@@ -1,5 +1,9 @@
 module Klaviyo
   class DataPrivacy < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     DATA_PRIVACY = 'data-privacy'
     DELETION_REQUEST = 'deletion-request'
 

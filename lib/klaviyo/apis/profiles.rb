@@ -1,5 +1,9 @@
 module Klaviyo
   class Profiles < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     PERSON = 'person'
     PEOPLE = 'people'
     SEARCH = 'search'

@@ -1,5 +1,9 @@
 module Klaviyo
   class Lists < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     EXCLUSIONS = 'exclusions'
     GROUP = 'group'
     LIST = 'list'

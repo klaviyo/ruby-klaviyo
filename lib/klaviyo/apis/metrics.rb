@@ -1,5 +1,9 @@
 module Klaviyo
   class Metrics < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     EXPORT = 'export'
 
     # Returns a list of all metrics in Klaviyo

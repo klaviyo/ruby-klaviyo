@@ -1,5 +1,9 @@
 module Klaviyo
   class Campaigns < Client
+    def initialize(private_api_key)
+      @private_api_key = private_api_key
+    end
+
     CANCEL = 'cancel'
     CAMPAIGN = 'campaign'
     CAMPAIGNS = 'campaigns'
