@@ -1,9 +1,5 @@
 module Klaviyo
   class Client
-    def initialize(public_api_key, private_api_key)
-      @public_api_key = public_api_key
-      @private_api_key = private_api_key
-    end
 
     BASE_API_URL = 'https://a.klaviyo.com/api'
     V1_API = 'v1'
