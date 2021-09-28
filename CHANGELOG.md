@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ### 2.1.0
-* Update for thread-safety
+* Update structure to create instances of API classes
 
 ### 2.0.9
 
