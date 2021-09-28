@@ -9,7 +9,7 @@ module Klaviyo
     # Returns a list of all the email templates you've created.
     # The templates are returned in sorted order by name.
     # @return [List] of JSON formatted email template objects
-    def self.get_templates()
+    def get_templates()
       v1_request(HTTP_GET, EMAIL_TEMPLATES)
     end
 
@@ -17,7 +17,7 @@ module Klaviyo
     # @param :name [String] The name of the email template
     # @param :html [String] The HTML content for this template
     # @return [JSON] a JSON object containing information about the email template
-    def self.create_template(name: nil, html: nil)
+    def create_template(name: nil, html: nil)
       params = {
         name: name,
         html: html
@@ -31,7 +31,7 @@ module Klaviyo
     # @param :name [String] The name of the email template
     # @param :html [String] The HTML content for this template
     # @return [JSON] a JSON object containing information about the email template
-    def self.update_template(template_id, name:, html:)
+    def update_template(template_id, name:, html:)
       path = "#{EMAIL_TEMPLATE}/#{template_id}"
       params = {
         name: name,
@@ -43,7 +43,7 @@ module Klaviyo
     # Deletes a given template.
     # @param template_id [String] The id of the email template
     # @return [JSON] a JSON object containing information about the email template
-    def self.delete_template(template_id)
+    def delete_template(template_id)
       path = "#{EMAIL_TEMPLATE}/#{template_id}"
       v1_request(HTTP_DELETE, path)
     end
@@ -52,7 +52,7 @@ module Klaviyo
     # @param template_id [String] The id of the email template to copy
     # @param :name [String] The name of the newly cloned email template
     # @return [JSON] a JSON object containing information about the email template
-    def self.clone_template(template_id, name:)
+    def clone_template(template_id, name:)
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{CLONE}"
       params = {
         name: name
@@ -65,7 +65,7 @@ module Klaviyo
     # @param template_id [String] The id of the email template to copy
     # @param :context [Hash] The context the email template will be rendered with
     # @return [JSON] a JSON object containing information about the email template
-    def self.render_template(template_id, context: {})
+    def render_template(template_id, context: {})
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{RENDER}"
       params = {
         context: context
@@ -82,7 +82,7 @@ module Klaviyo
     # @param :to [Mixed] The email this template is being sent to
     # @param :context [Hash] The context the email template will be rendered with
     # @return [JSON] a JSON object containing information about the email template
-    def self.send_template(template_id, from_email:, from_name:, subject:, to:, context: {})
+    def send_template(template_id, from_email:, from_name:, subject:, to:, context: {})
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{SEND}"
       params = {
         from_email: from_email,

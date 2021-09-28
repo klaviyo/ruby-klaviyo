@@ -7,7 +7,7 @@ module Klaviyo
     # @kwarg :phone_number [String] the customer or profile phone number
     # @kwarg :properties [Hash] properties of the profile to add or update
     # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
-    def self.identify(kwargs = {})
+    def identify(kwargs = {})
       defaults = {:id => nil,
                   :email => nil,
                   :phone_number => nil,
@@ -26,7 +26,7 @@ module Klaviyo
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
-        :token => Klaviyo.public_api_key,
+        :token => @public_api_key,
         :properties => properties
       }
 
@@ -43,7 +43,7 @@ module Klaviyo
     # @kwargs :customer_properties [Hash] properties of the customer or profile
     # @kwargs :time [Integer] timestamp of the event
     # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
-    def self.track(event, kwargs = {})
+    def track(event, kwargs = {})
       defaults = {
         :id => nil,
         :email => nil,
@@ -66,7 +66,7 @@ module Klaviyo
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
       params = {
-        :token => Klaviyo.public_api_key,
+        :token => @public_api_key,
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties
@@ -76,7 +76,7 @@ module Klaviyo
       public_request(kwargs[:method], 'track', **params)
     end
 
-    def self.track_once(event, kwargs = {})
+    def track_once(event, kwargs = {})
       kwargs.update('__track_once__' => true)
       track(event, kwargs)
     end

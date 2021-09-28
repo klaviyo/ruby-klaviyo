@@ -7,7 +7,7 @@ module Klaviyo
     # Retrieves the id of the profile given email
     # @param email [String] the email of the profile
     # @return [JSON] a JSON object containing id of the profile
-    def self.get_profile_id_by_email(email)
+    def get_profile_id_by_email(email)
       path = "#{PEOPLE}/#{SEARCH}"
       params = {
         :email => email
@@ -18,7 +18,7 @@ module Klaviyo
     # Retrieve all the data attributes for a Klaviyo Person ID.
     # @param person_id [String] the id of the profile
     # @return returns a person object
-    def self.get_person_attributes(person_id)
+    def get_person_attributes(person_id)
       path = "#{PERSON}/#{person_id}"
       v1_request(HTTP_GET, path)
     end
@@ -27,7 +27,7 @@ module Klaviyo
     # @param person_id [String] the id of the profile
     # @param kwargs [Key/value pairs] attributes to add/update in the profile
     # @return returns the updated person object
-    def self.update_person_attributes(person_id, kwargs = {})
+    def update_person_attributes(person_id, kwargs = {})
       path = "#{PERSON}/#{person_id}"
       v1_request(HTTP_PUT, path, **kwargs)
     end
@@ -38,7 +38,7 @@ module Klaviyo
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
     # @return returns a dictionary containing a list of metric event objects
-    def self.get_person_metrics_timeline(person_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
+    def get_person_metrics_timeline(person_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
       path = "#{PERSON}/#{person_id}/#{METRICS}/#{TIMELINE}"
       params = {
         :since => since,
@@ -55,7 +55,7 @@ module Klaviyo
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
     # @return returns a dictionary containing a list of metric event objects
-    def self.get_person_metric_timeline(person_id, metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
+    def get_person_metric_timeline(person_id, metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
       path = "#{PERSON}/#{person_id}/#{METRIC}/#{metric_id}/#{TIMELINE}"
       params = {
         :since => since,
