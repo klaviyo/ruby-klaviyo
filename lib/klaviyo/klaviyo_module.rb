@@ -13,10 +13,6 @@ require_relative 'apis/email_templates'
 require_relative 'apis/data_privacy'
 
 module Klaviyo
-  class << self
-    attr_accessor :public_api_key
-    attr_accessor :private_api_key
-  end
 
   class KlaviyoError < StandardError; end
 
