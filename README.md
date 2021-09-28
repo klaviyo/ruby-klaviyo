@@ -22,24 +22,21 @@ gem install klaviyo
 API Examples
 ------------
 
-Require the Klaviyo module in the file, and then set your Public and Private API keys:
+Require the Klaviyo module in the file:
 
 ```ruby
 # require the klaviyo module
 require 'klaviyo'
-
-# set your 6 digit Public API key
-Klaviyo.public_api_key = 'YOUR_PUBLIC_API_KEY'
-
-# set your Private API key
-Klaviyo.private_api_key = 'YOUR_PRIVATE_API_KEY'
 ```
 
 Public:
 
 ```ruby
+# set your public API key
+@public = Klaviyo::Public.new('PUBLIC_API_KEY')
+
 # used to track events
-Klaviyo::Public.track(
+@public.track(
   'Filled out profile',
   email: 'someone@mailinator.com',
   properties: {
@@ -48,7 +45,7 @@ Klaviyo::Public.track(
 )
 
 # using a phone number to track events
-Klaviyo::Public.track(
+@public.track(
   'TestedSMSContact',
   phone_number: '+15555555555',
   properties: {
@@ -57,7 +54,7 @@ Klaviyo::Public.track(
 )
 
 # used for identifying customers and managing profile properties
-Klaviyo::Public.identify(
+@public.identify(
   email: 'thomas.jefferson@mailinator.com',
   properties: {
     '$first_name': 'Thomas',
@@ -67,7 +64,7 @@ Klaviyo::Public.identify(
 )
 
 # using a POST request to track events
-Klaviyo::Public.track(
+@public.track(
   'Filled out profile',
   method: 'post',
   email: 'someone@mailinator.com',
@@ -80,23 +77,26 @@ Klaviyo::Public.track(
 Lists:
 
 ```ruby
+# create a new Lists instance and set the private API key
+@lists = Klaviyo::Lists.new('PRIVATE_API_KEY')
+
 # to add a new list
-Klaviyo::Lists.create_list('NEW_LIST_NAME')
+@lists.create_list('NEW_LIST_NAME')
 
 # to get all lists
-Klaviyo::Lists.get_lists()
+@lists.get_lists()
 
 # to get list details
-Klaviyo::Lists.get_list_details('LIST_ID')
+@lists.get_list_details('LIST_ID')
 
 # to update a list name
-Klaviyo::Lists.update_list_details('LIST_ID', 'LIST_NAME_UPDATED')
+@lists.update_list_details('LIST_ID', 'LIST_NAME_UPDATED')
 
 # to delete a list
-Klaviyo::Lists.delete_list('LIST_ID')
+@lists.delete_list('LIST_ID')
 
 # to check email address subscription status to a list
-Klaviyo::Lists.check_list_subscriptions(
+@lists.check_list_subscriptions(
   'LIST_ID',
   emails: ['test1@example.com'],
   phone_numbers: ['5555555555'],
@@ -104,7 +104,7 @@ Klaviyo::Lists.check_list_subscriptions(
 )
 
 # to add subscribers to a list, this will follow the lists double opt in settings
-Klaviyo::Lists.add_subscribers_to_list(
+@lists.add_subscribers_to_list(
   'LIST_ID',
   profiles: [
     {
@@ -117,13 +117,13 @@ Klaviyo::Lists.add_subscribers_to_list(
 )
 
 # to unsubscribe and remove profile from a list and suppress a profile
-Klaviyo::Lists.unsubscribe_from_list(
+@lists.unsubscribe_from_list(
   'LIST_ID',
   emails: ['test1@example.com']
 )
 
 # to add members to a list, this doesn't care about the list double opt in setting
-Klaviyo::Lists.add_to_list(
+@lists.add_to_list(
   'LIST_ID',
   profiles: [
     {
@@ -136,7 +136,7 @@ Klaviyo::Lists.add_to_list(
 )
 
 # to check email profiles if they're in a list
-Klaviyo::Lists.check_list_memberships(
+@lists.check_list_memberships(
   'LIST_ID',
   emails: ['test1@example.com'],
   phone_numbers: ['5555555555'],
@@ -144,7 +144,7 @@ Klaviyo::Lists.check_list_memberships(
 )
 
 # to remove profiles from a list
-Klaviyo::Lists.remove_from_list(
+@lists.remove_from_list(
   'LIST_ID',
   emails: ['test1@example.com'],
   phone_numbers: ['5555555555'],
@@ -152,30 +152,33 @@ Klaviyo::Lists.remove_from_list(
 )
 
 # to get exclusion emails from a list - marker is used for paginating
-Klaviyo::Lists.get_list_exclusions('LIST_ID', marker: 'EXAMPLE_MARKER')
+@lists.get_list_exclusions('LIST_ID', marker: 'EXAMPLE_MARKER')
 
 # to get all members in a group or list
-Klaviyo::Lists.get_group_members('LIST_ID')
+@lists.get_group_members('LIST_ID')
 ```
 
 Profiles:
 
 ```ruby
+# create a new Profiles instance and set the private API key
+@profiles = Klaviyo::Profiles.new('PRIVATE_API_KEY')
+
 # get profile id by email
-Klaviyo::Profiles.get_profile_id_by_email('EMAIL')
+@profiles.get_profile_id_by_email('EMAIL')
 
 # get profile by profile_id
-Klaviyo::Profiles.get_person_attributes('PROFILE_ID')
+@profiles.get_person_attributes('PROFILE_ID')
 
 # update a profile
-Klaviyo::Profiles.update_person_attributes(
+@profiles.update_person_attributes(
   'PROFILE_ID',
   PropertyName1: 'value',
   PropertyName2: 'value'
 )
 
 # get all metrics for a profile with the default kwargs
-Klaviyo::Profiles.get_person_metrics_timeline(
+@profiles.get_person_metrics_timeline(
   'PROFILE_ID',
   since: nil,
   count: 100,
@@ -183,7 +186,7 @@ Klaviyo::Profiles.get_person_metrics_timeline(
 )
 
 # get all events of a metric for a profile with the default kwargs
-Klaviyo::Profiles.get_person_metric_timeline(
+@profiles.get_person_metric_timeline(
   'PROFILE_ID',
   'METRIC_ID',
   since: nil,
@@ -195,18 +198,21 @@ Klaviyo::Profiles.get_person_metric_timeline(
 Metrics:
 
 ```ruby
+# create a new Metrics instance and set the private API key
+@metrics = Klaviyo::Metrics.new('PRIVATE_API_KEY')
+
 # get all metrics with the default kwargs
-Klaviyo::Metrics.get_metrics(page: 0, count: 100)
+@metrics.get_metrics(page: 0, count: 100)
 
 # get a batched timeline of all metrics with the default kwargs
-Klaviyo::Metrics.get_metrics_timeline(
+@metrics.get_metrics_timeline(
   since: nil,
   count: 100,
   sort: 'desc'
 )
 
 # get a batched timeline of a single metric with the default kwargs
-Klaviyo::Metrics.get_metric_timeline(
+@metrics.get_metric_timeline(
   'METRIC_ID',
   since: nil,
   count: 100,
@@ -214,7 +220,7 @@ Klaviyo::Metrics.get_metric_timeline(
 )
 
 # export data for a single metric
-Klaviyo::Metrics.get_metric_export(
+@metrics.get_metric_export(
   'METRIC_ID',
   start_date: nil,
   end_date: nil,
@@ -229,44 +235,50 @@ Klaviyo::Metrics.get_metric_export(
 Campaigns:
 
 ```ruby
+# create a new Campaigns instance and set the private API key
+@campaigns = Klaviyo::Campaigns.new('PRIVATE_API_KEY')
+
 # get Campaigns
-Klaviyo::Campaigns.get_campaigns()
+@campaigns.get_campaigns()
 
 # get specific Campaign details
-Klaviyo::Campaigns.get_campaign_details('CAMPAIGN_ID')
+@campaigns.get_campaign_details('CAMPAIGN_ID')
 
 # send Campaign
-Klaviyo::Campaigns.send_campaign('CAMPAIGN_ID')
+@campaigns.send_campaign('CAMPAIGN_ID')
 
 # cancel Campaign
-Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
+@campaigns.cancel_campaign('CAMPAIGN_ID')
 ```
 
 Email Templates:
 
 ```ruby
+# create a new EmailTemplates instance and set the private API key
+@emailTemplates = Klaviyo::EmailTemplates.new('PRIVATE_API_KEY')
+
 # get templates
-Klaviyo::EmailTemplates.get_templates()
+@emailTemplates.get_templates()
 
 # create a new template
-Klaviyo::EmailTemplates.create_template(name: 'TEMPLATE_NAME', html: 'TEMPLATE_HTML')
+@emailTemplates.create_template(name: 'TEMPLATE_NAME', html: 'TEMPLATE_HTML')
 
 # update template
 # does not update drag & drop templates at this time
-Klaviyo::EmailTemplates.update_template(
+@emailTemplates.update_template(
   'TEMPLATE_ID',
   name: 'UPDATED_TEMPLATE_NAME',
   html: 'UPDATED_TEMPLATE_HTML'
 )
 
 # delete template
-Klaviyo::EmailTemplates.delete_template('TEMPLATE_ID')
+@emailTemplates.delete_template('TEMPLATE_ID')
 
 # clone a template with a new name
-Klaviyo::EmailTemplates.clone_template('TEMPLATE_ID', 'NEW_TEMPLATE_NAME')
+@emailTemplates.clone_template('TEMPLATE_ID', 'NEW_TEMPLATE_NAME')
 
 # render template - returns html and text versions of template
-Klaviyo::EmailTemplates.render_template(
+@emailTemplates.render_template(
   'TEMPLATE_ID',
   context: {
     name: 'RECIPIENT_NAME',
@@ -275,7 +287,7 @@ Klaviyo::EmailTemplates.render_template(
 )
 
 # send template
-Klaviyo::EmailTemplates.send_template(
+@emailTemplates.send_template(
   'TEMPLATE_ID',
   from_email: 'FROM_EMAIL_ADDRESS',
   from_name: 'FROM_EMAIL_NAME',
@@ -291,14 +303,17 @@ Klaviyo::EmailTemplates.send_template(
 Data Privacy:
 
 ```ruby
+# create a new DataPrivacy instance and set the private API key
+@dataPrivacy = Klaviyo::DataPrivacy.new('PRIVATE_API_KEY')
+
 # delete profile by email
-Klaviyo::DataPrivacy.request_profile_deletion('email','EMAIL')
+@dataPrivacy.request_profile_deletion('email','EMAIL')
 
 # delete profile by phone number
-Klaviyo::DataPrivacy.request_profile_deletion('phone_number','PHONE_NUMBER')
+@dataPrivacy.request_profile_deletion('phone_number','PHONE_NUMBER')
 
 # delete profile by person id
-Klaviyo::DataPrivacy.request_profile_deletion('person_id','PERSON_ID')
+@dataPrivacy.request_profile_deletion('person_id','PERSON_ID')
 ```
 
 How to use it with a Rails application?
@@ -313,21 +328,20 @@ config.middleware.use "Klaviyo::Client::Middleware", "YOUR_PUBLIC_KLAVIYO_API_TO
 
 This will automatically insert the Klaviyo script at the bottom on your HTML page, right before the closing `body` tag.
 
-To record customer actions directly from your backend, in your `application_controller` class add a method to initialize set your public and private API tokens.
+To record customer actions directly from your backend, in your `application_controller` class add a method to initialize and set your public API token.
 
 ```ruby
 require 'klaviyo'
 
 class ApplicationController < ActionController::Base
-  Klaviyo.public_api_key = 'YOUR_PUBLIC_API_KEY'
-  Klaviyo.private_api_key = 'YOUR_PRIVATE_API_KEY'
+  @public = Klaviyo::Public.new('PUBLIC_API_KEY')
 end
 ```
 
 Then in your controllers where you'd like to record an event:
 
 ```ruby
-Klaviyo::Public.track('Did something important',
+@public.track('Did something important',
   email: 'john.smith@example.com',
   properties:
   {
