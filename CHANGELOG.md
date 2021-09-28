@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+### 2.1.0
+* Update for thread-safety
+
 ### 2.0.9
 
 * Added ability to make POST requests to public api
