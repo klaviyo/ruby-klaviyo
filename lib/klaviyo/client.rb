@@ -3,6 +3,7 @@ module Klaviyo
     BASE_API_URL = 'https://a.klaviyo.com/api'
     V1_API = 'v1'
     V2_API = 'v2'
+    KL_USER_AGENT = 'Ruby_Klaviyo/2.1.0'
 
     HTTP_DELETE = 'delete'
     HTTP_GET = 'get'
@@ -29,7 +30,8 @@ module Klaviyo
       connection = Faraday.new(
         url: url,
         headers: {
-          'Content-Type' => content_type
+          'Content-Type' => content_type,
+          'User-Agent' => KL_USER_AGENT
       })
       if content_type == CONTENT_JSON
         kwargs[:body] = kwargs[:body].to_json
@@ -44,12 +46,13 @@ module Klaviyo
       if method == HTTP_GET
         params = build_params(kwargs)
         url = "#{BASE_API_URL}/#{path}?#{params}"
-        res = Faraday.get(url).body
+        res = Faraday.get(url, {}, { 'User-Agent' => KL_USER_AGENT }).body
       elsif method == HTTP_POST
         url = URI("#{BASE_API_URL}/#{path}")
         response = Faraday.post(url) do |req|
           req.headers['Content-Type'] = CONTENT_URL_FORM
           req.headers['Accept'] = 'text/html'
+          req.headers['User-Agent'] = KL_USER_AGENT
           req.body = {data: "#{kwargs.to_json}"}
         end
       else
@@ -112,10 +115,10 @@ module Klaviyo
         raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
       end
       if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
-        raise KlaviyoError.new(PRIVATE_KEY_AS_PUBLIC)
+        warn(PRIVATE_KEY_AS_PUBLIC)
       end
       if ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
-        raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
+        warn(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
 
