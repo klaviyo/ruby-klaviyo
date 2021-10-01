@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### 2.1.0
+
+* Remove exception for checking API keys
+* Added warnings for API keys
+* Added Ruby_Klaviyo user agent
+
 ### 2.0.9
 
 * Added ability to make POST requests to public api
