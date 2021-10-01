@@ -6,7 +6,8 @@ module Klaviyo
   class KlaviyoError < StandardError; end
 
   class Client
-    KL_USER_AGENT = 'Ruby_Klaviyo/1.2.0'
+    VERSION = '1.2.0'
+    KL_USER_AGENT = "Ruby_Klaviyo/#{VERSION}"
 
     def initialize(api_key, url = 'https://a.klaviyo.com/')
       @api_key = api_key
