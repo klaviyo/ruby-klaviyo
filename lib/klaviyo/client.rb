@@ -118,9 +118,8 @@ module Klaviyo
       end
       if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
         warn(PRIVATE_KEY_AS_PUBLIC)
-      end
-      if ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
-        warn(INCORRECT_PUBLIC_API_KEY_LENGTH)
+      elsif ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
+        raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
 
