@@ -4,7 +4,7 @@ module Klaviyo
     V1_API = 'v1'
     V2_API = 'v2'
 
-    KL_VERSION = '2.1.0'
+    KL_VERSION = '2.2.0'
     KL_USER_AGENT = "Ruby_Klaviyo/#{KL_VERSION}"
 
     HTTP_DELETE = 'delete'

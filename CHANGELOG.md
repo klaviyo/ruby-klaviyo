@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.2.0
+
+* Added per-request configuration
+
 ### 2.1.0
 
 * Remove exception for checking API keys
