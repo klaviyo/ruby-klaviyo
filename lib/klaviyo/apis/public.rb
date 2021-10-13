@@ -25,8 +25,10 @@ module Klaviyo
       properties[:$phone_number] = kwargs[:phone_number] unless kwargs[:phone_number].to_s.empty?
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
+      token = kwargs[:token] || Klaviyo.public_api_key
+
       params = {
-        :token => Klaviyo.public_api_key,
+        :token => token,
         :properties => properties
       }
 
@@ -65,8 +67,10 @@ module Klaviyo
       customer_properties[:$phone_number] = kwargs[:phone_number] unless kwargs[:phone_number].to_s.empty?
       customer_properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
+      token = kwargs[:token] || Klaviyo.public_api_key || nil
+
       params = {
-        :token => Klaviyo.public_api_key,
+        :token => token,
         :event => event,
         :properties => kwargs[:properties],
         :customer_properties => customer_properties

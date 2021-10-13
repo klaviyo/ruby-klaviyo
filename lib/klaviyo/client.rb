@@ -44,7 +44,7 @@ module Klaviyo
     end
 
     def self.public_request(method, path, **kwargs)
-      check_public_api_key_is_valid()
+      check_public_api_key_is_valid(kwargs[:token])
       if method == HTTP_GET
         params = build_params(kwargs)
         url = "#{BASE_API_URL}/#{path}?#{params}"
@@ -112,13 +112,13 @@ module Klaviyo
       end
     end
 
-    def self.check_public_api_key_is_valid()
-      if !Klaviyo.public_api_key
+    def self.check_public_api_key_is_valid(token)
+      if !token
         raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
       end
-      if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
+      if ( token =~ /pk_\w{34}$/ ) == 0
         warn(PRIVATE_KEY_AS_PUBLIC)
-      elsif ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
+      elsif ( token =~ /\w{6}$/ ) != 0
         raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
