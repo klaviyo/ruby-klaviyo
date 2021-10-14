@@ -2,7 +2,7 @@
 
 ### 2.2.0
 
-* Added per-request configuration
+* Added feature to set API key per-request for public APIs
 
 ### 2.1.0
 
