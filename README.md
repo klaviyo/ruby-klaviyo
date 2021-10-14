@@ -77,6 +77,31 @@ Klaviyo::Public.track(
 )
 ```
 
+You can set the Public API key per-request by using the 'token' argument.  This allows you to send track or identify requests to different Klaviyo accounts:
+
+```ruby
+# sending a track request to account xXyYzZ
+Klaviyo::Public.track(
+  'Filled out profile',
+  token: 'xXyYzZ',
+  email: 'someone@mailinator.com',
+  properties: {
+    'Added social accounts' : false
+  }
+)
+
+# sending an identify request to account xXyYzZ
+Klaviyo::Public.identify(
+  email: 'thomas.jefferson@mailinator.com',
+  token: 'xXyYzZ',
+  properties: {
+    '$first_name': 'Thomas',
+    '$last_name': 'Jefferson',
+    'Plan': 'Premium'
+  }
+)
+```
+
 Lists:
 
 ```ruby
