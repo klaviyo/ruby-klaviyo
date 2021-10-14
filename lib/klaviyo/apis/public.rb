@@ -12,7 +12,8 @@ module Klaviyo
                   :email => nil,
                   :phone_number => nil,
                   :properties => {},
-                  :method => HTTP_GET
+                  :method => HTTP_GET,
+                  :token => nil
                  }
       kwargs = defaults.merge(kwargs)
 
@@ -25,7 +26,7 @@ module Klaviyo
       properties[:$phone_number] = kwargs[:phone_number] unless kwargs[:phone_number].to_s.empty?
       properties[:id] = kwargs[:id] unless kwargs[:id].to_s.empty?
 
-      token = kwargs[:token] || Klaviyo.public_api_key
+      token = kwargs[:token] || Klaviyo.public_api_key || nil
 
       params = {
         :token => token,
@@ -53,7 +54,8 @@ module Klaviyo
         :properties => {},
         :customer_properties => {},
         :time => nil,
-        :method => HTTP_GET
+        :method => HTTP_GET,
+        :token => nil
       }
 
       kwargs = defaults.merge(kwargs)
