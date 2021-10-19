@@ -6,12 +6,12 @@ module Klaviyo
     # @param page [Integer] which page to return, default 0
     # @param count [Integer] number of results to return, default 100
     # @return a dictionary with a data property that contains an array of all the metrics
-    def self.get_metrics(page: DEFAULT_PAGE, count: DEFAULT_COUNT)
+    def self.get_metrics(page: DEFAULT_PAGE, count: DEFAULT_COUNT, api_key: nil)
       params = {
         :page => page,
         :count => count
       }
-      v1_request(HTTP_GET, METRICS, **params)
+      v1_request(HTTP_GET, METRICS, api_key: api_key, **params)
     end
 
     # Returns a batched timeline of all events in your Klaviyo account.
@@ -19,14 +19,14 @@ module Klaviyo
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
     # @return a dictionary with a data property that contains an array of the metrics
-    def self.get_metrics_timeline(since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
+    def self.get_metrics_timeline(since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC, api_key: nil)
       path = "#{METRICS}/#{TIMELINE}"
       params = {
         :since => since,
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, **params)
+      v1_request(HTTP_GET, path, api_key: api_key, **params)
     end
 
     # Returns a batched timeline for one specific type of metric.
@@ -35,14 +35,14 @@ module Klaviyo
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
     # @return a dictionary with a data property that contains information about what metric the event tracks
-    def self.get_metric_timeline(metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC)
+    def self.get_metric_timeline(metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC, api_key: nil)
       path = "#{METRIC}/#{metric_id}/#{TIMELINE}"
       params = {
         :since => since,
         :count => count,
         :sort => sort
       }
-      v1_request(HTTP_GET, path, **params)
+      v1_request(HTTP_GET, path, api_key: api_key, **params)
     end
 
     # Export event data, optionally filtering and segmented on available event properties
@@ -62,7 +62,8 @@ module Klaviyo
                                measurement: nil,
                                where: nil,
                                by: nil,
-                               count: nil
+                               count: nil,
+                               api_key: nil
                                )
       path = "#{METRIC}/#{metric_id}/#{EXPORT}"
       params = {
@@ -74,7 +75,7 @@ module Klaviyo
         :by => by,
         :count => count
       }
-      v1_request(HTTP_GET, path, **params)
+      v1_request(HTTP_GET, path, api_key: api_key, **params)
     end
   end
 end
