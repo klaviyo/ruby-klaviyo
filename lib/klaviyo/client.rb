@@ -62,11 +62,12 @@ module Klaviyo
       end
     end
 
-    def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
+    def self.v1_request(method, path, api_key: nil, content_type: CONTENT_JSON, **kwargs)
       if content_type == CONTENT_URL_FORM
+        priv_api_key = api_key || Klaviyo.private_api_key || nil
         data = {
           :body => {
-            :api_key => Klaviyo.private_api_key
+            :api_key => priv_api_key
           }
         }
         data[:body] = data[:body].merge(kwargs[:params])
@@ -79,7 +80,8 @@ module Klaviyo
                     :sort => nil}
         params = defaults.merge(kwargs)
         query_params = encode_params(params)
-        full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+        priv_api_key = api_key || Klaviyo.private_api_key || nil
+        full_url = "#{V1_API}/#{path}?api_key=#{priv_api_key}#{query_params}"
         request(method, full_url, content_type)
       end
     end
