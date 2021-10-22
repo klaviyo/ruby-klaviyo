@@ -86,10 +86,11 @@ module Klaviyo
       end
     end
 
-    def self.v2_request(method, path, **kwargs)
+    def self.v2_request(method, path, api_key: nil, **kwargs)
       path = "#{V2_API}/#{path}"
+      priv_api_key = api_key || Klaviyo.private_api_key || nil
       key = {
-        "api_key": "#{Klaviyo.private_api_key}"
+        "api_key": "#{priv_api_key}"
       }
       data = {}
       data[:body] = key.merge(kwargs)
