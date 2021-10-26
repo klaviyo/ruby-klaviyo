@@ -110,8 +110,7 @@ Lists:
 # to add a new list
 Klaviyo::Lists.create_list('NEW_LIST_NAME')
 
-# to add a new list to a Klaviyo account that is different from the one you set with Klaviyo.private_api_key, use the 'api_key' keyword argument
-
+# add a new list using a different api key
 Klaviyo::Lists.create_list('NEW_LIST_NAME', api_key: 'pk_EXAMPLE_API_KEY')
 
 # to get all lists
@@ -134,8 +133,7 @@ Klaviyo::Lists.check_list_subscriptions(
   push_tokens: ['PUSH_TOKEN']
 )
 
-# to check the list subscriptions for a list in a Klaviyo account that is different from the one you set with Klaviyo.private_api_key, use the 'api_key' keyword argument
-
+# check email address subscription status to a list using a different api key
 Klaviyo::Lists.check_list_subscriptions(
   'LIST_ID',
   api_key: 'pk_EXAMPLE_API_KEY',
@@ -195,7 +193,7 @@ Klaviyo::Lists.remove_from_list(
 # to get exclusion emails from a list - marker is used for paginating
 Klaviyo::Lists.get_list_exclusions('LIST_ID', marker: 'EXAMPLE_MARKER')
 
-# to get the list exclusions for a list in a Klaviyo account that is different from the one you set with Klaviyo.private_api_key, use the 'api_key' keyword argument
+# to get exclusion emails from a list - marker is used for paginating using a different api key
 Klaviyo::Lists.get_list_exclusions(
   'LIST_ID',
   marker: 'EXAMPLE_MARKER',
@@ -212,7 +210,7 @@ Profiles:
 # get profile id by email
 Klaviyo::Profiles.get_profile_id_by_email('EMAIL')
 
-# to get profile id by email from a different Klaviyo account, set the private API key using the api_key keyword argument
+# get profile id by email using a different api key
 Klaviyo::Profiles.get_profile_id_by_email('EMAIL', api_key: 'pk_EXAMPLE_API_KEY')
 
 # get profile by profile_id
@@ -233,7 +231,7 @@ Klaviyo::Profiles.get_person_metrics_timeline(
   sort: 'desc'
 )
 
-# to get all metrics for a profile in a separate Klaviyo account, use the api_key keyword argument
+# get all metrics for a profile with the default kwargs using a different api key
 Klaviyo::Profiles.get_person_metrics_timeline(
   'PROFILE_ID',
   since: nil,
@@ -259,7 +257,7 @@ Metrics:
 # get all metrics with the default kwargs
 Klaviyo::Metrics.get_metrics(page: 0, count: 100)
 
-# get all metrics with the default kwargs for a different Klaviyo account
+# get all metrics with the default kwargs using a different api key
 Klaviyo::Metrics.get_metrics(page: 0, count: 100, api_key: 'pk_EXAMPLE_API_KEY')
 
 # get a batched timeline of all metrics with the default kwargs
@@ -277,7 +275,7 @@ Klaviyo::Metrics.get_metric_timeline(
   sort: 'desc'
 )
 
-# get a batched timeline of a single metric with the default kwargs for a metric in a separate Klaviyo account
+# get a batched timeline of a single metric with the default kwargs using a different api key
 Klaviyo::Metrics.get_metric_timeline(
   'METRIC_ID',
   since: nil,
@@ -305,7 +303,7 @@ Campaigns:
 # get Campaigns
 Klaviyo::Campaigns.get_campaigns()
 
-# get Campaigns from a different Klaviyo account
+# get Campaigns using a different api key
 Klaviyo::Campaigns.get_campaigns(api_key: 'pk_EXAMPLE_API_KEY')
 
 # get specific Campaign details
@@ -353,6 +351,15 @@ Klaviyo::EmailTemplates.clone_template('TEMPLATE_ID', 'NEW_TEMPLATE_NAME')
 # render template - returns html and text versions of template
 Klaviyo::EmailTemplates.render_template(
   'TEMPLATE_ID',
+  context: {
+    name: 'RECIPIENT_NAME',
+    email: 'RECIPIENT_EMAIL_ADDRESS'
+  }
+
+# render template - returns html and text versions of template using a different api key
+Klaviyo::EmailTemplates.render_template(
+  'TEMPLATE_ID',
+  api_key: 'pk_EXAMPLE_API_KEY',
   context: {
     name: 'RECIPIENT_NAME',
     email: 'RECIPIENT_EMAIL_ADDRESS'
