@@ -8,6 +8,7 @@ module Klaviyo
 
     # Returns a list of all the email templates you've created.
     # The templates are returned in sorted order by name.
+    # @kwarg :api_key [String] private API key for this request
     # @return [List] of JSON formatted email template objects
     def self.get_templates(api_key: nil)
       v1_request(HTTP_GET, EMAIL_TEMPLATES, api_key: api_key)
@@ -16,6 +17,7 @@ module Klaviyo
     # Creates a new email template
     # @param :name [String] The name of the email template
     # @param :html [String] The HTML content for this template
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.create_template(name: nil, html: nil, api_key: nil)
       params = {
@@ -30,6 +32,7 @@ module Klaviyo
     # @param template_id [String] The id of the email template
     # @param :name [String] The name of the email template
     # @param :html [String] The HTML content for this template
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.update_template(template_id, name:, html:, api_key: nil)
       path = "#{EMAIL_TEMPLATE}/#{template_id}"
@@ -42,6 +45,7 @@ module Klaviyo
 
     # Deletes a given template.
     # @param template_id [String] The id of the email template
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.delete_template(template_id, api_key: nil)
       path = "#{EMAIL_TEMPLATE}/#{template_id}"
@@ -51,6 +55,7 @@ module Klaviyo
     # Creates a copy of a given template with a new name
     # @param template_id [String] The id of the email template to copy
     # @param :name [String] The name of the newly cloned email template
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.clone_template(template_id, name:, api_key: nil)
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{CLONE}"
@@ -64,6 +69,7 @@ module Klaviyo
     # and text versions of the email
     # @param template_id [String] The id of the email template to copy
     # @param :context [Hash] The context the email template will be rendered with
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.render_template(template_id, context: {}, api_key: nil)
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{RENDER}"
@@ -81,6 +87,7 @@ module Klaviyo
     # @param :subject [String] The subject of the email template
     # @param :to [Mixed] The email this template is being sent to
     # @param :context [Hash] The context the email template will be rendered with
+    # @kwarg :api_key [String] private API key for this request
     # @return [JSON] a JSON object containing information about the email template
     def self.send_template(template_id, from_email:, from_name:, subject:, to:, context: {}, api_key: nil)
       path = "#{EMAIL_TEMPLATE}/#{template_id}/#{SEND}"

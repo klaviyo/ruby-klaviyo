@@ -5,6 +5,7 @@ module Klaviyo
     # Returns a list of all metrics in Klaviyo
     # @param page [Integer] which page to return, default 0
     # @param count [Integer] number of results to return, default 100
+    # @kwarg :api_key [String] private API key for this request
     # @return a dictionary with a data property that contains an array of all the metrics
     def self.get_metrics(page: DEFAULT_PAGE, count: DEFAULT_COUNT, api_key: nil)
       params = {
@@ -18,6 +19,7 @@ module Klaviyo
     # @param since [Integer or String] either a Unix timestamp or the UUID from a previous request.  Default is the current time.
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
+    # @kwarg :api_key [String] private API key for this request
     # @return a dictionary with a data property that contains an array of the metrics
     def self.get_metrics_timeline(since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC, api_key: nil)
       path = "#{METRICS}/#{TIMELINE}"
@@ -34,6 +36,7 @@ module Klaviyo
     # @param since [Integer or String] either a Unix timestamp or the UUID from a previous request.  Default is the current time.
     # @param count [Integer] number of results to return, default 100
     # @param sort [String] 'asc' or 'desc', sort order to apply to the timeline.  Default is 'desc'.
+    # @kwarg :api_key [String] private API key for this request
     # @return a dictionary with a data property that contains information about what metric the event tracks
     def self.get_metric_timeline(metric_id, since: nil, count: DEFAULT_COUNT, sort: DEFAULT_SORT_DESC, api_key: nil)
       path = "#{METRIC}/#{metric_id}/#{TIMELINE}"
@@ -54,6 +57,7 @@ module Klaviyo
     # @param where [JSON-encoded list] Conditions to use to filter the set of events. A max of 1 condition can be given.
     # @param by [String] The name of a property to segment the event data on. Where and by parameters cannot be specified at the same time.
     # @param count [Integer] Maximum number of segments to return. The default value is 25.
+    # @kwarg :api_key [String] private API key for this request
     # @return A dictionary relecting the input request parameters as well as a results property
     def self.get_metric_export(metric_id,
                                start_date: nil,

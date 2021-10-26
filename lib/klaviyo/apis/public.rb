@@ -6,6 +6,7 @@ module Klaviyo
     # @kwarg :email [String] the customer or profile email
     # @kwarg :phone_number [String] the customer or profile phone number
     # @kwarg :properties [Hash] properties of the profile to add or update
+    # @kwarg :api_key [String] private API key for this request
     # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
     def self.identify(kwargs = {})
       defaults = {:id => nil,
@@ -45,6 +46,7 @@ module Klaviyo
     # @kwarg :properties [Hash] properties of the event
     # @kwargs :customer_properties [Hash] properties of the customer or profile
     # @kwargs :time [Integer] timestamp of the event
+    # @kwarg :api_key [String] private API key for this request
     # @kwargs :method [String] the HTTP method to use for the request. Accepts 'get' or 'post'.  Defaults to 'get'.
     def self.track(event, kwargs = {})
       defaults = {
