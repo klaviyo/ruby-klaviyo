@@ -76,14 +76,15 @@ Klaviyo::Public.track(
   }
 )
 ```
-
-#### You can set the Public API key per-request by using the 'token' argument.  This allows you to send track or identify requests to different Klaviyo accounts:
+Thread Safety - Public API
+---------------------------
+For Public API requests, you can set the Public API key per-request by using the 'token' keyword argument.  This allows you to send track or identify requests to different Klaviyo accounts.
 
 ```ruby
 # sending a track request to account xXyYzZ
 Klaviyo::Public.track(
   'Filled out profile',
-  token: 'xXyYzZ',
+  token: 'PUBLIC_API_TOKEN',
   email: 'someone@mailinator.com',
   properties: {
     'Added social accounts' : false
@@ -93,7 +94,7 @@ Klaviyo::Public.track(
 # sending an identify request to account xXyYzZ
 Klaviyo::Public.identify(
   email: 'thomas.jefferson@mailinator.com',
-  token: 'xXyYzZ',
+  token: 'PUBLIC_API_TOKEN',
   properties: {
     '$first_name': 'Thomas',
     '$last_name': 'Jefferson',
@@ -101,10 +102,11 @@ Klaviyo::Public.identify(
   }
 )
 ```
+Thread Safety - Private APIs
+----------------------------
+For all of the APIs listed below, each request will accept an optional 'api_key' keyword argument that can be used to set the Private API key for that request.  Examples are provided below. All of the following methods will accept the 'api_key' keyword argument.
 
-For all of the APIs listed below, each request will accept an optional 'api_key' keyword argument that can be used to set the private API key for that request.  Some examples are provided below. All of the following methods will accept the 'api_key' keyword argument.
-
-Lists:
+### Lists:
 
 ```ruby
 # to add a new list
@@ -115,6 +117,9 @@ Klaviyo::Lists.create_list('NEW_LIST_NAME', api_key: 'pk_EXAMPLE_API_KEY')
 
 # to get all lists
 Klaviyo::Lists.get_lists()
+
+# to get all lists using a different api key
+Klaviyo::Lists.get_lists(api_key: 'pk_EXAMPLE_API_KEY')
 
 # to get list details
 Klaviyo::Lists.get_list_details('LIST_ID')
@@ -204,7 +209,7 @@ Klaviyo::Lists.get_list_exclusions(
 Klaviyo::Lists.get_group_members('LIST_ID')
 ```
 
-Profiles:
+### Profiles:
 
 ```ruby
 # get profile id by email
@@ -251,7 +256,7 @@ Klaviyo::Profiles.get_person_metric_timeline(
 )
 ```
 
-Metrics:
+### Metrics:
 
 ```ruby
 # get all metrics with the default kwargs
@@ -297,7 +302,7 @@ Klaviyo::Metrics.get_metric_export(
 )
 ```
 
-Campaigns:
+### Campaigns:
 
 ```ruby
 # get Campaigns
@@ -319,7 +324,7 @@ Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
 Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID', api_key: 'pk_EXAMPLE_API_KEY')
 ```
 
-Email Templates:
+### Email Templates:
 
 ```ruby
 # get templates
@@ -380,7 +385,7 @@ Klaviyo::EmailTemplates.send_template(
 )
 ```
 
-Data Privacy:
+### Data Privacy:
 
 ```ruby
 # delete profile by email
