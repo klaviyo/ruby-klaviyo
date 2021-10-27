@@ -76,15 +76,50 @@ Klaviyo::Public.track(
   }
 )
 ```
+Thread Safety - Public API
+---------------------------
+For Public API requests, you can set the Public API key per-request by using the 'token' keyword argument.  This allows you to send track or identify requests to different Klaviyo accounts.
 
-Lists:
+```ruby
+# sending a track request to account xXyYzZ
+Klaviyo::Public.track(
+  'Filled out profile',
+  token: 'PUBLIC_API_TOKEN',
+  email: 'someone@mailinator.com',
+  properties: {
+    'Added social accounts' : false
+  }
+)
+
+# sending an identify request to account xXyYzZ
+Klaviyo::Public.identify(
+  email: 'thomas.jefferson@mailinator.com',
+  token: 'PUBLIC_API_TOKEN',
+  properties: {
+    '$first_name': 'Thomas',
+    '$last_name': 'Jefferson',
+    'Plan': 'Premium'
+  }
+)
+```
+Thread Safety - Private APIs
+----------------------------
+For all of the APIs listed below, each request will accept an optional 'api_key' keyword argument that can be used to set the Private API key for that request.  Examples are provided below. All of the following methods will accept the 'api_key' keyword argument.
+
+### Lists:
 
 ```ruby
 # to add a new list
 Klaviyo::Lists.create_list('NEW_LIST_NAME')
 
+# add a new list using a different api key
+Klaviyo::Lists.create_list('NEW_LIST_NAME', api_key: 'pk_EXAMPLE_API_KEY')
+
 # to get all lists
 Klaviyo::Lists.get_lists()
+
+# to get all lists using a different api key
+Klaviyo::Lists.get_lists(api_key: 'pk_EXAMPLE_API_KEY')
 
 # to get list details
 Klaviyo::Lists.get_list_details('LIST_ID')
@@ -98,6 +133,15 @@ Klaviyo::Lists.delete_list('LIST_ID')
 # to check email address subscription status to a list
 Klaviyo::Lists.check_list_subscriptions(
   'LIST_ID',
+  emails: ['test1@example.com'],
+  phone_numbers: ['5555555555'],
+  push_tokens: ['PUSH_TOKEN']
+)
+
+# check email address subscription status to a list using a different api key
+Klaviyo::Lists.check_list_subscriptions(
+  'LIST_ID',
+  api_key: 'pk_EXAMPLE_API_KEY',
   emails: ['test1@example.com'],
   phone_numbers: ['5555555555'],
   push_tokens: ['PUSH_TOKEN']
@@ -154,15 +198,25 @@ Klaviyo::Lists.remove_from_list(
 # to get exclusion emails from a list - marker is used for paginating
 Klaviyo::Lists.get_list_exclusions('LIST_ID', marker: 'EXAMPLE_MARKER')
 
+# to get exclusion emails from a list - marker is used for paginating using a different api key
+Klaviyo::Lists.get_list_exclusions(
+  'LIST_ID',
+  marker: 'EXAMPLE_MARKER',
+  api_key: 'pk_EXAMPLE_API_KEY'
+)
+
 # to get all members in a group or list
 Klaviyo::Lists.get_group_members('LIST_ID')
 ```
 
-Profiles:
+### Profiles:
 
 ```ruby
 # get profile id by email
 Klaviyo::Profiles.get_profile_id_by_email('EMAIL')
+
+# get profile id by email using a different api key
+Klaviyo::Profiles.get_profile_id_by_email('EMAIL', api_key: 'pk_EXAMPLE_API_KEY')
 
 # get profile by profile_id
 Klaviyo::Profiles.get_person_attributes('PROFILE_ID')
@@ -182,6 +236,16 @@ Klaviyo::Profiles.get_person_metrics_timeline(
   sort: 'desc'
 )
 
+# get all metrics for a profile with the default kwargs using a different api key
+Klaviyo::Profiles.get_person_metrics_timeline(
+  'PROFILE_ID',
+  since: nil,
+  count: 100,
+  sort: 'desc',
+  api_key: 'pk_EXAMPLE_API_KEY'
+)
+
+
 # get all events of a metric for a profile with the default kwargs
 Klaviyo::Profiles.get_person_metric_timeline(
   'PROFILE_ID',
@@ -192,11 +256,14 @@ Klaviyo::Profiles.get_person_metric_timeline(
 )
 ```
 
-Metrics:
+### Metrics:
 
 ```ruby
 # get all metrics with the default kwargs
 Klaviyo::Metrics.get_metrics(page: 0, count: 100)
+
+# get all metrics with the default kwargs using a different api key
+Klaviyo::Metrics.get_metrics(page: 0, count: 100, api_key: 'pk_EXAMPLE_API_KEY')
 
 # get a batched timeline of all metrics with the default kwargs
 Klaviyo::Metrics.get_metrics_timeline(
@@ -213,6 +280,15 @@ Klaviyo::Metrics.get_metric_timeline(
   sort: 'desc'
 )
 
+# get a batched timeline of a single metric with the default kwargs using a different api key
+Klaviyo::Metrics.get_metric_timeline(
+  'METRIC_ID',
+  since: nil,
+  count: 100,
+  sort: 'desc',
+  api_key: 'pk_EXAMPLE_API_KEY'
+)
+
 # export data for a single metric
 Klaviyo::Metrics.get_metric_export(
   'METRIC_ID',
@@ -226,11 +302,14 @@ Klaviyo::Metrics.get_metric_export(
 )
 ```
 
-Campaigns:
+### Campaigns:
 
 ```ruby
 # get Campaigns
 Klaviyo::Campaigns.get_campaigns()
+
+# get Campaigns using a different api key
+Klaviyo::Campaigns.get_campaigns(api_key: 'pk_EXAMPLE_API_KEY')
 
 # get specific Campaign details
 Klaviyo::Campaigns.get_campaign_details('CAMPAIGN_ID')
@@ -240,13 +319,19 @@ Klaviyo::Campaigns.send_campaign('CAMPAIGN_ID')
 
 # cancel Campaign
 Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID')
+
+# cancel Campaign using a different API key
+Klaviyo::Campaigns.cancel_campaign('CAMPAIGN_ID', api_key: 'pk_EXAMPLE_API_KEY')
 ```
 
-Email Templates:
+### Email Templates:
 
 ```ruby
 # get templates
 Klaviyo::EmailTemplates.get_templates()
+
+# get templates using a different api key
+Klaviyo::EmailTemplates.get_templates(api_key: 'pk_EXAMPLE_API_KEY')
 
 # create a new template
 Klaviyo::EmailTemplates.create_template(name: 'TEMPLATE_NAME', html: 'TEMPLATE_HTML')
@@ -262,12 +347,24 @@ Klaviyo::EmailTemplates.update_template(
 # delete template
 Klaviyo::EmailTemplates.delete_template('TEMPLATE_ID')
 
+# delete template using a different API key
+Klaviyo::EmailTemplates.delete_template('TEMPLATE_ID', api_key: 'pk_EXAMPLE_API_KEY')
+
 # clone a template with a new name
 Klaviyo::EmailTemplates.clone_template('TEMPLATE_ID', 'NEW_TEMPLATE_NAME')
 
 # render template - returns html and text versions of template
 Klaviyo::EmailTemplates.render_template(
   'TEMPLATE_ID',
+  context: {
+    name: 'RECIPIENT_NAME',
+    email: 'RECIPIENT_EMAIL_ADDRESS'
+  }
+
+# render template - returns html and text versions of template using a different api key
+Klaviyo::EmailTemplates.render_template(
+  'TEMPLATE_ID',
+  api_key: 'pk_EXAMPLE_API_KEY',
   context: {
     name: 'RECIPIENT_NAME',
     email: 'RECIPIENT_EMAIL_ADDRESS'
@@ -288,17 +385,26 @@ Klaviyo::EmailTemplates.send_template(
 )
 ```
 
-Data Privacy:
+### Data Privacy:
 
 ```ruby
 # delete profile by email
 Klaviyo::DataPrivacy.request_profile_deletion('email','EMAIL')
 
+# delete profile by email using a different api key
+Klaviyo::DataPrivacy.request_profile_deletion('email','EMAIL', api_key: 'pk_EXAMPLE_API_KEY')
+
 # delete profile by phone number
 Klaviyo::DataPrivacy.request_profile_deletion('phone_number','PHONE_NUMBER')
 
+# delete profile by phone number using a different api key
+Klaviyo::DataPrivacy.request_profile_deletion('phone_number','PHONE_NUMBER', api_key: 'pk_EXAMPLE_API_KEY')
+
 # delete profile by person id
 Klaviyo::DataPrivacy.request_profile_deletion('person_id','PERSON_ID')
+
+# delete profile by person id using a different api key
+Klaviyo::DataPrivacy.request_profile_deletion('person_id','PERSON_ID', api_key: 'pk_EXAMPLE_API_KEY')
 ```
 
 How to use it with a Rails application?

@@ -4,7 +4,7 @@ module Klaviyo
     V1_API = 'v1'
     V2_API = 'v2'
 
-    KL_VERSION = '2.1.0'
+    KL_VERSION = '2.2.0'
     KL_USER_AGENT = "Ruby_Klaviyo/#{KL_VERSION}"
 
     HTTP_DELETE = 'delete'
@@ -44,7 +44,7 @@ module Klaviyo
     end
 
     def self.public_request(method, path, **kwargs)
-      check_public_api_key_is_valid()
+      check_public_api_key_is_valid(kwargs[:token])
       if method == HTTP_GET
         params = build_params(kwargs)
         url = "#{BASE_API_URL}/#{path}?#{params}"
@@ -64,9 +64,10 @@ module Klaviyo
 
     def self.v1_request(method, path, content_type: CONTENT_JSON, **kwargs)
       if content_type == CONTENT_URL_FORM
+        priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
         data = {
           :body => {
-            :api_key => Klaviyo.private_api_key
+            :api_key => priv_api_key
           }
         }
         data[:body] = data[:body].merge(kwargs[:params])
@@ -79,18 +80,20 @@ module Klaviyo
                     :sort => nil}
         params = defaults.merge(kwargs)
         query_params = encode_params(params)
-        full_url = "#{V1_API}/#{path}?api_key=#{Klaviyo.private_api_key}#{query_params}"
+        priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
+        full_url = "#{V1_API}/#{path}?api_key=#{priv_api_key}#{query_params}"
         request(method, full_url, content_type)
       end
     end
 
     def self.v2_request(method, path, **kwargs)
       path = "#{V2_API}/#{path}"
+      priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
       key = {
-        "api_key": "#{Klaviyo.private_api_key}"
+        "api_key": "#{priv_api_key}"
       }
       data = {}
-      data[:body] = key.merge(kwargs)
+      data[:body] = kwargs.merge(key)
       request(method, path, CONTENT_JSON, **data)
     end
 
@@ -112,13 +115,13 @@ module Klaviyo
       end
     end
 
-    def self.check_public_api_key_is_valid()
-      if !Klaviyo.public_api_key
+    def self.check_public_api_key_is_valid(token)
+      if !token
         raise KlaviyoError.new(NO_PUBLIC_API_KEY_ERROR)
       end
-      if ( Klaviyo.public_api_key =~ /pk_\w{34}$/ ) == 0
+      if ( token =~ /pk_\w{34}$/ ) == 0
         warn(PRIVATE_KEY_AS_PUBLIC)
-      elsif ( Klaviyo.public_api_key =~ /\w{6}$/ ) != 0
+      elsif ( token =~ /\w{6}$/ ) != 0
         raise KlaviyoError.new(INCORRECT_PUBLIC_API_KEY_LENGTH)
       end
     end
