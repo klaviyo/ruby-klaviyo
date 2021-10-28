@@ -27,7 +27,7 @@ module Klaviyo
     private
 
     def self.request(method, path, content_type, **kwargs)
-      check_private_api_key_exists()
+      check_private_api_key_exists(kwargs)
       url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
         url: url,
@@ -90,7 +90,7 @@ module Klaviyo
       path = "#{V2_API}/#{path}"
       priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
       key = {
-        "api_key": "#{priv_api_key}"
+        :api_key => "#{priv_api_key}"
       }
       data = {}
       data[:body] = kwargs.merge(key)
@@ -109,8 +109,8 @@ module Klaviyo
       end
     end
 
-    def self.check_private_api_key_exists()
-      if !Klaviyo.private_api_key
+    def self.check_private_api_key_exists(kwargs)
+      if !Klaviyo.private_api_key && kwargs[:body][:api_key].nil?
         raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
       end
     end
