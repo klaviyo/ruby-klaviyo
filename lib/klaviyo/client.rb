@@ -4,7 +4,7 @@ module Klaviyo
     V1_API = 'v1'
     V2_API = 'v2'
 
-    KL_VERSION = '2.2.0'
+    KL_VERSION = '2.3.0'
     KL_USER_AGENT = "Ruby_Klaviyo/#{KL_VERSION}"
 
     HTTP_DELETE = 'delete'
@@ -27,7 +27,7 @@ module Klaviyo
     private
 
     def self.request(method, path, content_type, **kwargs)
-      check_private_api_key_exists()
+      check_private_api_key_exists(kwargs)
       url = "#{BASE_API_URL}/#{path}"
       connection = Faraday.new(
         url: url,
@@ -82,7 +82,7 @@ module Klaviyo
         query_params = encode_params(params)
         priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
         full_url = "#{V1_API}/#{path}?api_key=#{priv_api_key}#{query_params}"
-        request(method, full_url, content_type)
+        request(method, full_url, content_type, body: {api_key: priv_api_key})
       end
     end
 
@@ -90,7 +90,7 @@ module Klaviyo
       path = "#{V2_API}/#{path}"
       priv_api_key = kwargs[:api_key] || Klaviyo.private_api_key || nil
       key = {
-        "api_key": "#{priv_api_key}"
+        :api_key => "#{priv_api_key}"
       }
       data = {}
       data[:body] = kwargs.merge(key)
@@ -109,8 +109,8 @@ module Klaviyo
       end
     end
 
-    def self.check_private_api_key_exists()
-      if !Klaviyo.private_api_key
+    def self.check_private_api_key_exists(kwargs)
+      if !Klaviyo.private_api_key && kwargs[:body][:api_key].nil?
         raise KlaviyoError.new(NO_PRIVATE_API_KEY_ERROR)
       end
     end

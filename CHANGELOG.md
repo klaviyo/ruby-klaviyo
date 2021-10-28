@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.3.0
+
+* Added ability to set API key in request without setting Klaviyo.private_api_key
+
 ### 2.2.0
 
 * Added feature to set API key per-request for public APIs
