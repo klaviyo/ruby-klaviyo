@@ -6,6 +6,7 @@ module Klaviyo
     LISTS = 'lists'
     MEMBERS = 'members'
     SUBSCRIBE = 'subscribe'
+    GET_LIST_SUBSCRIPTIONS = 'get-list-subscriptions'
 
     # Creates a new list
     # @param list_name [String] the list name
@@ -65,13 +66,13 @@ module Klaviyo
     # @return A list of JSON objects of the profiles. Profiles that are
     #   supressed or not found are not included.
     def self.check_list_subscriptions(list_id, api_key: nil, emails: [], phone_numbers: [], push_tokens: [])
-      path = "#{LIST}/#{list_id}/#{SUBSCRIBE}"
+      path = "#{LIST}/#{list_id}/#{GET_LIST_SUBSCRIPTIONS}"
       params = {
         :emails => emails,
         :phone_numbers => phone_numbers,
         :push_tokens => push_tokens
       }
-      v2_request(HTTP_GET, path, api_key: api_key, **params)
+      v2_request(HTTP_POST, path, api_key: api_key, **params)
     end
 
     # Subscribe profiles to a list.

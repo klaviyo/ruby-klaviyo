@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### 2.4.0
+* Update Rack install documentation
+* Update Lists API endpoint for checking list subscriptions
+
 ### 2.3.0
 
 * Added ability to set API key in request without setting Klaviyo.private_api_key
