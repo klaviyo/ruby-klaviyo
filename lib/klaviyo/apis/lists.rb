@@ -171,9 +171,12 @@ module Klaviyo
     # @param marker [Integer] a marker from a previous call to get the next batch
     # @kwarg :api_key [String] private API key for this request
     # @return [List] A list of JSON objects for each profile with the id, email, phone number, and push token
-    def self.get_group_members(list_id, api_key: nil)
+    def self.get_group_members(list_id, api_key: nil, marker: nil)
       path = "#{GROUP}/#{list_id}/#{MEMBERS}/#{ALL}"
-      v2_request(HTTP_GET, path, api_key: api_key)
+      params = {
+        marker: marker
+      }
+      v2_request(HTTP_GET, path, api_key: api_key, **params)
     end
   end
 end
