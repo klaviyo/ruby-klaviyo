@@ -207,6 +207,12 @@ Klaviyo::Lists.get_list_exclusions(
 
 # to get all members in a group or list
 Klaviyo::Lists.get_group_members('LIST_ID')
+
+# to get the next batch of records in a group or list
+Klaviyo::Lists.get_group_members(
+  'LIST_ID',
+  marker: 'EXAMPLE_MARKER'
+)
 ```
 
 ### Profiles:
