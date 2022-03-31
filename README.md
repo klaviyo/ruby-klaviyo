@@ -37,10 +37,14 @@ Client.configure do |config|
   config.api_key['ApiKeyAuth'] = 'YOUR_PRIVATE_API_KEY'
 end
 ```
+### Important
+
+The `api_key` is set at the global level: this means that if you manage multiple stores, you will need to run the code for each store in a different environment.
 
 ### Updating API Operations
 
 The new SDK has many name changes to both namespace and parameters (types+format). Please reference [this section](https://github.com/klaviyo/klaviyo-ruby-sdk#comprehensive-list-of-operations--parameters) for a comprehensive list of examples.
+
 
 What is Klaviyo?
 ----------------
