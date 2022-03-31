@@ -1,3 +1,47 @@
+# ruby-klaviyo - RETIRED
+
+## Deprecation Notice
+
+This SDK and its associated [gem](https://rubygems.org/gems/klaviyo) is set to be deprecated on 2023-04-01 and will not receive further updates. To continue receiving API and SDK improvements, please follow the instructions below to migrate to the new Klaviyo Ruby SDK, which you can find on [Github](https://github.com/klaviyo/klaviyo-ruby-sdk) or [RubyGems](https://rubygems.org/gems/klaviyo_sdk).
+
+## Migration Instructions
+
+NOTE: this change is not backwards compatible; migrating to the new SDK requires completing the following steps:
+
+### Install New SDK
+
+`gem install klaviyo_sdk`
+
+### Update Import 
+
+From:
+```ruby
+require 'klaviyo'
+```
+
+To:
+ ```ruby
+require 'klaviyo_sdk'
+ ```
+
+### Update Client Instantiation
+
+from:
+```ruby
+Klaviyo.private_api_key = 'YOUR_PRIVATE_API_KEY'
+```
+
+to:
+```ruby
+Client.configure do |config|
+  config.api_key['ApiKeyAuth'] = 'YOUR_PRIVATE_API_KEY'
+end
+```
+
+### Updating API Operations
+
+The new SDK has many name changes to both namespace and parameters (types+format). Please reference [this section](https://github.com/klaviyo/klaviyo-ruby-sdk#comprehensive-list-of-operations--parameters) for a comprehensive list of examples.
+
 What is Klaviyo?
 ----------------
 
