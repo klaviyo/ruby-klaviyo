@@ -1,8 +1,14 @@
 # ruby-klaviyo - RETIRED
 
-## Deprecation Notice
+# Deprecation Notice
 
-This SDK and its associated [gem](https://rubygems.org/gems/klaviyo) is set to be deprecated on 2023-04-01 and will not receive further updates. To continue receiving API and SDK improvements, please follow the instructions below to migrate to the new Klaviyo Ruby SDK, which you can find on [Github](https://github.com/klaviyo/klaviyo-ruby-sdk) or [RubyGems](https://rubygems.org/gems/klaviyo_sdk).
+This SDK and its associated pip package are set to be deprecated on 2024-01-01 and will not receive further updates.
+
+We recommend migrating over to our [newest SDK](https://github.com/klaviyo/klaviyo-api-ruby).
+
+You can read more about our SDK release history and support [here](https://developers.klaviyo.com/en/docs/sdk_overview)
+
+For a comparison between our old and new APIs, check out [this guide](https://developers.klaviyo.com/en/docs/apis_comparison_chart).
 
 ## Migration Instructions
 
